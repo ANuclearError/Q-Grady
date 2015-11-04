@@ -1,31 +1,28 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[11pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[parfill]{parskip}
+\usepackage{url}
 \setlength\parindent{0pt}
+
 
 \begin{document}
 \title{A Compiler for PRiSM \\
 \large{Project Scope and Outline Plan}}
-\author{Aidan O'Grady - 201218150\\{Supervisor: Ross Duncan}}
+\author{Aidan O'Grady - 201218150\\Supervisor: Ross Duncan}
 \date{}
 \maketitle
-\newpage
 
 \section{Overview} % (fold)
 \label{sec:overview}
-Non-local boxes in quantum theory is a concept where distributed objects share
-some correlations (classical or quantum). The purpose of this project is to
-define a language describing setups of non-local boxes and then implement a
-compiler from this new language to PRiSM.
-
-To model these non-local boxes, the probabalistic model checker PRiSM can be
-used to do so. PRiSM allows for modelling systems that exhibit random behaviour,
-a trait that is found in non-local boxes.
+Non-local boxes in quantum theory are distributed objects that share some
+correlations (classical or quantum). We could model them using the probabalistic
+model checker PRiSM, which allows modelling and analysis of systems with random
+behaviour.
 
 However, due to the rudimentary nature of PRiSM's language, there are
-limitations in defining these boxes. The language to be created will act as an
-intermediary between the user and PRiSM, hiding these limitations from the user
-creating non-local boxes.
+limitations in defining these boxes. The aim of this prokect is to define a
+language describing setups of non-local boxes. In addition, a compiler for this
+new language will be developed to create PRiSM models from this language.
 
 % section overview (end)
 
@@ -34,13 +31,12 @@ creating non-local boxes.
 For the puposes of this project, there are ofur major high-level objectives to
 be tackled in order to produce a quality language and compiler:
 \begin{enumerate}
-    \item Obtaining knowledge of PRiSM and its language.
-    \item Understanding the quantum theory behind non-local boxes, and their
-    implementation in standard PRiSM.
+    \item Studying PRiSM, its language and creating models for it.
+    \item Studying quantum theory behind non-local boxes, and implementating
+    in standard PRiSM.
     \item Defining my own language for non-local boxes.
     \begin{enumerate}
-        \item Constructing the syntax of this langiage.
-        \item Constructing the semantics behind this syntax.
+        \item Constructing syntax/semantics of language.
     \end{enumerate}
     \item The implementation of a compiler that will take input source files of
     my own language and produce valid PRiSM files.
@@ -54,6 +50,10 @@ be tackled in order to produce a quality language and compiler:
 
 \section{Related Works} % (fold)
 \label{sec:related_works}
+So far, the following works have been identified:
+
+Non-local Boxes by Phillipe Montague\cite{nlb_lamontague} - A literature review
+about non-local boxes.
 
 % section related_works (end)
 
@@ -104,4 +104,6 @@ implementation and testing.
 
 % section marking_scheme (end)
 
+\bibliographystyle{plain}
+\bibliography{project-scope-outline-plan}
 \end{document}
