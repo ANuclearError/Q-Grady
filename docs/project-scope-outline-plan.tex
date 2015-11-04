@@ -1,24 +1,54 @@
 \documentclass[12pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[parfill]{parskip}
-\usepackage{url}
-
 \setlength\parindent{0pt}
 
 \begin{document}
 \title{A Compiler for PRiSM \\
 \large{Project Scope and Outline Plan}}
-\author{Aidan O'Grady - 201218150}
+\author{Aidan O'Grady - 201218150\\{Supervisor: Ross Duncan}}
 \date{}
 \maketitle
+\newpage
 
 \section{Overview} % (fold)
 \label{sec:overview}
+Non-local boxes in quantum theory is a concept where distributed objects share
+some correlations (classical or quantum). The purpose of this project is to
+define a language describing setups of non-local boxes and then implement a
+compiler from this new language to PRiSM.
+
+To model these non-local boxes, the probabalistic model checker PRiSM can be
+used to do so. PRiSM allows for modelling systems that exhibit random behaviour,
+a trait that is found in non-local boxes.
+
+However, due to the rudimentary nature of PRiSM's language, there are
+limitations in defining these boxes. The language to be created will act as an
+intermediary between the user and PRiSM, hiding these limitations from the user
+creating non-local boxes.
 
 % section overview (end)
 
 \section{Objectives} % (fold)
 \label{sec:objectives}
+For the puposes of this project, there are ofur major high-level objectives to
+be tackled in order to produce a quality language and compiler:
+\begin{enumerate}
+    \item Obtaining knowledge of PRiSM and its language.
+    \item Understanding the quantum theory behind non-local boxes, and their
+    implementation in standard PRiSM.
+    \item Defining my own language for non-local boxes.
+    \begin{enumerate}
+        \item Constructing the syntax of this langiage.
+        \item Constructing the semantics behind this syntax.
+    \end{enumerate}
+    \item The implementation of a compiler that will take input source files of
+    my own language and produce valid PRiSM files.
+    \begin{enumerate}
+        \item Deciding on a suitable language for this compiler to be written
+        in.
+    \end{enumerate}
+\end{enumerate}
 
 % section objectives (end)
 
@@ -39,11 +69,38 @@
 
 \section{Project Plan} % (fold)
 \label{sec:project_plan}
+The high level objects mentioned previously currently have the follwing
+milestones.
+
+\begin{center}
+    \begin{tabular}{l | p{7.5cm}}
+        Preliminary Date & Task \\
+        \hline
+        9th of December & Understanding theory of non-local boxes \& PRiSM. \\
+
+        31st of December & Able to create non-local boxes in PRiSM. \\
+
+        31st of January & Defining my own language for non-local boxes. \\
+
+        9th of March & Implementing compiler from my language to PRiSM. \\
+\end{tabular}
+\end{center}
 
 % section project_plan (end)
 
 \section{Marking Scheme} % (fold)
 \label{sec:marking_scheme}
+The `Experimentation-based with significant software development project'
+marking scheme is what we have decided to be most suitable for this project.
+
+The creation of my language will be heavily experimental, with the syntax and
+semantics allowing much room for experimentation. In addition, I feel there is
+likely to be some experimentation in the compilation from my language to PRiSM,
+particularly in determing how I will structure these boxes in PRiSM's language.
+
+The compiler is going involve significant software development. Systems like the
+lexical analyser are going to involve a lot of work, in their design,
+implementation and testing.
 
 % section marking_scheme (end)
 
