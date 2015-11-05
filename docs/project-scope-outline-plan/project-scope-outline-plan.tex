@@ -10,6 +10,7 @@
 \author{Aidan O'Grady - 201218150\\Supervisor: Ross Duncan}
 \date{}
 \maketitle
+\newpage
 
 \section{Overview} % (fold)
 \label{sec:overview}
@@ -20,29 +21,34 @@ behaviour.
 
 However, due to the rudimentary nature of PRiSM's language, there are
 limitations in defining these boxes. The aim of this project is to define a
-language describing set-ups of non-local boxes. In addition, a compiler for this
-new language will be developed to create PRiSM models from this language.
+language, \$NAME describing set-ups of NLBs. In addition, a compiler for this new language will be developed to create PRiSM models from this language.
 
 % section overview (end)
 
 \section{Objectives} % (fold)
 \label{sec:objectives}
-For the purposes of this project, there are four major high-level objectives to
-be tackled in order to produce a quality language and compiler:
+For the purposes of this project, the following objectives have been identified:
 \begin{enumerate}
-    \item Studying PRiSM, its language and creating models for it.
-    \item Studying quantum theory behind non-local boxes, and implementing
-    in standard PRiSM.
-    \item Defining my own language for non-local boxes.
+    \item Implementing standard examples of NLBs in PRiSM, with understanding on
+    debugging models within PRiSM.
+    \item Understanding differences between operational and denotational
+    semantic.
+    \item Designing \$NAME:
     \begin{enumerate}
-        \item Constructing syntax/semantics of language.
+        \item Identifying \$NAME's required and desired features.
+        \item Defining a user friendly and concise syntax for \$NAME.
+        \item Defining denotational semantics of \$NAME.
     \end{enumerate}
-    \item The implementation of a compiler that will take input source files of
-    my own language and produce valid PRiSM files.
+    \item Design and implementation of compiler:
     \begin{enumerate}
-        \item Deciding on a suitable language for this compiler to be written
-        in.
+        \item Identifying the most suitable technology for implementing \$NAME's
+        compiler.
+        \item Design and implement the compiler.
+        \item Test the compiler against the standard examples.
     \end{enumerate}
+    \item Evaluating the equivalence of the generated PRiSM code to \$NAME's
+    semantics.
+    \item Conduct numerical experiments using the generated models (Optional).
 \end{enumerate}
 
 % section objectives (end)
@@ -118,7 +124,7 @@ lexical analyser are going to involve a lot of work, in their design,
 implementation and testing.
 
 % section marking_scheme (end)
-
+\newpage
 \bibliographystyle{plain}
 \bibliography{project-scope-outline-plan}
 \end{document}
