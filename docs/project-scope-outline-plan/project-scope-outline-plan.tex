@@ -21,8 +21,9 @@ model checker PRiSM, which allows modelling and analysis of systems with random
 behaviour.
 
 However, due to the rudimentary nature of PRiSM's language, there are
-limitations in defining these boxes. The aim of this project is to define a
-language, \$NAME describing set-ups of NLBs. In addition, a compiler for this new language will be developed to create PRiSM models from this language.
+challenges in defining these boxes. The aim of this project is to define a
+language, \$NAME, describing set-ups of NLBs. In addition, a compiler for this
+new language will be developed to create PRiSM models from \$NAME files.
 
 % section overview (end)
 
@@ -30,10 +31,10 @@ language, \$NAME describing set-ups of NLBs. In addition, a compiler for this ne
 \label{sec:objectives}
 For the purposes of this project, the following objectives have been identified:
 \begin{enumerate}
-    \item Implementing standard examples of NLBs in PRiSM, with understanding on
+    \item Implementing standard examples of NLBs in PRiSM, with understanding of
     debugging models within PRiSM.
     \item Understanding differences between operational and denotational
-    semantic.
+    semantics in language definitions.
     \item Designing \$NAME:
     \begin{enumerate}
         \item Identifying \$NAME's required and desired features.
@@ -58,26 +59,26 @@ For the purposes of this project, the following objectives have been identified:
 \label{sec:related_works}
 So far, the following works have been identified:
 \begin{itemize}
-    \item Non-local Boxes\cite{nlb_lamontague} - A literature review about
+    \item Non-local Boxes \cite{nlb_lamontague} - A literature review about
     NLBs, general overviews and definitions in addition to providing references
     to extra reading.
-    \item Closed sets of non-local correlations\cite{Jonathan-Allcock:2009pd} -
+    \item Closed sets of non-local correlations \cite{Jonathan-Allcock:2009pd} -
     An extra article to help understanding of NLBs.
-    \item Probabilistic Model Checking Lectures\cite{prism_lectures} - A series
+    \item Probabilistic Model Checking Lectures \cite{prism_lectures} - A series
     of lectures to help in understanding of PRiSM, to allow me to structure
-    non-local boxes in PRiSM.
+    NLBs in PRiSM.
     \item Calculus of communicating systems - This and related Wikipedia article
     will provide more information on PRiSM language, with directions to further
     reading as well. 
-    \item Compilers: Principles, Techniques and Tools\cite{dragon_compiler} - A
+    \item Compilers: Principles, Techniques and Tools \cite{dragon_compiler} - A
     book about compilers, with information on systems such as lexical analysers,
     which will help structure the design of my compiler.
-    \item Modern Compiler Implementation in Java\cite{java_compiler} - Should I
+    \item Modern Compiler Implementation in Java \cite{java_compiler} - Should I
     decide to develop compiler in Java, this book will have information about
-    object orientated design that the Aho et al book does not.
-    \item Programming Language Syntax and Semantics\cite{plss} - Will provide
-    information on designing the language, through its syntax and semantics.
-    \item Formal Syntax and Semantics of Programming Languages\cite{fsspl} -
+    object oriented compiler design that will be useful.
+    \item Programming Language Syntax and Semantics \cite{plss} - Will provide
+    information on designing the \$NAME.
+    \item Formal Syntax and Semantics of Programming Languages \cite{fsspl} -
     Will have the same uses as the D. Watt book, will be required to compare and
     contrast the two books when it comes to differences in their approaches.
 \end{itemize}
@@ -91,6 +92,15 @@ So far, the following works have been identified:
 
 \section{Evaluation} % (fold)
 \label{sec:evaluation}
+
+Evaluation will largely be based on the quality of the models that can be
+produced by \$NAME and its compiler. For example, being able to create models
+with more than 2 agents each with one input bit 
+
+In addition, the features that are implemented will also be a factor in
+evaluation. Features such as ensuring that the model is non-signalling and
+the user friendliness of \$NAME and its compiler will be the signs of a quality 
+implementation.
 
 % section evaluation (end)
 
@@ -108,7 +118,7 @@ milestones.
 
         9th of January & Defining \$NAME. \\
 
-        9th of March & Designing & Implementing compiler from my language to
+        9th of March & Designing \& Implementing compiler from my language to
         PRiSM. \\
 \end{tabular}
 \end{center}
@@ -127,7 +137,7 @@ particularly in deciding how I will structure these boxes in PRiSM's language.
 
 The compiler is going involve significant software development. Systems like the
 lexical analyser are going to involve a lot of work, in their design,
-implementation and testing.
+implementation and testing. 
 
 % section marking_scheme (end)
 \newpage
