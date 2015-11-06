@@ -3,7 +3,9 @@
 \usepackage[parfill]{parskip}
 \usepackage{url}
 \usepackage[margin=1in]{geometry}
+\usepackage[style=authoryear,backend=biber]{biblatex}
 \setlength\parindent{0pt}
+\bibliography{project-scope-outline-plan}
 
 \begin{document}
 \title{A Compiler for PRiSM \\
@@ -11,7 +13,6 @@
 \author{Aidan O'Grady - 201218150\\Supervisor: Ross Duncan}
 \date{}
 \maketitle
-\newpage
 
 \section{Overview} % (fold)
 \label{sec:overview}
@@ -59,28 +60,30 @@ For the purposes of this project, the following objectives have been identified:
 \label{sec:related_works}
 So far, the following works have been identified:
 \begin{itemize}
-    \item Non-local Boxes \cite{nlb_lamontague} - A literature review about
+    \item Non-local Boxes \parencite{nlb_lamontague} - A literature review about
     NLBs, general overviews and definitions in addition to providing references
     to extra reading.
-    \item Closed sets of non-local correlations \cite{Jonathan-Allcock:2009pd} -
-    An extra article to help understanding of NLBs.
-    \item Probabilistic Model Checking Lectures \cite{prism_lectures} - A series
-    of lectures to help in understanding of PRiSM, to allow me to structure
-    NLBs in PRiSM.
-    \item Calculus of communicating systems - This and related Wikipedia article
-    will provide more information on PRiSM language, with directions to further
-    reading as well. 
-    \item Compilers: Principles, Techniques and Tools \cite{dragon_compiler} - A
-    book about compilers, with information on systems such as lexical analysers,
-    which will help structure the design of my compiler.
-    \item Modern Compiler Implementation in Java \cite{java_compiler} - Should I
-    decide to develop compiler in Java, this book will have information about
-    object oriented compiler design that will be useful.
-    \item Programming Language Syntax and Semantics \cite{plss} - Will provide
-    information on designing the \$NAME.
-    \item Formal Syntax and Semantics of Programming Languages \cite{fsspl} -
-    Will have the same uses as the D. Watt book, will be required to compare and
-    contrast the two books when it comes to differences in their approaches.
+    \item Closed sets of non-local correlations
+    \parencite{Jonathan-Allcock:2009pd} - An extra article to help understanding
+    of NLBs.
+    \item Probabilistic Model Checking Lectures \parencite{prism_lectures} - A
+    series of lectures to help in understanding of PRiSM, to allow me to
+    structure NLBs in PRiSM.
+    \item Calculus of communicating systems \parencite{ccs} - This and related
+    Wikipedia article will provide more information on PRiSM language, with
+    directions to further reading as well. 
+    \item Compilers: Principles, Techniques and Tools
+    \parencite{dragon_compiler} - A book about compilers, with information on
+    systems such as lexical analysers, which will help structure the design of
+    my compiler.
+    \item Modern Compiler Implementation in Java \parencite{java_compiler} -
+    Should I decide to develop compiler in Java, this book will have information
+    about object oriented compiler design that will be useful.
+    \item Programming Language Syntax and Semantics \parencite{plss} - Will
+    provide information and guidance on designing the \$NAME.
+    \item Formal Syntax and Semantics of Programming Languages \parencite{fsspl}
+    - Will have the same uses as the D. Watt book, will be required to compare
+    and contrast the two books when it comes to differences in their approaches.
 \end{itemize}
 
 % section related_works (end)
@@ -141,6 +144,5 @@ implementation and testing.
 
 % section marking_scheme (end)
 \newpage
-\bibliographystyle{plain}
-\bibliography{project-scope-outline-plan}
+\printbibliography
 \end{document}
