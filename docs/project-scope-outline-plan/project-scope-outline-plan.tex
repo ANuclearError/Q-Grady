@@ -23,8 +23,8 @@ behaviour.
 
 However, due to the rudimentary nature of PRiSM's language, there are
 challenges in defining these boxes. The aim of this project is to define a
-language, \$NAME, describing set-ups of NLBs. In addition, a compiler for this
-new language will be developed to create PRiSM models from \$NAME files.
+language, Q'GRADY, describing set-ups of NLBs. In addition, a compiler for this
+new language will be developed to create PRiSM models from Q'GRADY files.
 
 % section overview (end)
 
@@ -36,20 +36,20 @@ For the purposes of this project, the following objectives have been identified:
     debugging models within PRiSM.
     \item Understanding differences between operational and denotational
     semantics in language definitions.
-    \item Designing \$NAME:
+    \item Designing Q'GRADY:
     \begin{enumerate}
-        \item Identifying \$NAME's required and desired features.
-        \item Defining a user friendly and concise syntax for \$NAME.
-        \item Defining denotational semantics of \$NAME.
+        \item Identifying Q'GRADY's required and desired features.
+        \item Defining a user friendly and concise syntax for Q'GRADY.
+        \item Defining denotational semantics of Q'GRADY.
     \end{enumerate}
     \item Design and implementation of compiler:
     \begin{enumerate}
-        \item Identifying the most suitable technology for implementing \$NAME's
-        compiler.
+        \item Identifying the most suitable technology for implementing
+        Q'GRADY's compiler.
         \item Design and implement the compiler.
         \item Test the compiler against the standard examples.
     \end{enumerate}
-    \item Evaluating the equivalence of the generated PRiSM code to \$NAME's
+    \item Evaluating the equivalence of the generated PRiSM code to Q'GRADY.
     semantics.
     \item Conduct numerical experiments using the generated models (Optional).
 \end{enumerate}
@@ -80,7 +80,7 @@ So far, the following works have been identified:
     Should I decide to develop compiler in Java, this book will have information
     about object oriented compiler design that will be useful.
     \item Programming Language Syntax and Semantics \cite{plss} - Will
-    provide information and guidance on designing the \$NAME.
+    provide information and guidance on designing the Q'GRADY.
     \item Formal Syntax and Semantics of Programming Languages \cite{fsspl}
     - Will have the same uses as the D. Watt book, will be required to compare
     and contrast the two books when it comes to differences in their approaches.
@@ -90,14 +90,14 @@ So far, the following works have been identified:
 
 \section{Methodology} % (fold)
 \label{sec:methodology}
-In order to have a full specification for \$NAME and the compiler, I must 
+In order to have a full specification for Q'GRADY and the compiler, I must 
 understand the theory behind NLBs and be able to model them myself in PRiSM.
 This will be achieved through the related reading: the Lamontague and Allcock et
 al papers, in addition to PRiSM lectures and CCS article. This will be
 supplemented with additional learning during meetings with supervisor.
 
 The methodology behind the language design involves studying the denotational
-semantics of existing languages to allow me to structure my own for \$NAME,
+semantics of existing languages to allow me to structure my own for Q'GRADY,
 discovering the best practises and what to avoid in the design. This will then
 be moved onto the design of the compiler, whose design will be influenced by the
 language itself. The sue of UML and similar diagrams will be considered as part
@@ -117,7 +117,7 @@ accurately represents NLBs in PRiSM as well.
 \section{Evaluation} % (fold)
 \label{sec:evaluation}
 Evaluation will largely be based on the quality of the models that can be
-produced by \$NAME and its compiler. For example, being able to create models
+produced by Q'GRADY and its compiler. For example, being able to create models
 with more than the two `Alice and Bob' agents as shown in 
 \cite[Definition~1]{nlb_lamontague}. In addition, the creation of models where
 each has more than one input bit should also be considered for this project.
@@ -127,7 +127,7 @@ evaluation. Being able to model protocols such as the Non-locality distribution
 protocol \cite[Definition~16]{nlb_lamontague} is one such example.
 
 Features such as ensuring that the model is non-signalling and the user
-friendliness of \$NAME and its compiler will be the signs of a quality
+friendliness of Q'GRADY and its compiler will be the signs of a quality
 implementation.
 
 % section evaluation (end)
@@ -153,7 +153,7 @@ deadlines. It is available here:
 
         & Project Specification/Plan and Project Poster due. \\
 
-        9th of January & Full definition \$NAME, including syntax and
+        9th of January & Full definition Q'GRADY, including syntax and
         denotational semantics. \\
 
         1st of February & Designing the compiler. \\
