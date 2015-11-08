@@ -3,9 +3,7 @@
 \usepackage[parfill]{parskip}
 \usepackage{url}
 \usepackage[margin=1in]{geometry}
-\usepackage[style=authoryear,backend=biber]{biblatex}
 \setlength\parindent{0pt}
-\bibliography{project-scope-outline-plan}
 
 \begin{document}
 \title{A Compiler for PRiSM \\
@@ -60,28 +58,28 @@ For the purposes of this project, the following objectives have been identified:
 \label{sec:related_works}
 So far, the following works have been identified:
 \begin{itemize}
-    \item Non-local Boxes \parencite{nlb_lamontague} - A literature review about
+    \item Non-local Boxes \cite{nlb_lamontague} - A literature review about
     NLBs, general overviews and definitions in addition to providing references
     to extra reading.
     \item Closed sets of non-local correlations
-    \parencite{Jonathan-Allcock:2009pd} - An extra article to help understanding
+    \cite{Jonathan-Allcock:2009pd} - An extra article to help understanding
     of NLBs.
-    \item Probabilistic Model Checking Lectures \parencite{prism_lectures} - A
+    \item Probabilistic Model Checking Lectures \cite{prism_lectures} - A
     series of lectures to help in understanding of PRiSM, to allow me to
     structure NLBs in PRiSM.
-    \item Calculus of communicating systems \parencite{ccs} - This and related
+    \item Calculus of communicating systems \cite{ccs} - This and the related
     Wikipedia article will provide more information on PRiSM language, with
     directions to further reading as well. 
     \item Compilers: Principles, Techniques and Tools
-    \parencite{dragon_compiler} - A book about compilers, with information on
+    \cite{dragon_compiler} - A book about compilers, with information on
     systems such as lexical analysers, which will help structure the design of
     my compiler.
-    \item Modern Compiler Implementation in Java \parencite{java_compiler} -
+    \item Modern Compiler Implementation in Java \cite{java_compiler} -
     Should I decide to develop compiler in Java, this book will have information
     about object oriented compiler design that will be useful.
-    \item Programming Language Syntax and Semantics \parencite{plss} - Will
+    \item Programming Language Syntax and Semantics \cite{plss} - Will
     provide information and guidance on designing the \$NAME.
-    \item Formal Syntax and Semantics of Programming Languages \parencite{fsspl}
+    \item Formal Syntax and Semantics of Programming Languages \cite{fsspl}
     - Will have the same uses as the D. Watt book, will be required to compare
     and contrast the two books when it comes to differences in their approaches.
 \end{itemize}
@@ -98,18 +96,24 @@ supplemented with additional learning during meetings with supervisor.
 
 The methodology behind the language design involves studying the denotational
 semantics of existing languages to allow me to structure my own for \$NAME,
-discovering the best practises and what to avoid in the design.
+discovering the best practises and what to avoid in the design. This will then
+be moved onto the design of the compiler, whose design will be influenced by the
+language itself. The sue of UML and similar diagrams will be considered as part
+of the design.
 
 The compiler will be approached with an incremental and iterative development
-approach, aided by an overall design. This overall design will most likely be
-done in UML, with revisions when unforeseen circumstances arise in
-implementation.
+approach. Development will progress through various features, aimed towards
+certain milestones, with the aim being to build up the system gradually until it
+is complete.
+
+The verification of the system will be testing involving using the generated
+files in PRiSM, ensuring that the output is both syntactically correct, and also
+accurately represents NLBs in PRiSM as well.
 
 % section methodology (end)
 
 \section{Evaluation} % (fold)
 \label{sec:evaluation}
-
 Evaluation will largely be based on the quality of the models that can be
 produced by \$NAME and its compiler. For example, being able to create models
 with more than the two `Alice and Bob' agents as shown in 
@@ -117,31 +121,42 @@ with more than the two `Alice and Bob' agents as shown in
 each has more than one input bit should also be considered for this project.
 
 In addition, the features that are implemented will also be a factor in
-evaluation. Features such as ensuring that the model is non-signalling and
-the user friendliness of \$NAME and its compiler will be the signs of a quality 
+evaluation. Being able to model protocols such as the Non-locality distribution
+protocol \cite[Definition~16]{nlb_lamontague} is one such example.
+
+Features such as ensuring that the model is non-signalling and the user
+friendliness of \$NAME and its compiler will be the signs of a quality
 implementation.
 
 % section evaluation (end)
 
 \section{Project Plan} % (fold)
 \label{sec:project_plan}
-The high level objects mentioned previously currently have the following.
-milestones.
+The high level objects mentioned previously currently have the following
+milestones. It must be noted that the report will be continuously written in
+addition to these other deadlines.
 
 \begin{center}
     \begin{tabular}{l | p{7.5cm}}
-        Preliminary Date & Task \\
+        Preliminary Deadline & Task \\
         \hline
         9th of December & Understanding theory of non-local boxes \& able to
         implement them in PRiSM. \\
 
-        9th of January & Defining \$NAME. \\
+        & Project Specification/Plan and Project Poster due. \\
 
-        31st of March & Designing \& Implementing compiler from my language to
-        PRiSM. \\
+        9th of January & Full definition \$NAME, including syntax and
+        denotational semantics. \\
+
+        1st of February & Designing the compiler. \\
+
+        5th of February & Progress Report 1 Due. \\
+
+        4th of March & Progress Report 2 Due. \\
+
+        31st of March & Implementing and verifying compiler. \\
 \end{tabular}
 \end{center}
-
 % section project_plan (end)
 
 \section{Marking Scheme} % (fold)
@@ -160,5 +175,6 @@ implementation and testing.
 
 % section marking_scheme (end)
 \newpage
-\printbibliography
+\bibliographystyle{plain}
+\bibliography{project-scope-outline-plan}
 \end{document}
