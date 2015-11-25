@@ -21,4 +21,8 @@ Ross Duncan
 
 ## Usage
 
+## Documentation
+The Documentation directory contains the documentation that relates to the
+dissertation. The .tex files for each submission as required are included.
+
 ## License
