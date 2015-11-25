@@ -9,8 +9,9 @@ will compile the Q'Grady files into PRiSM models.
 
 - [Author](#author)
     - [Supervisor](#supervisor)
-- Directories
-- License
+- [Directories](#directories)
+    - [Documentation](#documentation)
+- [License](#license)
 
 ## Author
 Aidan O'Grady (reg no. 201218150) - wlb12153@uni.strath.ac.uk
