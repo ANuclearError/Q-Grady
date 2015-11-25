@@ -7,6 +7,8 @@ Eng in Computer Science, 2015-16 at the University of Strathclyde Glasgow.
 The Q'Grady language defines the structure for non-local boxes, and its compiler
 will compile the Q'Grady files into PRiSM models.
 
+## Table of Contents
+
 - [Author](#author)
     - [Supervisor](#supervisor)
 - [Directories](#directories)
