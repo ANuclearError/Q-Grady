@@ -21,3 +21,7 @@ module die
 	[] s = 7 -> (s' = 7);
 
 endmodule
+
+rewards "steps"
+	true : 1;
+endrewards

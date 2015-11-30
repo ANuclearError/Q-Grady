@@ -1,5 +1,7 @@
 const int x;
 
 // What is the probability, from the initial state of the model, of reaching a state where s = 7 AND d = x?
-P=? [ F s = 7 & d = x ]
+P=? [ F s=7&d=x ]
+
+R=? [ F d > 0 ]
 
