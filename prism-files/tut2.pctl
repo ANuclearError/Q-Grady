@@ -1,0 +1,7 @@
+label "stable" = num_tokens=1;
+
+// from initial state, stable state is reached with prob 1
+P>=0.5 [ F<=10 "stable" ]
+
+R=? [ F "stable" ]
+
