@@ -1,0 +1,9 @@
+const int k;
+
+label "stable" = num_tokens=1;
+label "k_tokens" = num_tokens=k;
+
+filter(max, R=? [ F "stable" ], "k_tokens")
+
+R=? [ F "stable" {"k_tokens"}{min} ]
+

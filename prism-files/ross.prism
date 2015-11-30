@@ -1,0 +1,14 @@
+dtmc
+
+module alice
+	x : [-1..1] init -1; // local state
+	[] x = -1 -> 0.5 : (x' =  0) + 0.5 : (x' = 1);
+	[reset1] x = 0 -> (x' = -1);
+	[reset2] x = 1 -> (x' = -1);
+endmodule
+
+module bob
+	y : [-1..1] init -1;
+	[reset1] y = -1 -> 0.5 : (y' =  0) + 0.5 : (y' = 1);
+	[reset2] y = -1 -> 0.5 : (y' =  0) + 0.5 : (y' = 1);
+endmodule
