@@ -14,7 +14,7 @@
 Non-local boxes, a concept in quantum theory, are distributed objects that share
 some correlations (classical or quantum). Consider a device with two ends, one
 held by Alice, the other by Bob. Given input from both Alice and Bob, they will
-both receive some output based on some probability distribution \(P(a,b|x,y\)
+both receive some output based on some probability distribution \(P(a,b|x,y)\)
 where \(x,y,a,b \in {0,1}\).
 
 The model checker PRISM can be used to represent these boxes in its language,
@@ -83,6 +83,7 @@ will be caught quicker.
 For the development of Q'Grady, the following technologies have been identified
 that will assist in the creation of the language and compiler.
 % subsection development_process (end)
+
 \subsection{PRISM} % (fold)
 \label{sub:prism}
 PRISM is a probabilistic model checker, software used to create formal models
@@ -138,6 +139,30 @@ The Commons CLI library can handle all the logic behind the parsing of the
 user's arguments, ensuring that the required arguments are present, and handling
 mutually exclusive flags as well.
 % subsubsection apache_commons_cli (end)
+\subsubsection{CUP} % (fold)
+CUP is a parser generator written in Java. It will use the BNF grammar that I
+will create for Q'Grady, and will use it for handling the parsing of the Q'Grady
+files being compiled. Due to it being closely associated with the lexer
+generator JFlex (described briefly below), it is likely that I will lean towards
+this parser generator unless I find extreme difficulties with its use.
+\label{ssub:cup}
+
+% subsubsection cup (end)
+\subsubsection{ANTLR} % (fold)
+ANTLR is an alternative to CUP. I will need to compare and contrast the two
+while creating the language to determine which is more suitable for this
+project.
+\label{ssub:antlr}
+
+% subsubsection antlr (end)
+\subsubsection{JFlex} % (fold)
+\label{ssub:jflex}
+JFlex is a lexical analyser generator that will come in useful for the creation
+of the compiler. It is designed to work with CUP, while also working with ANTLR
+as well, meaning that I have the ability to see for myself which pairing I am
+more comfortable with using. It will create a lexer based on the language
+specifications I will define to be used in compilation.
+% subsubsection jflex (end)
 
 \subsection{IDEs \& Tools} % (fold)
 \label{sub:ides_tools}
@@ -146,7 +171,6 @@ IntelliJ IDEA is the Java IDE I plan on using during the development of the
 Q'Grady compiler. It is my preferred IDE due to being more powerful and user
 friendly in my opinion.
 \label{ssub:intellij_idea}
-
 % subsubsection intellij_idea (end)
 \subsubsection{Apache Maven} % (fold)
 \label{ssub:apache_maven}
@@ -155,7 +179,6 @@ automated JUnit testing and dependency management. This will help increase the
 efficiency of the development process, in addition to handling any transitive
 dependencies that are required as part of the development.
 % subsubsection apache_maven (end)
-
 % subsection ides_tools (end)
 % section development (end)
 
