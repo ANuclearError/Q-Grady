@@ -30,7 +30,23 @@ further experimentation.
 
 \section{Requirements} % (fold)
 \label{sec:requirements}
+\subsection{Functional Requirements} % (fold)
+\label{sub:functional_requirements}
+The functional requirements of the Q'Grady language is to provide a cohesive
+syntax and semantics to describe the set-up of non-local boxes.
 
+The functional requirements of the Q'Grady compiler is as follows:
+\begin{itemize}
+    \item Take Q'Grady source files as input.
+    \item Parse and check source for correctness in relation to syntax and
+    semantics.
+    \item Check probability distribution to ensure non-signalling property
+    holds.
+    \item Produce equivalent, correct, PRISM file that can be used in the PRISM
+    software.
+    \item Display the state of the compilation during execution to the user.
+\end{itemize}
+% subsection functional_requirements (end)
 % section requirements (end)
 
 
