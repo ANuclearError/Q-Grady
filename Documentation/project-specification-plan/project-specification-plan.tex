@@ -42,11 +42,23 @@ The functional requirements of the Q'Grady compiler is as follows:
     semantics.
     \item Check probability distribution to ensure non-signalling property
     holds.
-    \item Produce equivalent, correct, PRISM file that can be used in the PRISM
-    software.
-    \item Display the state of the compilation during execution to the user.
+    \item Produce equivalent PRISM file that can be used in the software.
+    \item Produce meaningful warnings/errors encountered during the
+    compilation.
 \end{itemize}
 % subsection functional_requirements (end)
+
+\subsection{Non-Functional Requirements} % (fold)
+\label{sub:non_functional_requirements}
+Non-functional requirements for the compiler would be stronger integration with
+PRISM. For example, it would be nice to have successful compilations be launched
+in PRISM for immediate use, although this would be a addition.
+
+Another non-functional requirement would be that the compilation takes as little
+time as possible to complete. In addition, the system shall attempt to display
+all errors with the Q'Grady source file, rather than just halting at the first
+it encounters.
+% subsection non_functional_requirements (end)
 % section requirements (end)
 
 
