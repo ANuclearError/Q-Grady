@@ -11,7 +11,20 @@
 
 \section{Introduction} % (fold)
 \label{sec:introduction}
+Non-local boxes, a concept in quantum theory, are distributed objects that share
+some correlations (classical or quantum). Consider a device with two ends, one
+held by Alice, the other by Bob. Given input from both Alice and Bob, they will
+both receive some output based on some probability distribution \(P(a,b|x,y\)
+where \(x,y,a,b \in {0,1}\).
 
+The model checker PRISM can be used to represent these boxes in its language,
+to run simulations and experiments with. However, it is a low level language and
+rudimentary in its nature.
+
+The purpose of this project is to define a domain-specific language, Q'Grady, to
+describe the set-up of these non-local boxes and to implement a compiler that
+will take Q'Grady files and produce valid PRISM models that can be used for
+further experimentation.
 % section introduction (end)
 
 
