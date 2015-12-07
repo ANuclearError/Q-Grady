@@ -1,7 +1,7 @@
 \documentclass[11pt, a4paper]{article}
 \usepackage[parfill]{parskip}
+\usepackage[margin=1in]{geometry}
 \setlength\parindent{0pt}
-
 \begin{document}
 \title{Q'Grady \\A Compiler for PRiSM \\
 \large{Project Specification and Plan}}
@@ -79,15 +79,82 @@ experimentation if I am not trying to spend time at the end testing.
 Weekly sprints followed by supervisor meetings can help ensure that I am meeting
 the specification of the project, so I am going astray with each new build, it
 will be caught quicker.
+
+For the development of Q'Grady, the following technologies have been identified
+that will assist in the creation of the language and compiler.
 % subsection development_process (end)
+\subsection{PRISM} % (fold)
+\label{sub:prism}
+PRISM is a probabilistic model checker, software used to create formal models
+using the PRISM language and allows for analysis of the models created. The
+models are created to represent systems with random or probabilistic behaviour.
 
-\subsection{Languages & Libraries} % (fold)
+PRISM has been an essential part of the background study and theory learning
+aspect of this project, the first of the three high-level milestones. Work has
+been done in getting comfortable with the PRISM software, being able to create
+models, run simulations and experiments using the software. I am now at the
+stage where I can create set-ups of non-local boxes in PRISM, after some
+difficulty in sufficiently grasping the concepts behind both the theory and
+PRISM itself.
+
+Since the purpose of the Q'Grady language and compiler is to create PRISM
+models, the use of PRISM is a necessity as part of the testing and validation of
+the compiler. There is a need for a work-flow to allow for making this easier,
+although I have not yet discovered it.
+% subsection prism (end)
+\subsection{Languages \& Libraries} % (fold)
 \label{sub:languages_libraries}
+\subsubsection{Java 8} % (fold)
+\label{ssub:java_8}
+The compiler for the Q'Grady language will be written in Java. Java was chosen
+primarily due to it being the language I am comfortable with, meaning that less
+time will be spent looking for solutions to more trivial problems such as
+dependency management.
 
+While a language such as C/C++ may seem more appropriate for a compiler, since
+the requirements of the compiler are to create PRISM models rather than
+executable programs, I felt that there was no need to deal with aspects such as
+memory management, while Java would allow me to design the compiler system
+without worrying about getting used to a new environment.
+
+In addition, the use of Java allows me to use libraries and tools that I am
+already comfortable with, making the development easier.
+% subsubsection java_8 (end)
 % subsection languages_libraries (end)
+\subsubsection{JUnit} % (fold)
+\label{ssub:junit}
+JUnit will be used as part of the testing strategy of the compiler. It will help
+test features of the compiler such as the syntax checker, or the algorithm used
+to ensure that the user's created non-local box is non-signalling.
+% subsubsection junit (end)
+\subsubsection{Apache Commons CLI} % (fold)
+\label{ssub:apache_commons_cli}
+The Apache Commons CLI library allows for easier handling of command arguments
+for the compiler. As a compiler, there is naturally a requirement for an input
+Q'Grady file as well as an optional destination for the PRISM file created, in
+addition to any other flags that are thought of to be helpful. 
 
-\subsection{IDEs, Tools} % (fold)
+The Commons CLI library can handle all the logic behind the parsing of the
+user's arguments, ensuring that the required arguments are present, and handling
+mutually exclusive flags as well.
+% subsubsection apache_commons_cli (end)
+
+\subsection{IDEs \& Tools} % (fold)
 \label{sub:ides_tools}
+\subsubsection{IntelliJ IDEA} % (fold)
+IntelliJ IDEA is the Java IDE I plan on using during the development of the
+Q'Grady compiler. It is my preferred IDE due to being more powerful and user
+friendly in my opinion.
+\label{ssub:intellij_idea}
+
+% subsubsection intellij_idea (end)
+\subsubsection{Apache Maven} % (fold)
+\label{ssub:apache_maven}
+Maven will assist in the building process of the compiler, allowing for 
+automated JUnit testing and dependency management. This will help increase the
+efficiency of the development process, in addition to handling any transitive
+dependencies that are required as part of the development.
+% subsubsection apache_maven (end)
 
 % subsection ides_tools (end)
 % section development (end)
@@ -95,18 +162,33 @@ will be caught quicker.
 
 \section{Evaluation} % (fold)
 \label{sec:evaluation}
-
+One part of evaluation is analysing the models created by Q'Grady. Running
+experiments and simulations using the models will assist in determining how
+useful Q'Grady is. The complexity of models created is another factor, the more
+complex boxes can be set-up would result in more interesting experiments and
+results to be obtained. The user friendliness of the language and compiler
+should also be considered.
 % section evaluation (end)
 
 
 \section{Risks} % (fold)
 \label{sec:risks}
+The major risk is related to the understanding of the quantum theory. If my 
+comprehension of the non-local boxes' set-ups or the criteria of non-signalling
+are not correct, then the resulting language and compiler's usefulness is
+thoroughly depleted.
 
+Since this is the first time I have created my own language, then there will be
+risks related to the cleanliness or readability of the language that is defined.
+It is unlikely that it will be perfect right off the bat, but the better the
+understanding of the theory, the easier the language will be to create.
+
+When it comes to the development of the compiler, the primary risk will be
+ensuring that I allow for sufficient time for testing and experimentation using
+the PRISM models created by the compiler. THis is in addition to the continuous
+report writing that must be done in addition to the development (and other
+stages).
 % section risks (end)
 
 
-\section{Revised Plan} % (fold)
-\label{sec:revised_plan}
-
-% section revised_plan (end)
 \end{document}
