@@ -2,6 +2,7 @@
 \usepackage[parfill]{parskip}
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
+\usepackage{mathtools}
 \setlength\parindent{0pt}
 \begin{document}
 \title{Q'Grady \\A Compiler for PRiSM \\
@@ -200,12 +201,24 @@ there will be no issues with using it during the development process.
 
 \section{Evaluation} % (fold)
 \label{sec:evaluation}
-One part of evaluation is analysing the models created by Q'Grady. Running
-experiments and simulations using the models will assist in determining how
-useful Q'Grady is. The complexity of models created is another factor, the more
-complex boxes can be set-up would result in more interesting experiments and
-results to be obtained. The user friendliness of the language and compiler
-should also be considered.
+The `minimum viable product' of Q'Grady would be a language and compiler
+that merely allows definition of boxes such as the standard PR box, with two
+`agents' each with a single input and out. This would include the check for
+non-signalling that ensures the property is held before creating the PRISM
+model. Quality implementations would of course allow for more flexibility in the
+type of non-local boxes that could be defined, such as potentially agents with
+multiple inputs or devices of their own.
+
+The user friendliness of the language and compiler would also be considered as
+part of evaluation. One purpose of this project is to make non-local box set-ups
+easier to implement than in PRISM, so a complex, verbose and unclear syntax
+would not be sufficient for this. The compiler must also be able to clearly
+display errors with the Q'Grady files if found, including their location in the
+file and perhaps providing suggestions.
+
+The experiments will also come into account. Being able to use Q'Grady to run
+simulations and experiments within PRISM would be a sign that the project has
+succeeded.
 % section evaluation (end)
 
 
@@ -217,6 +230,11 @@ are not correct, then the resulting language and compiler's usefulness is
 thoroughly depleted. However, my meetings with my supervisor and the background
 study means that I should have that knowledge at this stage, and I believe I am
 in a comfortable position in that respect.
+
+The experimentation part of the project is a risk, since I will need to ensure I
+am keeping a proper record of everything (automation should be used for this if
+possible), while I must avoid the trap of doing random actions in PRISM and
+acting as if that counts for experimentation.
 
 Since this is the first time I have created my own language, then there will be
 risks related to the cleanliness or readability of the language that is defined.
