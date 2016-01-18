@@ -1,0 +1,6 @@
+<NLB> ::= <Box> <Box>
+<Box> ::= <Identifer> : <Input> -> <Output>;
+
+<Input> ::= Input <Identifier>
+
+<Output> ::= Output <Identifier>
