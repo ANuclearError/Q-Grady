@@ -6,10 +6,8 @@ import org.apache.commons.cli.*;
  * The entry point of the compiler. It handles the program arguments, to
  * ensure that they are all correct.
  *
- * TODO: Implement option groups to create system I want.
- *
  * @author Aidan O'Grady
- * @since 1.0
+ * @since 0.0
  */
 public class QGrady {
 
