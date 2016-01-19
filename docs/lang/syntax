@@ -1,4 +1,4 @@
-<NLB> ::= <Box> <Box> <Range> <Range>
+<NLB> ::= <Box> <Box> <Range> <Range> <Probability>
 
 
 // Box setup
@@ -23,9 +23,23 @@
 <Outcome> ::= <Digit> "," <Digit> | <Digit> "," <Digit> "|" <Outcome>
 
 
+//
+
+<Probability> ::= "prob" <Identifiers> "->" <Identifiers> "{" <Distributions> "}"
+
+<Distributions> ::= <Distribution> | <Distribution> <Distributions>
+
+<Distribution> ::= <Identifiers> "->" <Probabilities> ";"
+
+<Probabilities> ::= <Decimal> | <Decimal> "|" <Probabilities>
+
 
 // Identifiers (variable names) and digits
 
 <Identifiers> ::= <Identifier> | <Identifier> "," <Identifiers>
+
+<Decimal> ::= <Number> | <Number> "." <Number>
+
+<Number> ::= <Digit> | <Digit> <Number>
 
 <Digit> ::= "0" | "1" | "2" | "3" | "4" | "5" |"6" | "7" | "8" | "9" 
