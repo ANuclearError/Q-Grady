@@ -1,6 +1,31 @@
-<NLB> ::= <Box> <Box>
-<Box> ::= <Identifer> : <Input> -> <Output>;
+<NLB> ::= <Box> <Box> <Range> <Range>
 
-<Input> ::= Input <Identifier>
 
-<Output> ::= Output <Identifier>
+// Box setup
+
+<Box> ::= <Identifer> ":" <Input> "->" <Output>";"
+
+<Input> ::= "Input" <Identifier> <Set>
+
+<Output> ::= "Output" <Identifier> <Set>
+
+<Set> ::= "["<Elements>"]"
+
+<Elements> ::= <Digit> | <Digit>"," <Elements>
+
+
+// Range for contextualizing probabilities
+
+<Range> ::= <Identifiers> ":" <Outcomes>
+
+<Outcomes> ::= <Outcomes>
+
+<Outcome> ::= <Digit> "," <Digit> | <Digit> "," <Digit> "|" <Outcome>
+
+
+
+// Identifiers (variable names) and digits
+
+<Identifiers> ::= <Identifier> | <Identifier> "," <Identifiers>
+
+<Digit> ::= "0" | "1" | "2" | "3" | "4" | "5" |"6" | "7" | "8" | "9" 
