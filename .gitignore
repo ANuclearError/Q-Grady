@@ -11,6 +11,8 @@
 *.out
 *.run.xml
 *.fls
+*.lof
+*.lot
 
 # Java
 *.class
