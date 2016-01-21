@@ -4,9 +4,9 @@
 
 % Title page and general nonsense
 \pagenumbering{roman}
-\subfile{./tex/title}
-\subfile{./tex/abstract}
-\subfile{./tex/acknowledgements}
+\subfile{./tex/title/title}
+\subfile{./tex/title/abstract}
+\subfile{./tex/title/acknowledgements}
 \tableofcontents
 \listoffigures
 \listoftables
@@ -14,14 +14,21 @@
 
 % Actual content
 \pagenumbering{arabic}
-\subfile{./tex/introduction}
+\subfile{./tex/content/introduction}
+\subfile{./tex/content/related_work}
+\subfile{./tex/content/problem_desc_spec}
+\subfile{./tex/content/system_design}
+\subfile{./tex/content/detailed_design}
+\subfile{./tex/content/verification_validation}
+\subfile{./tex/content/results_evaluation}
+\subfile{./tex/content/summary_conclusions}
 
 % Appendix
-% \appendix
-% \subfile{./tex/appendix.tex}
-
-% Bibliography
-% \addcontentsline{toc}{chapter}{Bibliography}
-% \subfile{./tex/bibliography.tex}
+\appendix
+\subfile{./tex/appendix/references.tex}
+\subfile{./tex/appendix/spec_design.tex}
+\subfile{./tex/appendix/test_strategy_cases.tex}
+\subfile{./tex/appendix/user_guide.tex}
+\subfile{./tex/appendix/program_listing.tex}
 
 \end{document}
