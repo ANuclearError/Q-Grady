@@ -1,14 +1,20 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[12pt, a4paper]{report}
 \usepackage{style}
 \begin{document}
 
 % Title page and general nonsense
+\pagenumbering{roman}
 \subfile{./tex/title}
 \subfile{./tex/abstract}
 \subfile{./tex/acknowledgements}
 \tableofcontents
 \listoffigures
 \listoftables
+\newpage
+
+% Actual content
+\pagenumbering{arabic}
+\subfile{./tex/introduction}
 
 % Appendix
 % \appendix
