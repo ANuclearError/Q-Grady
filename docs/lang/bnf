@@ -1,64 +1,78 @@
 ================================================================================
 
 Draft One:
-<Q'Grady> ::= <Box> <Box> <Dists>
+<Q'Grady> ::= <Boxes> <Dists>
 
-    <Box> ::= "box " <Identifer> ":" <Input> "->" <Output> ";"
-  <Input> ::= "input " <Identifer>
- <Output> ::= "output " <Identifer>
+  <Boxes> ::= <Box> | <Box> <Boxes>
+    <Box> ::= "box " <Id> ":" <Input> "->" <Output> ";"
+
+  <Input> ::= "input " <Ids>
+ <Output> ::= "output " <Ids>
+
 
   <Dists> ::= <Dist> | <Dist> <Dists>
-   <Dist> ::= <Identifer> "=" <BDigit> "," <Identifer> "=" <BDigit> 
-   			  "{" <Probs> "}"
+   <Dist> ::= <State> "{" <Probs> "}"
+  <State> ::= <Id> "=" <BDigit> | <Id> "=" <BDigit> "," <State>
 
   <Probs> ::= <Prob> | <Prob> <Probs>
-   <Prob> ::= <BDigit> "," <BDigit> "=" <Dec> ";"
+   <Prob> ::= <BDigits> "=" <Dec> ";"
 
-  <BDigit> ::= 0 | 1
-     <Dec> ::= 0.<Num>
-     <Num> ::= <Digit> | <Digit> <Num>
-   <Digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+    <Ids> ::= <Id> | <Id>, <Ids>
+
+<BDigits> ::= <BDigit> | <BDigit> "," <BDigit>
+ <BDigit> ::= 0 | 1
+
+    <Dec> ::= 0.<Num>
+    <Num> ::= <Digit> | <Digit> <Num>
+  <Digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 ================================================================================
 
 Draft Two:
-<Q'Grady> ::= <Box> <Box> <Ranges> <Dists>
+<Q'Grady> ::= <Boxes> <Ranges> <Dists>
 
-    <Box> ::= "box " <Identifer> ":" <Input> "->" <Output> ";"
-  <Input> ::= "input " <Identifer>
- <Output> ::= "output " <Identifer>
+  <Boxes> ::= <Box> | <Box> <Boxes>
+    <Box> ::= "box " <Id> ":" <Input> "->" <Output> ";"
 
- <Ranges> ::= <Identifier> "," <Identifer> : <Range> ";"
-  <Range> ::= <BDigit> "," <BDigit> | <BDigit> "," <BDigit> "|" <Range>;
+  <Input> ::= "input " <Ids>
+ <Output> ::= "output " <Ids>
+
+ <Ranges> ::= <Ids> : <Range> ";"
+  <Range> ::= <BDigits> | <BDigits> "|" <Range>;
 
   <Dists> ::= <Dist> | <Dist> <Dists>
-   <Dist> ::= prob <Identifer> "," <Identifer> "->" <Identifer> "," <Identifer>
-   			  "{" <Probs> "}"
+   <Dist> ::= prob <Id> "->" <Id> "{" <Probs> "}"
+    <Ids> ::= <Id> | <Id>, <Ids>
 
   <Probs> ::= <Prob> | <Prob> <Probs>
-   <Prob> ::= <Identifier> "," <Identifer> "->" <Decs> ";"
+   <Prob> ::= <Ids> "->" <Decs> ";"
    <Decs> ::= <Dec> | <Dec> "|" <Decs>
 
-  <BDigit> ::= 0 | 1
-     <Dec> ::= 0.<Num>
-     <Num> ::= <Digit> | <Digit> <Num>
-   <Digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+<BDigits> ::= <BDigit> | <BDigit> "," <BDigit>
+ <BDigit> ::= 0 | 1
+
+    <Dec> ::= 0.<Num>
+    <Num> ::= <Digit> | <Digit> <Num>
+  <Digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 
 ================================================================================
 
 Draft Three:
 
-<Q'Grady> ::= <Box> <Box> <Dist>
+<Q'Grady> ::= <Boxes> <Dist>
+  <Boxes> ::= <Box> | <Box> <Boxes>
+    <Box> ::= "box " <Id> ":" <Input> "->" <Output> ";"
+  <Input> ::= "input " <Ids>
+ <Output> ::= "output " <Ids>
 
-    <Box> ::= "box " <Identifer> ":" <Input> "->" <Output> ";"
-  <Input> ::= "input " <Identifer>
- <Output> ::= "output " <Identifer>
+   <Dist> ::= "P(" <Ids> "|" <Ids> "){" <Probs> "}"
+    <Ids> ::= <Id> | <Id>, <Ids>
 
-   <Dist> ::= "P(" <Identifer> "," <Identifer> "|" <Identifer> "," <Identifer> "){" <Probs> "}"
   <Probs> ::= <Prob> | <Prob> <Probs>
-   <Prob> ::= "(" <BDigit> <BDigit> ") -> (" <BDigit> <BDigit> ") = " <Dec> ";"
+   <Prob> ::= "(" <BDigits> ") -> (" <BDigits> ") = " <Dec> ";"
 
+ <BDigits> ::= <BDigit> | <BDigit> "," <BDigit>
   <BDigit> ::= 0 | 1
      <Dec> ::= 0.<Num>
      <Num> ::= <Digit> | <Digit> <Num>
