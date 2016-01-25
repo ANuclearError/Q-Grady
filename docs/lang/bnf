@@ -11,8 +11,9 @@ Draft One:
 
 
   <Dists> ::= <Dist> | <Dist> <Dists>
-   <Dist> ::= <State> "{" <Probs> "}"
-  <State> ::= <Id> "=" <BDigit> | <Id> "=" <BDigit> "," <State>
+   <Dist> ::= <States> "{" <Probs> "}"
+ <States> ::= <State> | <State> "," <States>
+  <State> ::= <Id> "=" <BDigit>
 
   <Probs> ::= <Prob> | <Prob> <Probs>
    <Prob> ::= <BDigits> "=" <Dec> ";"
@@ -29,7 +30,7 @@ Draft One:
 ================================================================================
 
 Draft Two:
-<Q'Grady> ::= <Boxes> <Ranges> <Dists>
+<Q'Grady> ::= <Boxes> <Ranges> <Dist>
 
   <Boxes> ::= <Box> | <Box> <Boxes>
     <Box> ::= "box " <Id> ":" <Input> "->" <Output> ";"
@@ -40,13 +41,13 @@ Draft Two:
  <Ranges> ::= <Ids> : <Range> ";"
   <Range> ::= <BDigits> | <BDigits> "|" <Range>;
 
-  <Dists> ::= <Dist> | <Dist> <Dists>
-   <Dist> ::= prob <Id> "->" <Id> "{" <Probs> "}"
-    <Ids> ::= <Id> | <Id>, <Ids>
+   <Dist> ::= "prob" <Ids> "->" <Ids> "{" <Probs> "}"
 
   <Probs> ::= <Prob> | <Prob> <Probs>
    <Prob> ::= <Ids> "->" <Decs> ";"
    <Decs> ::= <Dec> | <Dec> "|" <Decs>
+
+    <Ids> ::= <Id> | <Id>, <Ids>
 
 <BDigits> ::= <BDigit> | <BDigit> "," <BDigit>
  <BDigit> ::= 0 | 1
@@ -70,7 +71,7 @@ Draft Three:
     <Ids> ::= <Id> | <Id>, <Ids>
 
   <Probs> ::= <Prob> | <Prob> <Probs>
-   <Prob> ::= "(" <BDigits> ") -> (" <BDigits> ") = " <Dec> ";"
+   <Prob> ::=  <BDigits> "->" <BDigits> "=" <Dec> ";"
 
  <BDigits> ::= <BDigit> | <BDigit> "," <BDigit>
   <BDigit> ::= 0 | 1
