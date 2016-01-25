@@ -8,14 +8,16 @@ Draft One:
  <Output> ::= "output " <Identifer>
 
   <Dists> ::= <Dist> | <Dist> <Dists>
-   <Dist> ::= <Identifer> "=" <Digit> "," <Identifer> "=" <Digit> 
+   <Dist> ::= <Identifer> "=" <BDigit> "," <Identifer> "=" <BDigit> 
    			  "{" <Probs> "}"
 
   <Probs> ::= <Prob> | <Prob> <Probs>
-   <Prob> ::= <Digit> "," <Digit> "=" <Dec> ";"
+   <Prob> ::= <BDigit> "," <BDigit> "=" <Dec> ";"
 
-  <Digit> ::= 0 | 1
-    <Dec> ::= any real number >= 0 and < 1
+  <BDigit> ::= 0 | 1
+     <Dec> ::= 0.<Num>
+     <Num> ::= <Digit> | <Digit> <Num>
+   <Digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 ================================================================================
 
@@ -27,7 +29,7 @@ Draft Two:
  <Output> ::= "output " <Identifer>
 
  <Ranges> ::= <Identifier> "," <Identifer> : <Range> ";"
-  <Range> ::= <Digit> "," <Digit> | <Digit> "," <Digit> "|" <Range>;
+  <Range> ::= <BDigit> "," <BDigit> | <BDigit> "," <BDigit> "|" <Range>;
 
   <Dists> ::= <Dist> | <Dist> <Dists>
    <Dist> ::= prob <Identifer> "," <Identifer> "->" <Identifer> "," <Identifer>
@@ -37,8 +39,10 @@ Draft Two:
    <Prob> ::= <Identifier> "," <Identifer> "->" <Decs> ";"
    <Decs> ::= <Dec> | <Dec> "|" <Decs>
 
-  <Digit> ::= 0 | 1
-    <Dec> ::= any real number >= 0 and < 1
+  <BDigit> ::= 0 | 1
+     <Dec> ::= 0.<Num>
+     <Num> ::= <Digit> | <Digit> <Num>
+   <Digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 
 ================================================================================
@@ -53,7 +57,9 @@ Draft Three:
 
    <Dist> ::= "P(" <Identifer> "," <Identifer> "|" <Identifer> "," <Identifer> "){" <Probs> "}"
   <Probs> ::= <Prob> | <Prob> <Probs>
-   <Prob> ::= "(" <Digit> <Digit> ") -> (" <Digit> <Digit> ") = " <Dec> ";"
+   <Prob> ::= "(" <BDigit> <BDigit> ") -> (" <BDigit> <BDigit> ") = " <Dec> ";"
 
-  <Digit> ::= 0 | 1
-    <Dec> ::= any real number >= 0 and < 1
+  <BDigit> ::= 0 | 1
+     <Dec> ::= 0.<Num>
+     <Num> ::= <Digit> | <Digit> <Num>
+   <Digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
