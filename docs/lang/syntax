@@ -48,8 +48,11 @@
 
 Attempt two
 
-<Q'Grady> ::= <Box>, <Box>, <Prob>;
+<Q'Grady> ::= <Box>, <Box>, <Dist>;
 <Box> ::= "box ", <Identifer>, ":", <Input>, "->", <Output>,1 ";";
 <Input> ::= "input ", <List>;
 <Output> ::= "output ", <List>;
-<List> ::= <Identifier>, | <Identifier>, <List>};
+<List> ::= <Identifier>, | <Identifier>, ", ", <List>};
+<Dist> <List>, "->", <List>, "{", <Probs>, "}";
+<Probs> ::= <Prob> | <Prob>, ", " <Probs>;
+<Prob> ::= <Digits>, "->", <Digits>, "=", <Decimal>, ";";
