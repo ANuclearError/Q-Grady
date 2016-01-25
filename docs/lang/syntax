@@ -43,3 +43,13 @@
 <Number> ::= <Digit> | <Digit> <Number>
 
 <Digit> ::= "0" | "1" | "2" | "3" | "4" | "5" |"6" | "7" | "8" | "9" 
+
+================================================================================
+
+Attempt two
+
+<Q'Grady> ::= <Box>, <Box>, <Prob>;
+<Box> ::= "box ", <Identifer>, ":", <Input>, "->", <Output>,1 ";";
+<Input> ::= "input ", <List>;
+<Output> ::= "output ", <List>;
+<List> ::= <Identifier>, | <Identifier>, <List>};
