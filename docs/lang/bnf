@@ -1,0 +1,59 @@
+================================================================================
+
+Draft One:
+<Q'Grady> ::= <Box> <Box> <Dists>
+
+    <Box> ::= "box " <Identifer> ":" <Input> "->" <Output> ";"
+  <Input> ::= "input " <Identifer>
+ <Output> ::= "output " <Identifer>
+
+  <Dists> ::= <Dist> | <Dist> <Dists>
+   <Dist> ::= <Identifer> "=" <Digit> "," <Identifer> "=" <Digit> 
+   			  "{" <Probs> "}"
+
+  <Probs> ::= <Prob> | <Prob> <Probs>
+   <Prob> ::= <Digit> "," <Digit> "=" <Dec> ";"
+
+  <Digit> ::= 0 | 1
+    <Dec> ::= any real number >= 0 and < 1
+
+================================================================================
+
+Draft Two:
+<Q'Grady> ::= <Box> <Box> <Ranges> <Dists>
+
+    <Box> ::= "box " <Identifer> ":" <Input> "->" <Output> ";"
+  <Input> ::= "input " <Identifer>
+ <Output> ::= "output " <Identifer>
+
+ <Ranges> ::= <Identifier> "," <Identifer> : <Range> ";"
+  <Range> ::= <Digit> "," <Digit> | <Digit> "," <Digit> "|" <Range>;
+
+  <Dists> ::= <Dist> | <Dist> <Dists>
+   <Dist> ::= prob <Identifer> "," <Identifer> "->" <Identifer> "," <Identifer>
+   			  "{" <Probs> "}"
+
+  <Probs> ::= <Prob> | <Prob> <Probs>
+   <Prob> ::= <Identifier> "," <Identifer> "->" <Decs> ";"
+   <Decs> ::= <Dec> | <Dec> "|" <Decs>
+
+  <Digit> ::= 0 | 1
+    <Dec> ::= any real number >= 0 and < 1
+
+
+================================================================================
+
+Draft Three:
+
+<Q'Grady> ::= <Box> <Box> <Dist>
+
+    <Box> ::= "box " <Identifer> ":" <Input> "->" <Output> ";"
+  <Input> ::= "input " <Identifer>
+ <Output> ::= "output " <Identifer>
+
+   <Dist> ::= "P(" <Identifer> "," <Identifer> "|" <Identifer> "," <Identifer> "){" <Probs> "}"
+  <Probs> ::= <Prob> | <Prob> <Probs>
+   <Prob> ::= "(" <Digit> <Digit> ") -> (" <Digit> <Digit> ") = " <Dec> ";"
+
+  <Digit> ::= 0 | 1
+    <Dec> ::= any real number >= 0 and < 1

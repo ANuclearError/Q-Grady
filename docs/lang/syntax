@@ -1,58 +1,72 @@
-<NLB> ::= <Box> <Box> <Range> <Range> <Probability>
+Draft one:
 
+Box Alice : Input x -> Output a;
+Box Bob : Input y -> Output b;
 
-// Box setup
-
-<Box> ::= <Identifer> ":" <Input> "->" <Output>";"
-
-<Input> ::= "Input" <Identifier> <Set>
-
-<Output> ::= "Output" <Identifier> <Set>
-
-<Set> ::= "["<Elements>"]"
-
-<Elements> ::= <Digit> | <Digit>"," <Elements>
-
-
-// Range for contextualizing probabilities
-
-<Range> ::= <Identifiers> ":" <Outcomes>
-
-<Outcomes> ::= <Outcomes>
-
-<Outcome> ::= <Digit> "," <Digit> | <Digit> "," <Digit> "|" <Outcome>
-
-
-//
-
-<Probability> ::= "prob" <Identifiers> "->" <Identifiers> "{" <Distributions> "}"
-
-<Distributions> ::= <Distribution> | <Distribution> <Distributions>
-
-<Distribution> ::= <Identifiers> "->" <Probabilities> ";"
-
-<Probabilities> ::= <Decimal> | <Decimal> "|" <Probabilities>
-
-
-// Identifiers (variable names) and digits
-
-<Identifiers> ::= <Identifier> | <Identifier> "," <Identifiers>
-
-<Decimal> ::= <Number> | <Number> "." <Number>
-
-<Number> ::= <Digit> | <Digit> <Number>
-
-<Digit> ::= "0" | "1" | "2" | "3" | "4" | "5" |"6" | "7" | "8" | "9" 
+x = 0, y = 0 {
+    0, 0 = 0.5;
+    0, 1 = 0;
+    1, 0 = 0;
+    1, 1 = 0.5;
+}
+x = 0, y = 1 {
+    0, 0 = 0.5;
+    0, 1 = 0;
+    1, 0 = 0;
+    1, 1 = 0.5;
+}
+x = 1, y = 0 {
+    0, 0 = 0.5;
+    0, 1 = 0;
+    1, 0 = 0;
+    1, 1 = 0.5;
+}
+x = 1, y = 1 {
+    0, 0 = 0;
+    0, 1 = 0.5;
+    1, 0 = 0.5;
+    1, 1 = 0;
+}
 
 ================================================================================
 
-Attempt two
+Draft two:
 
-<Q'Grady> ::= <Box>, <Box>, <Dist>;
-<Box> ::= "box ", <Identifer>, ":", <Input>, "->", <Output>,1 ";";
-<Input> ::= "input ", <List>;
-<Output> ::= "output ", <List>;
-<List> ::= <Identifier>, | <Identifier>, ", ", <List>};
-<Dist> <List>, "->", <List>, "{", <Probs>, "}";
-<Probs> ::= <Prob> | <Prob>, ", " <Probs>;
-<Prob> ::= <Digits>, "->", <Digits>, "=", <Decimal>, ";";
+Box Alice : Input x -> Output a;
+Box Bob : Input y -> Output b;
+
+x, y : 0, 0 | 0, 1 | 1, 0 | 1, 1;
+a, b : 0, 0 | 0, 1 | 1, 0 | 1, 1;
+
+prob x, y -> a, b {
+    0, 0 -> 0.5 | 0 | 0 | 0.5;
+    0, 1 -> 0.5 | 0 | 0 | 0.5;
+    1, 1 -> 0.5 | 0 | 0 | 0.5;
+    1, 1 -> 0 | 0.5 | 0.5 | 0;
+}
+
+================================================================================
+
+Draft three:
+
+Box Alice : Input x -> Output a;
+Box Bob : Input y -> Output b;
+
+P(a,b | x,y) {
+    0, 0 -> 0, 0 = 0.5;
+    0, 0 -> 1, 0 = 0;
+    0, 0 -> 0, 1 = 0;
+    0, 0 -> 1, 1 = 0.5;
+    0, 1 -> 0, 0 = 0.5;
+    0, 1 -> 1, 0 = 0;
+    0, 1 -> 0, 1 = 0;
+    0, 1 -> 1, 1 = 0.5;
+    1, 0 -> 0, 0 = 0.5;
+    1, 0 -> 1, 0 = 0;
+    1, 0 -> 0, 1 = 0;
+    1, 0 -> 1, 1 = 0.5;
+    1, 1 -> 0, 0 = 0;
+    1, 1 -> 1, 0 = 0.5;
+    1, 1 -> 0, 1 = 0.5;
+    1, 1 -> 1, 1 = 0;
+}
