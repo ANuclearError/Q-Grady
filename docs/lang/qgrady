@@ -1,23 +1,23 @@
 Simple example. Purely the probability distribution, with little to no context.
 
-[0.5, 0, 0, 0.5;
-0.5, 0, 0, 0.5;
-0.5, 0, 0, 0.5;
-0, 0.5, 0.5, 0;]
+[[0.5, 0, 0, 0.5],
+[0.5, 0, 0, 0.5],
+[0.5, 0, 0, 0.5],
+[0, 0.5, 0.5, 0],]
 
 Grammar
 
-     <box> ::= "[" <list> "]";
-    <list> :: = "[" <row> "]" | "[" <row> "]", <list>;
-     <row> ::= <decimal> | <decimal> "," <row>;
+     <box>  ::= <list>;
+     <list> ::= "[" <items> "]";
+    <items> ::= <item> | <item>, ",", <items>;
+     <item> ::= <decimal> | <list>;
 
 The following is just BNF for the numbers themselves, probably goes without
 saying, but here for sake of completeness.
 
-    <decimal> ::= <integer> ["." <integer>];
-    <integer> ::= <digit> {<digit>};
+    <decimal> ::= <integer> | <integer> "." <integer>;
+    <integer> ::= <digit> | <digit> <integer>;
       <digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-
 
 Denotational Semantics
 
@@ -27,17 +27,13 @@ Domain
 
 Functions
 
-setup : box -> set
-array     : row -> Set
-valuation : decimal -> Real
+    setup : box -> set
+    array     : row -> Set
+    valuation : decimal -> Real
 
 Equations
 
-array [[ [a] ]] = elements[[a]]
-elements [[a, b]] = {a} + elements [[b]]
-elements [[a;]] = {a}
-
-valuation [[a]] = a where a >= 0 and a < 1
-
-
-
+    array [[ [a] ]] = elements[[a]]
+    elements [[a, b]] = {a} + elements [[b]]
+    elements [[a;]] = {a}
+    valuation [[a]] = a where a >= 0 and a < 1
