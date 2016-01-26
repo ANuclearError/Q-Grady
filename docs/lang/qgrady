@@ -35,5 +35,5 @@ Equations
 
     array [[ [a] ]] = elements[[a]]
     elements [[a, b]] = {a} + elements [[b]]
-    elements [[a;]] = {a}
+    elements [[a]] = {a}
     valuation [[a]] = a where a >= 0 and a < 1
