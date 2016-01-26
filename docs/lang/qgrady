@@ -1,0 +1,19 @@
+Simple example. Purely the probability distribution, with little to no context.
+
+[0.5, 0, 0, 0.5;
+0.5, 0, 0, 0.5;
+0.5, 0, 0, 0.5;
+0, 0.5, 0.5, 0;]
+
+BNF
+
+          <box> ::= "[" {<row>} "]";
+          <row> ::= <probabilities>";";
+<probabilities> ::= <decimal> {"," <probabilities>};
+
+The following is just BNF for the numbers themselves, probably goes without
+saying, but here for sake of completeness.
+
+      <decimal> ::= <integer> ["." <integer>];
+      <integer> ::= <digit> {<digit>};
+        <digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
