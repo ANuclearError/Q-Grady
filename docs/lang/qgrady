@@ -5,15 +5,39 @@ Simple example. Purely the probability distribution, with little to no context.
 0.5, 0, 0, 0.5;
 0, 0.5, 0.5, 0;]
 
-BNF
+Grammar
 
-          <box> ::= "[" {<row>} "]";
-          <row> ::= <probabilities>";";
-<probabilities> ::= <decimal> {"," <probabilities>};
+     <box> ::= "[" <list> "]";
+    <list> :: = "[" <row> "]" | "[" <row> "]", <list>;
+     <row> ::= <decimal> | <decimal> "," <row>;
 
 The following is just BNF for the numbers themselves, probably goes without
 saying, but here for sake of completeness.
 
-      <decimal> ::= <integer> ["." <integer>];
-      <integer> ::= <digit> {<digit>};
-        <digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+    <decimal> ::= <integer> ["." <integer>];
+    <integer> ::= <digit> {<digit>};
+      <digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+
+Denotational Semantics
+
+Domain
+
+    Real = R
+
+Functions
+
+setup : box -> set
+array     : row -> Set
+valuation : decimal -> Real
+
+Equations
+
+array [[ [a] ]] = elements[[a]]
+elements [[a, b]] = {a} + elements [[b]]
+elements [[a;]] = {a}
+
+valuation [[a]] = a where a >= 0 and a < 1
+
+
+
