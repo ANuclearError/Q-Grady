@@ -1,16 +1,15 @@
 Simple example. Purely the probability distribution, with little to no context.
 
-[[0.5, 0, 0, 0.5],
-[0.5, 0, 0, 0.5],
-[0.5, 0, 0, 0.5],
-[0, 0.5, 0.5, 0],]
+[0.5, 0, 0, 0.5;
+0.5, 0, 0, 0.5;
+0.5, 0, 0, 0.5;
+0, 0.5, 0.5, 0;]
 
 Grammar
 
-     <box>  ::= <list>;
-     <list> ::= "[" <items> "]";
-    <items> ::= <item> | <item>, ",", <items>;
-     <item> ::= <decimal> | <list>;
+     <box>  ::= "[" <list> "]";
+     <list> ::=  <row> ";" | <row> <list>;
+      <row> ::= <decimal> | <decimal> "," <row>;
 
 The following is just BNF for the numbers themselves, probably goes without
 saying, but here for sake of completeness.

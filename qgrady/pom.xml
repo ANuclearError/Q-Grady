@@ -25,6 +25,7 @@
                 <configuration>
                     <className>parser</className>
                     <symbolsName>sym</symbolsName>
+                    <outputDirectory>src/main/java/com/aidanogrady/qgrady</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -40,6 +41,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>de.jflex</groupId>
+            <artifactId>jflex-maven-plugin</artifactId>
+            <version>1.6.1</version>
         </dependency>
         <dependency>
             <groupId>de.jflex</groupId>
