@@ -2,10 +2,14 @@
  * Usercode Section
  */
 
- package com.aidanogrady.qgrady;
+package com.aidanogrady.qgrady;
 
- import java_cup.runtime.*;
+import java_cup.runtime.*;
 
+
+%%
+
+/******************************************************************************/
 
 /*
  * Options/Declarations
@@ -35,4 +39,41 @@
 
 /* Macro Declarations */
 LineTerminator = \r|\n|\r\n
-WhiteSpace     = {LineTerminator} | [ \t\f]
+Space     = {LineTerminator} | [ \t\f]
+dec = ([0-9]*\.)?[0-9]+
+
+
+%%
+
+/******************************************************************************/
+
+/*
+ * Lexical Rules
+ */
+
+<YYINITIAL> {
+
+    /* Return the token SEMI declared in the class sym that was found. */
+
+    /* Print the token found that was declared in the class sym and then
+       return it. */
+    "["     { System.out.print("Start box\n");  return symbol(sym.LBRACKET); }
+    "]"     { System.out.print("End box\n");    return symbol(sym.RBRACKET); }
+    ";"     { System.out.print("Row ended\n");  return symbol(sym.SEMI);     }
+    ","     { System.out.print(" Prob ");       return symbol(sym.COMMA);    }
+
+
+    /* If an integer is found print it out, return the token NUMBER
+       that represents an integer and the value of the integer that is
+       held in the string yytext which will get turned into an integer
+       before returning */
+    {dec}   { System.out.print(yytext()); return symbol(sym.NUMBER, new Double(yytext())); }
+
+    /* Don't do anything if whitespace is found */
+    {Space} { /* just skip what was found, do nothing */ }
+}
+
+
+/* No token was found for the input so through an error.  Print out an
+   Illegal character message with the illegal character that was found. */
+[^]         { throw new Error("Illegal character <"+yytext()+">"); }

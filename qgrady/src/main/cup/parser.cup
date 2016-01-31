@@ -74,7 +74,7 @@ terminal Double NUMBER;
 /*
  * Non terminals
  */
-non terminal            box, list, row;
+non terminal    box, list, row;
 
 
 /*
