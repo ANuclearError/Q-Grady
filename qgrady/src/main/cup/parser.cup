@@ -84,13 +84,13 @@ non terminal List<Double> row;
 /*
  * The grammar rules
  */
-box  ::= LBRACKET list:e RBRACKET
+box  ::= LBRACKET list:l RBRACKET {: System.out.println(l); :}
 ;
 
-list ::= row:r SEMICOLON
-       | row:r SEMICOLON list:l
+list ::= row:r
+       | row:r list:l
 ;
 
-row  ::= NUMBER:n
+row  ::= NUMBER:n SEMICOLON
        | NUMBER:n COMMA row:r
 ;
