@@ -57,17 +57,17 @@ dec = ([0-9]*\.)?[0-9]+
 
     /* Print the token found that was declared in the class sym and then
        return it. */
-    "["     { System.out.println("Start box"); return symbol(Sym.LBRACKET);  }
-    "]"     { System.out.println("End box");   return symbol(Sym.RBRACKET);  }
-    ";"     { System.out.print(" |\n");        return symbol(Sym.SEMICOLON); }
-    ","     { System.out.print(" | ");         return symbol(Sym.COMMA);     }
+    "["     { return symbol(Sym.LBRACKET);  }
+    "]"     { return symbol(Sym.RBRACKET);  }
+    ";"     { return symbol(Sym.SEMICOLON); }
+    ","     { return symbol(Sym.COMMA);     }
 
 
     /* If an integer is found print it out, return the token NUMBER
        that represents an integer and the value of the integer that is
        held in the string yytext which will get turned into an integer
        before returning */
-    {dec}   { System.out.print(yytext()); return symbol(Sym.NUMBER, new Double(yytext())); }
+    {dec}   { return symbol(Sym.NUMBER, new Double(yytext())); }
 
     /* Don't do anything if whitespace is found */
     {Space} { /* just skip what was found, do nothing */ }

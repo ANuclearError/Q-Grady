@@ -2,6 +2,7 @@ package com.aidanogrady.qgrady;
 
 import java_cup.runtime.*;
 import java.util.List;
+import java.util.ArrayList;
 
 /*
  * Parser code to change the way the parser reports errors (include line and
@@ -87,10 +88,10 @@ non terminal List<Double> row;
 box  ::= LBRACKET list:l RBRACKET {: System.out.println(l); :}
 ;
 
-list ::= row:r
-       | row:r list:l
+list ::= row:r list:l             {: l.add(r); RESULT = l; :}
+       |                          {: RESULT = new ArrayList<List<Double>>(); :}
 ;
 
-row  ::= NUMBER:n SEMICOLON
-       | NUMBER:n COMMA row:r
+row  ::= NUMBER:n SEMICOLON       {: System.out.println("Add to row, end row"); :}
+       | NUMBER:n COMMA row:r     {: System.out.println("Add to row"); :}
 ;

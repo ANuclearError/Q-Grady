@@ -639,23 +639,23 @@ class Lexer implements java_cup.runtime.Scanner {
           }
         case 9: break;
         case 3: 
-          { System.out.print(yytext()); return symbol(Sym.NUMBER, new Double(yytext()));
+          { return symbol(Sym.NUMBER, new Double(yytext()));
           }
         case 10: break;
         case 4: 
-          { System.out.println("Start box"); return symbol(Sym.LBRACKET);
+          { return symbol(Sym.LBRACKET);
           }
         case 11: break;
         case 5: 
-          { System.out.println("End box");   return symbol(Sym.RBRACKET);
+          { return symbol(Sym.RBRACKET);
           }
         case 12: break;
         case 6: 
-          { System.out.print(" |\n");        return symbol(Sym.SEMICOLON);
+          { return symbol(Sym.SEMICOLON);
           }
         case 13: break;
         case 7: 
-          { System.out.print(" | ");         return symbol(Sym.COMMA);
+          { return symbol(Sym.COMMA);
           }
         case 14: break;
         default: 
