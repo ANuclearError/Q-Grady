@@ -76,24 +76,21 @@ terminal Double NUMBER;
  * Non terminals:
  */
 non terminal              box;
-non terminal List<List<Double>>   dist;
-non terminal List<Double> list;
-non terminal Double       prob;
+non terminal List<List<Double>>   list;
+non terminal List<Double> row;
+
 
 
 /*
  * The grammar rules
  */
-box  ::= LBRACKET prob:p dist:d RBRACKET
-       ;
+box  ::= LBRACKET list:e RBRACKET
+;
 
-dist ::= dist:d COMMA prob:p
-       |
-       ;
+list ::= row:r SEMICOLON
+       | row:r SEMICOLON list:l
+;
 
-prob ::= NUMBER:n list:l SEMICOLON
-       ;
-
-list ::= list:pl COMMA NUMBER:n
-       |
-       ;
+row  ::= NUMBER:n
+       | NUMBER:n COMMA row:r
+;
