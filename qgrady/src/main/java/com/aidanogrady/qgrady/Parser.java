@@ -43,14 +43,13 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\015\000\004\006\005\001\002\000\004\002\017\001" +
-    "\002\000\006\007\ufffe\010\006\001\002\000\006\004\ufffb" +
-    "\005\ufffb\001\002\000\004\007\012\001\002\000\006\007" +
-    "\ufffe\010\006\001\002\000\004\007\uffff\001\002\000\004" +
-    "\002\001\001\002\000\006\004\015\005\014\001\002\000" +
-    "\004\010\016\001\002\000\006\007\ufffd\010\ufffd\001\002" +
-    "\000\006\004\ufffc\005\ufffc\001\002\000\004\002\000\001" +
-    "\002" });
+    "\000\014\000\004\006\005\001\002\000\004\002\016\001" +
+    "\002\000\006\007\ufffe\010\ufffe\001\002\000\006\007\007" +
+    "\010\010\001\002\000\004\002\001\001\002\000\006\004" +
+    "\ufffb\005\ufffb\001\002\000\006\007\uffff\010\uffff\001\002" +
+    "\000\006\004\014\005\013\001\002\000\004\010\015\001" +
+    "\002\000\006\007\ufffd\010\ufffd\001\002\000\006\004\ufffc" +
+    "\005\ufffc\001\002\000\004\002\000\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -58,12 +57,11 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\015\000\004\002\003\001\001\000\002\001\001\000" +
-    "\006\003\006\005\007\001\001\000\004\004\012\001\001" +
-    "\000\002\001\001\000\006\003\010\005\007\001\001\000" +
+    "\000\014\000\004\002\003\001\001\000\002\001\001\000" +
+    "\004\003\005\001\001\000\004\005\010\001\001\000\002" +
+    "\001\001\000\004\004\011\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001" });
+    "\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -208,15 +206,15 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // list ::= row list 
+          case 2: // list ::= list row 
             {
               List<List<Double>> RESULT =null;
-		int rleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int rright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		List<Double> r = (List<Double>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		int lleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
-		int lright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		List<List<Double>> l = (List<List<Double>>)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		int lleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int lright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		List<List<Double>> l = (List<List<Double>>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		int rleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int rright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		List<Double> r = (List<Double>)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		 l.add(r); RESULT = l; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("list",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -241,7 +239,7 @@ class CUP$Parser$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		List<Double> d = (List<Double>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		 d.add(n); RESULT = d; 
+		 d.add(0, n); RESULT = d; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("row",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

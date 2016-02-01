@@ -89,11 +89,11 @@ non terminal List<Double> row;
 box  ::= LBRACKET list:l RBRACKET  {: System.out.println(l); :}
        ;
 
-list ::= row:r list:l              {: l.add(r); RESULT = l; :}
+list ::= list:l row:r              {: l.add(r); RESULT = l; :}
        |                           {: RESULT = new ArrayList<List<Double>>(); :}
        ;
 
-row  ::= NUMBER:n dist:d SEMICOLON {: d.add(n); RESULT = d; :}
+row  ::= NUMBER:n dist:d SEMICOLON {: d.add(0, n); RESULT = d; :}
        ;
 
 dist ::= dist:d COMMA NUMBER:n     {: d.add(n); RESULT = d; :}
