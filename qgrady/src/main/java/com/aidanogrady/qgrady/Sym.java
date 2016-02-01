@@ -9,16 +9,16 @@ package com.aidanogrady.qgrady;
 public interface Sym {
   /* terminals */
   public static final int COMMA = 3;
+  public static final int SEMICOLON = 2;
   public static final int error = 1;
   public static final int NUMBER = 6;
   public static final int RBRACKET = 5;
-  public static final int SEMI = 2;
   public static final int LBRACKET = 4;
   public static final int EOF = 0;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "SEMI",
+  "SEMICOLON",
   "COMMA",
   "LBRACKET",
   "RBRACKET",

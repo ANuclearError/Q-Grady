@@ -5,6 +5,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 /**
  * The entry point of the compiler. It handles the program arguments, to
@@ -68,6 +69,9 @@ public class QGrady {
                 File dest = validateOutput(output, input);
                 System.out.println(source.getPath());
                 System.out.println(dest.getPath());
+                Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
+                Object result = p.parse().value;
+
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
@@ -75,6 +79,8 @@ public class QGrady {
             System.err.println(e.getMessage());
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

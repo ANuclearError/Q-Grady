@@ -1,6 +1,7 @@
 package com.aidanogrady.qgrady;
 
 import java_cup.runtime.*;
+import java.util.List;
 
 /*
  * Parser code to change the way the parser reports errors (include line and
@@ -68,25 +69,31 @@ parser code {:
  * The first line of terminals are those that do not have a value, the second
  * line are those that do.
  */
-terminal        SEMI, COMMA, LBRACKET, RBRACKET;
+terminal        SEMICOLON, COMMA, LBRACKET, RBRACKET;
 terminal Double NUMBER;
 
 /*
- * Non terminals
+ * Non terminals:
  */
-non terminal    box, list, row;
+non terminal              box;
+non terminal List<List<Double>>   dist;
+non terminal List<Double> list;
+non terminal Double       prob;
 
 
 /*
  * The grammar rules
  */
-box  ::= LBRACKET list:e RBRACKET
-;
+box  ::= LBRACKET prob:p dist:d RBRACKET
+       ;
 
-list ::= row:r SEMI
-       | row:r SEMI list:l
-;
+dist ::= dist:d COMMA prob:p
+       |
+       ;
 
-row  ::= NUMBER:n
-       | NUMBER:n COMMA row:r
-;
+prob ::= NUMBER:n list:l SEMICOLON
+       ;
+
+list ::= list:pl COMMA NUMBER:n
+       |
+       ;
