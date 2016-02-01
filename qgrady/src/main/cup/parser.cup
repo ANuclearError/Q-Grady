@@ -78,6 +78,7 @@ terminal Double NUMBER;
  */
 non terminal              box;
 non terminal List<List<Double>>   list;
+non terminal List<Double> dist;
 non terminal List<Double> row;
 
 
@@ -85,13 +86,16 @@ non terminal List<Double> row;
 /*
  * The grammar rules
  */
-box  ::= LBRACKET list:l RBRACKET {: System.out.println(l); :}
-;
+box  ::= LBRACKET list:l RBRACKET  {: System.out.println(l); :}
+       ;
 
-list ::= row:r list:l             {: l.add(r); RESULT = l; :}
-       |                          {: RESULT = new ArrayList<List<Double>>(); :}
-;
+list ::= row:r list:l              {: l.add(r); RESULT = l; :}
+       |                           {: RESULT = new ArrayList<List<Double>>(); :}
+       ;
 
-row  ::= NUMBER:n SEMICOLON       {: System.out.println("Add to row, end row"); :}
-       | NUMBER:n COMMA row:r     {: System.out.println("Add to row"); :}
-;
+row  ::= NUMBER:n dist:d SEMICOLON {: d.add(n); RESULT = d; :}
+       ;
+
+dist ::= dist:d COMMA NUMBER:n     {: d.add(n); RESULT = d; :}
+       |                           {: RESULT = new ArrayList<Double>(); :}
+       ;
