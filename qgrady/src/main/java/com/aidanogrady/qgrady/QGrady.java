@@ -6,6 +6,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.List;
 
 /**
  * The entry point of the compiler. It handles the program arguments, to
@@ -19,11 +20,7 @@ public class QGrady {
     /**
      * The argument options available for this system.
      */
-    private Options options;
-
-    public QGrady() {
-        options = createOptions();
-    }
+    private Options options = createOptions();
 
 
     /**
@@ -69,7 +66,8 @@ public class QGrady {
                 File dest = validateOutput(output, input);
                 Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
                 Object result = p.parse().value;
-                System.out.println("Box: " + result);
+                List<List<Double>> res = (List<List<Double>>) result;
+                Box box = new Box(convertList(res));
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
@@ -78,8 +76,29 @@ public class QGrady {
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
+    }
+
+    /**
+     * Converts a List of Lists into a two-dimensional array. When parsing with
+     * Cup, the List was preferred due to the ease of using of not having to
+     * manually handle the dynamic array desired, hence this conversion method
+     * to handle it instead.
+     *
+     * @param res - the distribution read in by the parser.
+     * @return res as 2D array
+     */
+    private double[][] convertList(List<List<Double>> res) {
+        double[][] box = new double[res.size()][];
+        for(int i = 0; i < res.size(); i++) {
+            List<Double> row = res.get(i);
+            box[i] = new double[row.size()];
+            for(int j = 0; j < row.size(); j++) {
+                box[i][j] = row.get(j);
+            }
+        }
+        return box;
     }
 
 
