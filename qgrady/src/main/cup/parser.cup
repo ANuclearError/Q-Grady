@@ -86,7 +86,7 @@ non terminal List<Double> row;
 /*
  * The grammar rules
  */
-box  ::= LBRACKET list:l RBRACKET  {: System.out.println(l); :}
+box  ::= LBRACKET list:l RBRACKET  {: RESULT = l; :}
        ;
 
 list ::= list:l row:r              {: l.add(r); RESULT = l; :}

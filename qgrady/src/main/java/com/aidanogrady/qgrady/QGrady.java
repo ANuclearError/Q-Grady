@@ -67,11 +67,9 @@ public class QGrady {
                 String output = line.getOptionValue("o");
                 File source = validateInput(input);
                 File dest = validateOutput(output, input);
-                System.out.println(source.getPath());
-                System.out.println(dest.getPath());
                 Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
                 Object result = p.parse().value;
-
+                System.out.println("Box: " + result);
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
