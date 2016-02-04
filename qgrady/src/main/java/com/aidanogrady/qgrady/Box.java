@@ -6,7 +6,7 @@ package com.aidanogrady.qgrady;
  * non-local box as well.
  *
  * @author Aidan O'Grady
- * @since 0.2
+ * @since 0.1
  */
 public class Box {
 

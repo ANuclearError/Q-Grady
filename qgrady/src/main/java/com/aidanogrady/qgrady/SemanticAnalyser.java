@@ -1,24 +1,17 @@
 package com.aidanogrady.qgrady;
 
+import com.aidanogrady.qgrady.exceptions.InvalidRowException;
+import com.aidanogrady.qgrady.exceptions.InvalidValueException;
+
 /**
  * The Semantic Analyser ensures that the semantics of the language are
  * maintained. It checks the probability distribution to ensure that all
  * constraints are met.
+ *
+ * @author Aidan O'Grady
+ * @version 0.1
  */
 public class SemanticAnalyser {
-    /**
-     * The probability distribution.
-     */
-    double[][] box;
-
-    /**
-     * Constructor
-     * @param box - the probability distribution being checked.
-     * @throws Exception
-     */
-    public SemanticAnalyser(double[][] box) throws Exception {
-        this.box = box;
-    }
 
     /**
      * Determines whether there are any invalid values within the distribution.
@@ -26,11 +19,13 @@ public class SemanticAnalyser {
      * Since we are dealing with probabilities, any negative value or value
      * greater than 1 is forbidden.
      */
-    private void validateValues() {
-        for(int i=0; i < box.length; i++) {
-            for(int j=0; j < box[i].length; j++) {
-                if(box[i][j] > 1.0 || box[i][j] < 0.0)
-                    System.out.println("Row " + i + ", column " + j + " is not right");
+    public static void validateValues(double[][] box) throws InvalidValueException {
+        for (double[] row : box) {
+            for (double value : row) {
+                if (value > 1.0 || value < 0.0) {
+                    String mgs = "Expected: between 0 and 1. Got: " + value;
+                    throw new InvalidValueException(mgs);
+                }
             }
         }
     }
@@ -42,11 +37,14 @@ public class SemanticAnalyser {
      * Every row must be of equal length, so we must determine if there are any
      * that aren't.
      */
-    private void validateRowLengths() {
+    public static void validateRowLengths(double[][] box) throws InvalidRowException {
         int size = box[0].length;
         for(int i = 1; i < box.length; i++) {
-            if (box[i].length != size)
-                 System.out.println("Row " + i + "'s length is not right.");
+            int row = box[i].length;
+            if (row != size) {
+                String mgs = i + ": Expected: " + size + " values, got: " + row;
+                throw new InvalidRowException(mgs);
+            }
         }
     }
 
@@ -56,14 +54,15 @@ public class SemanticAnalyser {
      * Since we are dealing with probabilities, every row must sum up to one to
      * ensure that the probabilities are accurate.
      */
-    private void validateRowSums() {
-        int sum = 0;
+    public static void validateRowSums(double[][] box) throws InvalidRowException {
+        double sum = 0;
         for(int i=0; i < box.length; i++) {
             for(int j=0; j < box[i].length; j++) {
                 sum += box[i][j];
             }
-            if(sum != 1.0)
-                System.out.println("Row " + i + " does not sum to 1");
+            if(sum != 1.0) {
+                throw new InvalidRowException(i + ": Expected 1, got " + sum);
+            }
             sum = 0;
         }
     }

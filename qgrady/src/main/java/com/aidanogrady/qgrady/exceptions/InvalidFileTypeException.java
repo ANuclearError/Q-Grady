@@ -1,4 +1,4 @@
-package com.aidanogrady.qgrady;
+package com.aidanogrady.qgrady.exceptions;
 
 /**
  * The InvalidFileTypeException is for the system is attempting to use a file or

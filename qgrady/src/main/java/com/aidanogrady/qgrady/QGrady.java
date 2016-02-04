@@ -1,5 +1,8 @@
 package com.aidanogrady.qgrady;
 
+import com.aidanogrady.qgrady.exceptions.InvalidFileTypeException;
+import com.aidanogrady.qgrady.exceptions.InvalidRowException;
+import com.aidanogrady.qgrady.exceptions.InvalidValueException;
 import com.aidanogrady.qgrady.syntax.*;
 import com.aidanogrady.qgrady.syntax.Parser;
 import org.apache.commons.cli.*;
@@ -8,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,8 +72,14 @@ public class QGrady {
                 File dest = validateOutput(output, input);
                 Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
                 Object result = p.parse().value;
-                List<List<Double>> res = (List<List<Double>>) result;
-                Box box = new Box(convertList(res));
+                double[][] probs = convertList((List<List<Double>>) result);
+                System.out.println("Checking values...");
+                SemanticAnalyser.validateValues(probs);
+                System.out.println("Checking row lengths...");
+                SemanticAnalyser.validateRowLengths(probs);
+                System.out.println("Checking row sums...");
+                SemanticAnalyser.validateRowSums(probs);
+                Box box = new Box(probs);
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
@@ -77,8 +87,12 @@ public class QGrady {
             System.err.println(e.getMessage());
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
-        } catch (Exception e) {
+        } catch (InvalidValueException e) {
             System.err.println(e.getMessage());
+        } catch (InvalidRowException e) {
+            System.err.println("Error in row " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -118,7 +132,7 @@ public class QGrady {
      * Displays the version information of the software.
      */
     private void version() {
-        System.out.println("qgrady (Q'Grady) v0.0");
+        System.out.println("qgrady (Q'Grady) v0.1");
         System.out.println("Author: Aidan O'Grady");
         System.out.println("4th Year project for M. Eng. Computer Science" +
                 " at the University of Strathclyde, Glasgow");
@@ -147,7 +161,7 @@ public class QGrady {
         String extension = FilenameUtils.getExtension(input);
         if(source.isDirectory() || !extension.equals("qgrady")) {
             throw new InvalidFileTypeException(
-                    input + ": not recognized as .qgrady file"
+                    input + "is not .qgrady file"
             );
         }
 
@@ -181,7 +195,7 @@ public class QGrady {
         String extension = FilenameUtils.getExtension(output);
         if(dest.isDirectory() || !extension.equals("prism")) {
             throw new InvalidFileTypeException(
-                    output + ": not recognized as .prism file"
+                    output + "is not .prism file"
             );
         }
 
