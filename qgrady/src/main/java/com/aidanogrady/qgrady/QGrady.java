@@ -1,5 +1,7 @@
 package com.aidanogrady.qgrady;
 
+import com.aidanogrady.qgrady.syntax.*;
+import com.aidanogrady.qgrady.syntax.Parser;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 
