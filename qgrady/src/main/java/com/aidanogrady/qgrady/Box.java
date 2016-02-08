@@ -1,5 +1,9 @@
 package com.aidanogrady.qgrady;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The box class holds all the information that defines a non-local box,
  * containing the probability distribution, and handling the validity of the
@@ -9,11 +13,11 @@ package com.aidanogrady.qgrady;
  * @since 0.1
  */
 public class Box {
+    private Map<Probability, Double> distribution;
 
-    /**
-     * The probability distribution.
-     */
-    double[][] box;
+    private int inputs;
+
+    private int outputs;
 
     /**
      * Constructor.
@@ -21,7 +25,35 @@ public class Box {
      * @param box - the probability distribution.
      */
     public Box(double[][] box) {
-        this.box = box;
+        distribution = new HashMap<Probability, Double>(0);
+        inputs = (int) (Math.log(box.length) / Math.log(2));
+        outputs = (int) (Math.log(box[0].length) / Math.log(2));
+
+        for(int i = 0; i < box.length; i++) {
+            int[] input = intToBitArray(i, inputs);
+            for(int j = 0; j < box[i].length; j++) {
+                int[] output = intToBitArray(j, outputs);
+                Probability prob = new Probability(inputs, outputs);
+                prob.setInput(input);
+                prob.setOutput(output);
+                distribution.put(prob, box[i][j]);
+            }
+        }
+
+        for(Probability prob : distribution.keySet()) {
+            System.out.println(prob + " -> " + distribution.get(prob));
+        }
+    }
+
+    private int[] intToBitArray(int value, int size) {
+        int[] array = new int[size];
+        int index = size - 1;
+        while(index >= 0) {
+            array[index] = value % 2;
+            value = value / 2;
+            index--;
+        }
+        return array;
     }
 
     /**
@@ -33,23 +65,18 @@ public class Box {
      * @return p(output, input)
      */
     public double prob(int[] input, int[] output) {
-        int in = 0;
-        for (int i : input) {
-            in = in * 2 + i;
-        }
-        int out = 0;
-        for (int o : output) {
-            out = out * 2 + o;
-        }
-        return box[in][out];
+        Probability prob = new Probability(inputs, outputs);
+        prob.setInput(input);
+        prob.setOutput(output);
+        return distribution.get(prob);
     }
 
     /**
      * Returns of the probability of the given output being produced by the
      * given input.
      *
-     * @param input - input being exmained
-     * @param output - outpu being examined
+     * @param input - input index being examined
+     * @param output - output index being examined
      * @return p(output, input)
      */
     public double prob(int input, int output) {
