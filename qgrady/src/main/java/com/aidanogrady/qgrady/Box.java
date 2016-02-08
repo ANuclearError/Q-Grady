@@ -43,6 +43,7 @@ public class Box {
         for(Probability prob : distribution.keySet()) {
             System.out.println(prob + " -> " + distribution.get(prob));
         }
+        System.out.println("Non-signalling: " + isNonSignalling());
     }
 
     private int[] intToBitArray(int value, int size) {
@@ -54,6 +55,29 @@ public class Box {
             index--;
         }
         return array;
+    }
+
+    private boolean isNonSignalling() {
+        for (int a = 0; a < 2; a++) {
+            for (int x = 0; x < 2; x++) {
+                for (int y = 0; y < 2; y++) {
+                    for (int y_ = 0; y_ < 2; y_++) {
+                        double sumB = 0;
+                        double sumB_ = 0;
+                        for (int b = 0; b < 2; b++) {
+                            int[] in = {x, y};
+                            int[] out = {a, b};
+                            sumB += prob(in, out);
+                            in = new int[] {x, y_};
+                            sumB_ += prob(in, out);
+                        }
+                        if (sumB != sumB_)
+                            return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**
