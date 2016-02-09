@@ -44,11 +44,6 @@ public class Box {
                 distribution.put(prob, box[i][j]);
             }
         }
-
-        for(Instance prob : distribution.keySet()) {
-            System.out.println(prob + " -> " + distribution.get(prob));
-        }
-        System.out.println("Non-signalling: " + isNonSignalling());
     }
 
     private int[] intToBitArray(int value, int size) {
@@ -62,43 +57,14 @@ public class Box {
         return array;
     }
 
-    /**
-     * A valid non-local box must fulfill the 'non-signalling' property. This
-     * property can be summarized as 'the input of one party cannot influence
-     * the output of another party's output'.
-     *
-     * @return if box is non-signalling.
-     */
-    private boolean isNonSignalling() {
-        for (int a = 0; a < 2; a++) {
-            for (int x = 0; x < 2; x++) {
-                for (int y = 0; y < 2; y++) {
-                    for (int y_ = 0; y_ < 2; y_++) {
-                        double sumB = 0;
-                        double sumB_ = 0;
-                        for (int b = 0; b < 2; b++) {
-                            int[] in = {x, y};
-                            int[] out = {a, b};
-                            sumB += prob(in, out);
-                            in = new int[] {x, y_};
-                            sumB_ += prob(in, out);
-                        }
-                        if (sumB != sumB_)
-                            return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
 
     /**
      * Returns of the probability of the given output being produced by the
      * given input.
      *
-     * @param input - input being exmained
-     * @param output - outpu being examined
-     * @return p(output, input)
+     * @param input  input being examined
+     * @param output  output being examined
+     * @return p(output &#124; input)
      */
     public double prob(int[] input, int[] output) {
         Instance prob = new Instance(inputs, outputs);

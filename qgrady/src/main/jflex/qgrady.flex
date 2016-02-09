@@ -2,7 +2,7 @@
  * Usercode Section
  */
 
-package com.aidanogrady.qgrady;
+package com.aidanogrady.qgrady.syntax;
 
 import java_cup.runtime.*;
 

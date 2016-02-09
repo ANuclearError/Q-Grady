@@ -2,6 +2,7 @@ package com.aidanogrady.qgrady;
 
 import com.aidanogrady.qgrady.exceptions.InvalidRowException;
 import com.aidanogrady.qgrady.exceptions.InvalidValueException;
+import com.aidanogrady.qgrady.exceptions.SignallingException;
 
 /**
  * The Semantic Analyser ensures that the semantics of the language are
@@ -18,6 +19,9 @@ public class SemanticAnalyser {
      *
      * Since we are dealing with probabilities, any negative value or value
      * greater than 1 is forbidden.
+     *
+     * @param box  the 2D array extracted from parsing to checked.
+     * @throws InvalidValueException
      */
     public static void validateValues(double[][] box) throws
             InvalidValueException
@@ -38,6 +42,9 @@ public class SemanticAnalyser {
      *
      * Every row must be of equal length, so we must determine if there are any
      * that aren't.
+     *
+     * @param box  the 2D array extracted from parsing to checked.
+     * @throws InvalidRowException
      */
     public static void validateRowLengths(double[][] box) throws
             InvalidRowException
@@ -59,6 +66,8 @@ public class SemanticAnalyser {
      * 1.0 to ensure that the probabilities are accurate, otherwise the set-up
      * makes no sense.
      *
+     * @param box  the 2D array extracted from parsing to checked.
+     * @throws InvalidRowException
      */
     public static void validateRowSums(double[][] box) throws
             InvalidRowException
@@ -73,6 +82,38 @@ public class SemanticAnalyser {
                 throw new InvalidRowException(msg);
             }
             sum = 0;
+        }
+    }
+
+    /**
+     * A valid non-local box must fulfill the 'non-signalling' property. This
+     * property can be summarized as 'the input of one party cannot influence
+     * the output of another party's output'.
+     *
+     * TODO: make generic for various set-ups beyond (2, 2, 2).
+     *
+     * @param box  the set-up beign examined.
+     * @throws SignallingException
+     */
+    public static void nonSignalling(Box box) throws SignallingException {
+        for (int a = 0; a < 2; a++) {
+            for (int x = 0; x < 2; x++) {
+                for (int y = 0; y < 2; y++) {
+                    for (int y_ = 0; y_ < 2; y_++) {
+                        double sumB = 0;
+                        double sumB_ = 0;
+                        for (int b = 0; b < 2; b++) {
+                            int[] in = {x, y};
+                            int[] out = {a, b};
+                            sumB += box.prob(in, out);
+                            in = new int[] {x, y_};
+                            sumB_ += box.prob(in, out);
+                        }
+                        if (sumB != sumB_)
+                            throw new SignallingException("Shit.");
+                    }
+                }
+            }
         }
     }
 }
