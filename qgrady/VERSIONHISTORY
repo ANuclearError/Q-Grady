@@ -1,0 +1,12 @@
+0.1     Commons CLI library implemented
+0.1.1   Restructured Q'Grady, added file checks for valid files.
+0.2     Added generated CUP and JFlex classes to do syntax checking.
+0.3     Added class for doing semantic analysis in. Includes relevant checks.
+0.3.1   Added exception for checking box's rows sum 1.
+0.3.2   Added exception for checking box's rows are equal length.
+0.3.3   Added exception for checking box's values are probabilities.
+0.4     Added class for representing a box. Currently just stores the
+        double[][] extracted from parser, not particularly useful.
+0.5     Added Probability class for storing an outcome's input and output. Box
+        now uses this version.
+0.5.1   Non-signalling check added to box, with Signalling Exception. fhfeh

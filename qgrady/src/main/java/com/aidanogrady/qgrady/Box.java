@@ -1,7 +1,5 @@
 package com.aidanogrady.qgrady;
 
-import com.aidanogrady.qgrady.exceptions.SignallingException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,10 +12,16 @@ import java.util.Map;
  * @since 0.4
  */
 public class Box {
-    private Map<Probability, Double> distribution;
+    private Map<Instance, Double> distribution;
 
+    /**
+     * The number of inputs in the set-up.
+     */
     private int inputs;
 
+    /**
+     * The number of outputs in the set-up.
+     */
     private int outputs;
 
     /**
@@ -26,7 +30,7 @@ public class Box {
      * @param box - the probability distribution.
      */
     public Box(double[][] box) {
-        distribution = new HashMap<Probability, Double>(0);
+        distribution = new HashMap<Instance, Double>(0);
         inputs = (int) (Math.log(box.length) / Math.log(2));
         outputs = (int) (Math.log(box[0].length) / Math.log(2));
 
@@ -34,14 +38,14 @@ public class Box {
             int[] input = intToBitArray(i, inputs);
             for(int j = 0; j < box[i].length; j++) {
                 int[] output = intToBitArray(j, outputs);
-                Probability prob = new Probability(inputs, outputs);
+                Instance prob = new Instance(inputs, outputs);
                 prob.setInput(input);
                 prob.setOutput(output);
                 distribution.put(prob, box[i][j]);
             }
         }
 
-        for(Probability prob : distribution.keySet()) {
+        for(Instance prob : distribution.keySet()) {
             System.out.println(prob + " -> " + distribution.get(prob));
         }
         System.out.println("Non-signalling: " + isNonSignalling());
@@ -97,7 +101,7 @@ public class Box {
      * @return p(output, input)
      */
     public double prob(int[] input, int[] output) {
-        Probability prob = new Probability(inputs, outputs);
+        Instance prob = new Instance(inputs, outputs);
         prob.setInput(input);
         prob.setOutput(output);
         return distribution.get(prob);

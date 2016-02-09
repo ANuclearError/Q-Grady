@@ -102,16 +102,8 @@ public class QGrady {
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
-        } catch (InvalidFileTypeException e) {
-            System.err.println(e.getMessage());
-        } catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
-        } catch (InvalidValueException e) {
-            System.err.println(e.getMessage());
-        } catch (InvalidRowException e) {
-            System.err.println("Error in row " + e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
