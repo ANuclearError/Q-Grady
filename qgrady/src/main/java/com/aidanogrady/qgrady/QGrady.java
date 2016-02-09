@@ -19,7 +19,7 @@ import java.util.List;
  * ensure that they are all correct.
  *
  * @author Aidan O'Grady
- * @since 0.0
+ * @since 0.1
  */
 public class QGrady {
 
@@ -70,15 +70,23 @@ public class QGrady {
                 String output = line.getOptionValue("o");
                 File source = validateInput(input);
                 File dest = validateOutput(output, input);
+                
                 Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
                 Object result = p.parse().value;
                 double[][] probs = convertList((List<List<Double>>) result);
-                System.out.println("Checking values...");
+
+                System.out.print("Checking values... ");
                 SemanticAnalyser.validateValues(probs);
-                System.out.println("Checking row lengths...");
+                System.out.println("OK!");
+
+                System.out.print("Checking row lengths... ");
                 SemanticAnalyser.validateRowLengths(probs);
-                System.out.println("Checking row sums...");
+                System.out.println("OK!");
+
+                System.out.print("Checking row sums... ");
                 SemanticAnalyser.validateRowSums(probs);
+                System.out.println("OK!");
+
                 Box box = new Box(probs);
             }
         } catch(ParseException e) {

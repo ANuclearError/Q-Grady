@@ -1,6 +1,5 @@
 package com.aidanogrady.qgrady;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,17 +92,5 @@ public class Box {
         prob.setInput(input);
         prob.setOutput(output);
         return distribution.get(prob);
-    }
-
-    /**
-     * Returns of the probability of the given output being produced by the
-     * given input.
-     *
-     * @param input - input index being examined
-     * @param output - output index being examined
-     * @return p(output, input)
-     */
-    public double prob(int input, int output) {
-        return 0.5;
     }
 }
