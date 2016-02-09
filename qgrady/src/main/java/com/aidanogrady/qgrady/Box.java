@@ -1,5 +1,7 @@
 package com.aidanogrady.qgrady;
 
+import com.aidanogrady.qgrady.exceptions.SignallingException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +58,13 @@ public class Box {
         return array;
     }
 
+    /**
+     * A valid non-local box must fulfill the 'non-signalling' property. This
+     * property can be summarized as 'the input of one party cannot influence
+     * the output of another party's output'.
+     *
+     * @return if box is non-signalling.
+     */
     private boolean isNonSignalling() {
         for (int a = 0; a < 2; a++) {
             for (int x = 0; x < 2; x++) {

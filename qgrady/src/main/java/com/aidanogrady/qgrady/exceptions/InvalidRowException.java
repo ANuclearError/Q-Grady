@@ -11,7 +11,7 @@ package com.aidanogrady.qgrady.exceptions;
  */
 public class InvalidRowException extends Exception {
     public InvalidRowException(String msg) {
-        super(msg);
+        super("Error in row " + msg);
     }
 
 }

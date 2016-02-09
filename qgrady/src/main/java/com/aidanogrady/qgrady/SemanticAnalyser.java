@@ -19,7 +19,9 @@ public class SemanticAnalyser {
      * Since we are dealing with probabilities, any negative value or value
      * greater than 1 is forbidden.
      */
-    public static void validateValues(double[][] box) throws InvalidValueException {
+    public static void validateValues(double[][] box) throws
+            InvalidValueException
+    {
         for (double[] row : box) {
             for (double value : row) {
                 if (value > 1.0 || value < 0.0) {
@@ -37,13 +39,15 @@ public class SemanticAnalyser {
      * Every row must be of equal length, so we must determine if there are any
      * that aren't.
      */
-    public static void validateRowLengths(double[][] box) throws InvalidRowException {
+    public static void validateRowLengths(double[][] box) throws
+            InvalidRowException
+    {
         int size = box[0].length;
         for(int i = 1; i < box.length; i++) {
             int row = box[i].length;
             if (row != size) {
-                String mgs = i + ": Expected: " + size + " values, got: " + row;
-                throw new InvalidRowException(mgs);
+                String msg = i + ": Expected: " + size + " values, got: " + row;
+                throw new InvalidRowException(msg);
             }
         }
     }
@@ -51,17 +55,22 @@ public class SemanticAnalyser {
     /**
      * Determines whether there are rows that do not sum to one.
      *
-     * Since we are dealing with probabilities, every row must sum up to one to
-     * ensure that the probabilities are accurate.
+     * Since we are dealing with probabilities, every row must sum up to exactly
+     * 1.0 to ensure that the probabilities are accurate, otherwise the set-up
+     * makes no sense.
+     *
      */
-    public static void validateRowSums(double[][] box) throws InvalidRowException {
+    public static void validateRowSums(double[][] box) throws
+            InvalidRowException
+    {
         double sum = 0;
         for(int i=0; i < box.length; i++) {
             for(int j=0; j < box[i].length; j++) {
                 sum += box[i][j];
             }
             if(sum != 1.0) {
-                throw new InvalidRowException(i + ": Expected 1, got " + sum);
+                String msg = i + ": Expected sum of 1.0, got " + sum;
+                throw new InvalidRowException(msg);
             }
             sum = 0;
         }
