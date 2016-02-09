@@ -16,7 +16,9 @@ import java.util.List;
 
 /**
  * The entry point of the compiler. It handles the program arguments, to
- * ensure that they are all correct.
+ * ensure that they are all correct. It contains the entire high level program
+ * structure and flow for the compiler, going through each of the stages that
+ * produces the PRISM model.
  *
  * @author Aidan O'Grady
  * @since 0.1
@@ -30,16 +32,25 @@ public class QGrady {
 
 
     /**
-     * Creates and returns the options for the program.
+     * Creates and returns the options for the program. There are four options
+     * available to the user:
+     * <ul>
+     *     <li>file - the source Q'Grady file to be compiled.</li>
+     *     <li>output - the destination PRISM file.</li>
+     *     <li>help - displays the help dialogue to the user.</li>
+     *     <li>version - shows program version history.</li>
+     * </ul>
+     *
      * @return options
+     *
      */
     private Options createOptions() {
         Options options = new Options();
         options.addOption(Option.builder("f").longOpt("file").hasArg(true)
-                .argName("file").required(true).desc("places output to <file>")
+                .argName("file").required(true).desc("takes input from <file>")
                 .build());
         options.addOption(Option.builder("o").longOpt("output").hasArg(true)
-                .argName("file").desc("takes input from <file>")
+                .argName("file").desc("places output to <file>")
                 .build());
         options.addOption(Option.builder("h").longOpt("help")
                 .desc("prints this message").build());
@@ -70,7 +81,7 @@ public class QGrady {
                 String output = line.getOptionValue("o");
                 File source = validateInput(input);
                 File dest = validateOutput(output, input);
-                
+
                 Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
                 Object result = p.parse().value;
                 double[][] probs = convertList((List<List<Double>>) result);
@@ -140,7 +151,7 @@ public class QGrady {
      * Displays the version information of the software.
      */
     private void version() {
-        System.out.println("qgrady (Q'Grady) v0.1");
+        System.out.println("qgrady (Q'Grady) v0.5.1");
         System.out.println("Author: Aidan O'Grady");
         System.out.println("4th Year project for M. Eng. Computer Science" +
                 " at the University of Strathclyde, Glasgow");

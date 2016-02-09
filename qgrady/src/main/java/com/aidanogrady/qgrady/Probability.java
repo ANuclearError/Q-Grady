@@ -4,7 +4,8 @@ package com.aidanogrady.qgrady;
 import java.util.Arrays;
 
 /**
- * Created by aidan on 08/02/2016.
+ * @author Aidan O'Grady
+ * @since 0.4
  */
 public class Probability {
     private int[] input;

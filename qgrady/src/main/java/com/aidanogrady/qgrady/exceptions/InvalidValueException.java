@@ -6,7 +6,7 @@ package com.aidanogrady.qgrady.exceptions;
  * can be no values between greater than 1 or less than 0.
  *
  * @author Aidan O'Grady
- * @since 0.1
+ * @since 0.3.3
  */
 public class InvalidValueException extends Exception {
     public InvalidValueException(String msg) {

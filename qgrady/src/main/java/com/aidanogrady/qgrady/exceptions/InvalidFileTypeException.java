@@ -9,7 +9,7 @@ package com.aidanogrady.qgrady.exceptions;
  * is given a directory or .gif instead.
  *
  * @author Aidan O'Grady
- * @since 0.1
+ * @since 0.1.1
  */
 public class InvalidFileTypeException extends Exception {
     public InvalidFileTypeException(String msg) {

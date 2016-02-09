@@ -7,7 +7,7 @@ package com.aidanogrady.qgrady.exceptions;
  * row of probabilities does not sum to one.
  *
  * @author Aidan O'Grady
- * @since 0.1
+ * @since 0.3.1
  */
 public class InvalidRowException extends Exception {
     public InvalidRowException(String msg) {

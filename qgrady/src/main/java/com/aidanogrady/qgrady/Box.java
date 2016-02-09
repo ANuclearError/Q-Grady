@@ -9,7 +9,7 @@ import java.util.Map;
  * non-local box as well.
  *
  * @author Aidan O'Grady
- * @since 0.1
+ * @since 0.4
  */
 public class Box {
     private Map<Probability, Double> distribution;

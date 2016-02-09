@@ -9,7 +9,7 @@ import com.aidanogrady.qgrady.exceptions.InvalidValueException;
  * constraints are met.
  *
  * @author Aidan O'Grady
- * @version 0.1
+ * @version 0.3
  */
 public class SemanticAnalyser {
 
