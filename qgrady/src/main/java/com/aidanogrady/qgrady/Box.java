@@ -115,18 +115,23 @@ public class Box {
             }
         }
 
+        // Because Maps don't all us to do by themselves, need to convert
+        // the values collection into a set to remove repeats.
         Set<int[]> horribleSet = new HashSet<>(horribleMap.values());
+
+        // Sum every matching input, then multiply them to get probability.
         for(int[] in : horribleSet) {
-            double derp = 0.0;
+            double prob = 0.0;
             for(Map.Entry<Instance, int[]> entry : horribleMap.entrySet()) {
                 if(Arrays.equals(in, entry.getValue())) {
-                    derp += distribution.get(entry.getKey());
+                    prob += distribution.get(entry.getKey());
                 }
             }
-            if(sum == 0.0) {
-                sum = derp;
+
+            if(sum == 0.0) { // Check that we're not multiplying by 0.
+                sum = prob;
             } else {
-                sum *= derp;
+                sum *= prob;
             }
         }
         return sum;
