@@ -81,28 +81,8 @@ public class QGrady {
                 String output = line.getOptionValue("o");
                 File source = validateInput(input);
                 File dest = validateOutput(output, input);
-
-                Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
-                Object result = p.parse().value;
-                double[][] probs = convertList((List<List<Double>>) result);
-
-                System.out.print("Checking values... ");
-                SemanticAnalyser.validateValues(probs);
-                System.out.println("OK!");
-
-                System.out.print("Checking row lengths... ");
-                SemanticAnalyser.validateRowLengths(probs);
-                System.out.println("OK!");
-
-                System.out.print("Checking row sums... ");
-                SemanticAnalyser.validateRowSums(probs);
-                System.out.println("OK!");
-
-                Box box = new Box(probs);
-
-                System.out.print("Checking for non-signalling... ");
-                SemanticAnalyser.nonSignalling(box);
-                System.out.println("OK!");
+                Box box = parse(source);
+                codeGeneration(box, dest);
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
@@ -110,6 +90,47 @@ public class QGrady {
             System.err.println(e.getMessage());
         }
     }
+
+
+    /**
+     * Performs syntax checking and semantic analysis on the given Q'Grady file.
+     * This method determines whether we have been given a valid non-local box
+     * that conforms to the restraints imposed upon it and returns said box.
+     *
+     * @param source  the Q'Grady file being compiled
+     * @return non-local box extracted form source.
+     */
+    private Box parse(File source) {
+        try {
+            Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
+            Object result = p.parse().value;
+            double[][] probs = convertList((List<List<Double>>) result);
+
+            System.out.print("Checking values... ");
+            SemanticAnalyser.validateValues(probs);
+            System.out.println("OK!");
+
+            System.out.print("Checking row lengths... ");
+            SemanticAnalyser.validateRowLengths(probs);
+            System.out.println("OK!");
+
+            System.out.print("Checking row sums... ");
+            SemanticAnalyser.validateRowSums(probs);
+            System.out.println("OK!");
+
+            Box box = new Box(probs);
+
+            System.out.print("Checking for non-signalling... ");
+            SemanticAnalyser.nonSignalling(box);
+            System.out.println("OK!");
+
+            return box;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
 
     /**
      * Converts a List of Lists into a two-dimensional array. When parsing with
@@ -130,6 +151,13 @@ public class QGrady {
             }
         }
         return box;
+    }
+
+
+    private void codeGeneration(Box box, File dest) {
+        System.out.print("Writing box to " + dest.getName() + "...");
+        // TODO actually implement
+        System.out.println("OK!");
     }
 
 

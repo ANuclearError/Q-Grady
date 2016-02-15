@@ -13,6 +13,7 @@ import java.util.Arrays;
  * @since 0.4
  */
 public class Instance {
+
     /**
      * The inputs that produce this outcome.
      */
@@ -22,6 +23,7 @@ public class Instance {
      * The outputs of this particular outcome.
      */
     private int[] output;
+
 
     /**
      * Constructor.
@@ -34,6 +36,7 @@ public class Instance {
         output = new int[outputSize];
     }
 
+
     /**
      * Sets the input to the given array.
      * @param input - the inputs of this instance.
@@ -42,6 +45,7 @@ public class Instance {
         if(this.input.length == input.length)
             this.input = input;
     }
+
 
     /**
      * Sets the output to the given array.
@@ -52,6 +56,7 @@ public class Instance {
             this.output = output;
     }
 
+
     /**
      * Returns the inputs of this instance.
      * @return
@@ -60,6 +65,7 @@ public class Instance {
         return input;
     }
 
+
     /**
      * Returns the inputs of this instance.
      * @return
@@ -67,6 +73,7 @@ public class Instance {
     public int[] getOutput() {
         return output;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -80,12 +87,14 @@ public class Instance {
 
     }
 
+
     @Override
     public int hashCode() {
         int result = Arrays.hashCode(input);
         result = 31 * result + Arrays.hashCode(output);
         return result;
     }
+
 
     @Override
     public String toString() {

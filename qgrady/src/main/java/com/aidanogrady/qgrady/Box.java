@@ -1,6 +1,7 @@
 package com.aidanogrady.qgrady;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,6 +25,7 @@ public class Box {
      */
     private int outputs;
 
+
     /**
      * Constructor.
      *
@@ -46,6 +48,18 @@ public class Box {
         }
     }
 
+
+    /**
+     * Converts a given integer to an array of its bit representation of the
+     * given size and returns.
+     *
+     * If the given size is larger than necessary, it will simply be filled
+     * with 0s, such that intToBitArray(5, 5) returns [0, 0, 1, 0, 1].
+     *
+     * @param value  the number being converted
+     * @param size  the size the array must fill.
+     * @return array representation.
+     */
     private int[] intToBitArray(int value, int size) {
         int[] array = new int[size];
         int index = size - 1;

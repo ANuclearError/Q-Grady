@@ -36,6 +36,7 @@ public class SemanticAnalyser {
         }
     }
 
+
     /**
      * Determines whether there are any rows in the distribution with the
      * wrong length.
@@ -58,6 +59,7 @@ public class SemanticAnalyser {
             }
         }
     }
+
 
     /**
      * Determines whether there are rows that do not sum to one.
@@ -84,6 +86,7 @@ public class SemanticAnalyser {
             sum = 0;
         }
     }
+    
 
     /**
      * A valid non-local box must fulfill the 'non-signalling' property. This
