@@ -1,8 +1,6 @@
 package com.aidanogrady.qgrady;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The box class holds all the information that defines a non-local box,
@@ -13,6 +11,10 @@ import java.util.Map;
  * @since 0.4
  */
 public class Box {
+
+    /**
+     * The probability distribution.
+     */
     private Map<Instance, Double> distribution;
 
     /**
@@ -85,5 +87,48 @@ public class Box {
         prob.setInput(input);
         prob.setOutput(output);
         return distribution.get(prob);
+    }
+
+
+    /**
+     * Returns the probability of the given single output and its value based on
+     * the given single input and it's value.
+     *
+     * This is currently horrific and terrifying.
+     *
+     * @param inputIndex  the index of the input being examined.
+     * @param input  the value of the input.
+     * @param outputIndex  the index of the output being examined.
+     * @param output  the value of the output.
+     * @return  p(output | input).
+     */
+    public double prob(int inputIndex, int input, int outputIndex, int output) {
+        double sum = 0.0;
+        // Iterate through map
+        // Extract all where input[inputIndex] == input (and same for output)
+        Map<Instance, int[]> horribleMap = new HashMap<>();
+        for(Instance instance : distribution.keySet()) {
+            int[] in = instance.getInput();
+            int[] out = instance.getOutput();
+            if(in[inputIndex] == input && out[outputIndex] == output) {
+                horribleMap.put(instance, instance.getInput());
+            }
+        }
+
+        Set<int[]> horribleSet = new HashSet<>(horribleMap.values());
+        for(int[] in : horribleSet) {
+            double derp = 0.0;
+            for(Map.Entry<Instance, int[]> entry : horribleMap.entrySet()) {
+                if(Arrays.equals(in, entry.getValue())) {
+                    derp += distribution.get(entry.getKey());
+                }
+            }
+            if(sum == 0.0) {
+                sum = derp;
+            } else {
+                sum *= derp;
+            }
+        }
+        return sum;
     }
 }

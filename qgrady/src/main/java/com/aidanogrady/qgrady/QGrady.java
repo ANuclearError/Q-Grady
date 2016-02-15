@@ -86,7 +86,7 @@ public class QGrady {
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
-        } catch (Exception e) {
+        } catch (FileNotFoundException | InvalidFileTypeException e) {
             System.err.println(e.getMessage());
         }
     }

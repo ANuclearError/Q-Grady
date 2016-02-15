@@ -86,7 +86,7 @@ public class SemanticAnalyser {
             sum = 0;
         }
     }
-    
+
 
     /**
      * A valid non-local box must fulfill the 'non-signalling' property. This
