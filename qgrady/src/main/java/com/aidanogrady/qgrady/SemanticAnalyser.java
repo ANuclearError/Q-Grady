@@ -110,7 +110,7 @@ public class SemanticAnalyser {
                             sumB_ += box.prob(in, out);
                         }
                         if (sumB != sumB_)
-                            throw new SignallingException("Shit.");
+                            throw new SignallingException("Signalling found.");
                     }
                 }
             }

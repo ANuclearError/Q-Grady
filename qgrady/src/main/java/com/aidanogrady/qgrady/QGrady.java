@@ -99,6 +99,10 @@ public class QGrady {
                 System.out.println("OK!");
 
                 Box box = new Box(probs);
+
+                System.out.print("Checking for non-signalling... ");
+                SemanticAnalyser.nonSignalling(box);
+                System.out.println("OK!");
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
