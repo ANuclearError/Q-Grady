@@ -5,8 +5,10 @@
 
 package com.aidanogrady.qgrady.syntax;
 
+import java_cup.runtime.*;
 import java.util.List;
 import java.util.ArrayList;
+import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150326 (SVN rev 63) generated parser.
   */
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 public class Parser extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
-    return Sym.class;
+    return sym.class;
 }
 
   /** Default constructor. */

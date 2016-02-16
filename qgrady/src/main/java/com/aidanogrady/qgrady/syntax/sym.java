@@ -6,7 +6,7 @@
 package com.aidanogrady.qgrady.syntax;
 
 /** CUP generated interface containing symbol constants. */
-public interface Sym {
+public interface sym {
   /* terminals */
   public static final int COMMA = 3;
   public static final int SEMICOLON = 2;
