@@ -1,8 +1,6 @@
 package com.aidanogrady.qgrady;
 
 import com.aidanogrady.qgrady.exceptions.InvalidFileTypeException;
-import com.aidanogrady.qgrady.exceptions.InvalidRowException;
-import com.aidanogrady.qgrady.exceptions.InvalidValueException;
 import com.aidanogrady.qgrady.syntax.*;
 import com.aidanogrady.qgrady.syntax.Parser;
 import org.apache.commons.cli.*;
@@ -11,7 +9,6 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Arrays;
 import java.util.List;
 
 /**

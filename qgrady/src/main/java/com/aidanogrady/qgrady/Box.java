@@ -34,7 +34,7 @@ public class Box {
      * @param box - the probability distribution.
      */
     public Box(double[][] box) {
-        distribution = new HashMap<Instance, Double>(0);
+        distribution = new HashMap<>();
         inputs = (int) (Math.log(box.length) / Math.log(2));
         outputs = (int) (Math.log(box[0].length) / Math.log(2));
 
@@ -107,13 +107,13 @@ public class Box {
         // Iterate through map
         // Extract all where input[inputIndex] == input (and same for output)
         Map<Instance, int[]> horribleMap = new HashMap<>();
-        for(Instance instance : distribution.keySet()) {
-            int[] in = instance.getInput();
-            int[] out = instance.getOutput();
+        distribution.forEach((k, v) -> {
+            int[] in = k.getInput();
+            int[] out = k.getOutput();
             if(in[inputIndex] == input && out[outputIndex] == output) {
-                horribleMap.put(instance, instance.getInput());
+                horribleMap.put(k, k.getInput());
             }
-        }
+        });
 
         // Because Maps don't all us to do by themselves, need to convert
         // the values collection into a set to remove repeats.

@@ -10,3 +10,5 @@
 0.5     Added Instance class for storing an outcome's input and output. Box
         now uses this version.
 0.5.1   Non-signalling check added to box, with Signalling Exception.
+0.5.2   Added method for obtaining probability of single output given single
+        output.
