@@ -95,7 +95,7 @@ public class SemanticAnalyser {
      *
      * TODO: make generic for various set-ups beyond (2, 2, 2).
      *
-     * @param box  the set-up beign examined.
+     * @param box  the set-up being examined.
      * @throws SignallingException
      */
     public static void nonSignalling(Box box) throws SignallingException {

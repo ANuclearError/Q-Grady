@@ -120,4 +120,15 @@ public class SemanticAnalyserTest {
             assertEquals(e.getMessage(), "Error in row 3: Expected sum of 1.0, got 0.6");
         }
     }
+
+    @Test
+    public void allIsWellTest() {
+        try {
+            SemanticAnalyser.validateValues(pr);
+            SemanticAnalyser.validateRowLengths(pr);
+            SemanticAnalyser.validateRowSums(pr);
+        } catch(Exception e) {
+            fail();
+        }
+    }
 }
