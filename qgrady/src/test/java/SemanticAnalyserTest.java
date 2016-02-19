@@ -1,11 +1,16 @@
+import com.aidanogrady.qgrady.Box;
 import com.aidanogrady.qgrady.SemanticAnalyser;
 import com.aidanogrady.qgrady.exceptions.InvalidRowException;
 import com.aidanogrady.qgrady.exceptions.InvalidValueException;
+import com.aidanogrady.qgrady.exceptions.SignallingException;
 import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
  * JUnit testing of SemanticAnalyser methods.
+ *
+ * @author Aidan O'Grady
+ * @since 0.5.2
  */
 public class SemanticAnalyserTest {
     static double[][] pr;
@@ -118,6 +123,32 @@ public class SemanticAnalyserTest {
             SemanticAnalyser.validateRowSums(lowSum);
         } catch (InvalidRowException e) {
             assertEquals(e.getMessage(), "Error in row 3: Expected sum of 1.0, got 0.6");
+        }
+    }
+
+    @Test
+    public void validateNonsignalling() {
+        Box box = new Box(pr);
+        try {
+            SemanticAnalyser.nonSignalling(box);
+        } catch (SignallingException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void validateSignalling() {
+        double[][] signalling = {
+                {0.4, 0, 0, 0.6},
+                {0.4, 0, 0, 0.6},
+                {0.4, 0, 0, 0.6},
+                {0, 0.4, 0.6, 0}
+        };
+        Box box = new Box(signalling);
+        try {
+            SemanticAnalyser.nonSignalling(box);
+        } catch (SignallingException e) {
+            assertEquals(e.getMessage(), "Signalling found.");
         }
     }
 
