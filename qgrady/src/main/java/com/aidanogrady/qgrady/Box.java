@@ -37,7 +37,6 @@ public class Box {
         distribution = new HashMap<>();
         inputs = (int) (Math.log(box.length) / Math.log(2));
         outputs = (int) (Math.log(box[0].length) / Math.log(2));
-
         for(int i = 0; i < box.length; i++) {
             int[] input = intToBitArray(i, inputs);
             for(int j = 0; j < box[i].length; j++) {

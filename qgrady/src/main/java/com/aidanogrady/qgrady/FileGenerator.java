@@ -84,11 +84,30 @@ public class FileGenerator {
      */
     private List<String> inputLines() {
         List<String> inputLines = new ArrayList<>();
+
+        // Generate the input declarations.
         char input = 'z';
         for(int i = 0; i < box.getInputs(); i++) {
             inputLines.add(0, "\t" + input + ": [-1..1] init -1;");
             input--;
         }
+        input++; // Reset so char starts at the last added character.
+
+        // Generate 'coin toss' input selection.
+        String line = "\t[] " + input + "=-1";
+        input++;
+        for(int i = 1; i < box.getInputs(); i++) {
+            line += " & " + input + "=-1";
+            input++;
+        }
+        line += " -> ";
+        int outcomes = (int) Math.pow(2, box.getInputs());
+        double prob = 1.0 / outcomes;
+        for(int i = 0; i < outcomes; i++) {
+            line += prob + " : ";
+        }
+        line += ";";
+        inputLines.add(line);
         return inputLines;
     }
 }
