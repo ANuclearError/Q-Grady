@@ -52,6 +52,15 @@ public class Box {
 
 
     /**
+     * Returns the number of inputs in this setup.
+     *
+     * @return inputs
+     */
+    public int getInputs() {
+        return inputs;
+    }
+
+    /**
      * Converts a given integer to an array of its bit representation of the
      * given size and returns.
      *

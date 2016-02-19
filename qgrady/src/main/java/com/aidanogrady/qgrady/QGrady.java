@@ -165,7 +165,9 @@ public class QGrady {
 
     private void codeGeneration(Box box, File dest) {
         System.out.print("Writing box to " + dest.getName() + "...");
-        // TODO actually implement
+        FileGenerator gen = new FileGenerator(box, dest);
+        gen.generateLines();
+        gen.write();
         System.out.println("OK!");
     }
 
