@@ -29,9 +29,9 @@ public class FileGenerator {
     private List<String> lines;
 
     /**
-     * The type of the .prism model.
+     * The input variable names.
      */
-    private static final String MODEL_TYPE = "dtmc";
+    private char[] inputs;
 
     /**
      * Constructs a new FileGenerator object.
@@ -43,6 +43,12 @@ public class FileGenerator {
         this.box = box;
         this.dest = dest;
         lines = new ArrayList<>();
+        inputs = new char[box.getInputs()];
+        char input = 'z';
+        for(int i = inputs.length - 1; i > -1; i--) {
+            inputs[i] = input;
+            input--;
+        }
     }
 
     /**
@@ -50,10 +56,12 @@ public class FileGenerator {
      * prism file.
      */
     public void generateLines() {
-        lines.add(MODEL_TYPE);
+        lines.add("dtmc");
         lines.add("");
         lines.add("module M1");
         lines.addAll(inputLines());
+        lines.add(inputSelection());
+        lines.addAll(inputReset());
         lines.add("endmodule");
         lines.add("");
         lines.add("module M2");
@@ -86,17 +94,18 @@ public class FileGenerator {
     private List<String> inputLines() {
         List<String> inputLines = new ArrayList<>();
 
-        char[] inputs = new char[box.getInputs()];
-        char input = 'z';
-        for(int i = inputs.length - 1; i > -1; i--) {
-            inputs[i] = input;
-            input--;
-        }
-
         for(char in : inputs) {
-            inputLines.add(0, "\t" + in + ": [-1..1] init -1;");
+            inputLines.add("\t" + in + ": [-1..1] init -1;");
         }
+        return inputLines;
+    }
 
+    /**
+     * Returns the line generated to handle the 'coin toss' selection of the
+     * input values.
+     * @return  line
+     */
+    private String inputSelection() {
         // Generate 'coin toss' input selection.
         // LHS
         String line = "\t[] " + inputs[0] + "=-1";
@@ -114,15 +123,49 @@ public class FileGenerator {
             line += " & (" + inputs[i] + "'=0)";
         }
         for(int i = 1; i < outcomes; i++) {
-            int[] vals = intToBitArray(i, box.getInputs());
-            line += " + " + prob + " : (" + inputs[0] + "'=" + vals[0] + ")";
+            int[] bits = intToBitArray(i, box.getInputs());
+            line += " + " + prob + " : (" + inputs[0] + "'=" + bits[0] + ")";
             for(int j = 1; j < inputs.length; j++) {
-                line += " & (" + inputs[j] + "'=" + vals[j] + ")";
+                line += " & (" + inputs[j] + "'=" + bits[j] + ")";
             }
         }
         line += ";";
-        inputLines.add(line);
-        return inputLines;
+        return line;
+    }
+
+    /**
+     * Returns the generated lines for the synced resets of the inputs back to
+     * -1.
+     *
+     * @return lines.
+     */
+    private List<String> inputReset() {
+        List<String> lines = new ArrayList<>();
+        String sync = "sync";
+        int outcomes = (int) Math.pow(2, box.getInputs());
+        for(int i = 0; i < outcomes; i++) {
+            int[] bits = intToBitArray(i, box.getInputs());
+            String line = "\t[" + sync;
+            for(int bit : bits) {
+                line += bit;
+            }
+            line += "] ";
+
+            line += "(" +  inputs[0] + "=" + bits[0] + ")";
+            for(int j = 1; j < inputs.length; j++) {
+                line += " & (" + inputs[j] + "=" + bits[j] + ")";
+            }
+
+            line += " -> ";
+
+            line += "(" +  inputs[0] + "'=-1)";
+            for(int j = 1; j < inputs.length; j++) {
+                line += " & (" + inputs[j] + "'=-1)";
+            }
+            line += ";";
+            lines.add(line);
+        }
+        return lines;
     }
 
     /**
