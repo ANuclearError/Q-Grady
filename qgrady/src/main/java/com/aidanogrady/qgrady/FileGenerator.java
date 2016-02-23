@@ -231,21 +231,16 @@ public class FileGenerator {
             int outcomes = (int) Math.pow(2, box.getInputs());
             int[] outBits = intToBitArray(0, box.getOutputs());
             double prob = box.prob(inBits, outBits);
-            if(prob > 0.0) {
-                line += prob + " : (" + outputs[0] + "'=" + inBits[0] + ")";
-                for (int j = 1; j < outputs.length; j++) {
-                    line += " & (" + outputs[j] + "'=" + inBits[j] + ")";
-                }
+            line += prob + " : (" + outputs[0] + "'=" + inBits[0] + ")";
+            for(int j = 1; j < outputs.length; j++) {
+                line += " & (" + outputs[j] + "'=" + inBits[j] + ")";
             }
 
             for(int j = 1; j < outcomes; j++) {
                 outBits = intToBitArray(j, box.getOutputs());
-                if(prob > 0.0) {
-                    line += " + ";
-                }
                 prob = box.prob(inBits, outBits);
                 if(prob > 0.0) {
-                    line += prob + " : (" + inputs[0] + "'=" + outBits[0] + ")";
+                    line += " + " + prob + " : (" + inputs[0] + "'=" + outBits[0] + ")";
                     for(int k = 1; k < inputs.length; k++) {
                         line += " & (" + inputs[k] + "'=" + outBits[k] + ")";
                     }
