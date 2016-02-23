@@ -70,7 +70,6 @@ public class FileGenerator {
         lines.addAll(outputLines());
         lines.add("");
         lines.addAll(outputSelection());
-        lines.add("");
         lines.add("endmodule");
     }
 
@@ -214,11 +213,11 @@ public class FileGenerator {
     private List<String> outputSelection() {
         List<String> lines = new ArrayList<>();
         String sync = "sync";
-        int outcomes = (int) Math.pow(2, box.getInputs());
-        for(int i = 0; i < outcomes; i++) {
-            int[] bits = intToBitArray(i, box.getInputs());
+        int syncs = (int) Math.pow(2, box.getInputs());
+        for(int i = 0; i < syncs; i++) {
+            int[] inBits = intToBitArray(i, box.getInputs());
             String line = "\t[" + sync;
-            for(int bit : bits) {
+            for(int bit : inBits) {
                 line += bit;
             }
             line += "] ";
@@ -229,8 +228,25 @@ public class FileGenerator {
             }
 
             line += " -> ";
+            int outcomes = (int) Math.pow(2, box.getInputs());
+            int[] outBits = intToBitArray(0, box.getOutputs());
+            double prob = box.prob(inBits, outBits);
+            line += prob + " : (" + outputs[0] + "'=" + inBits[0] + ")";
+            for(int j = 1; j < outputs.length; j++) {
+                line += " & (" + outputs[j] + "'=" + inBits[j] + ")";
+            }
 
-            //TODO implement RHS of output selection.
+            for(int j = 1; j < outcomes; j++) {
+                outBits = intToBitArray(j, box.getOutputs());
+                prob = box.prob(inBits, outBits);
+                if(prob > 0.0) {
+                    line += " + " + prob + " : (" + inputs[0] + "'=" + outBits[0] + ")";
+                    for(int k = 1; k < inputs.length; k++) {
+                        line += " & (" + inputs[k] + "'=" + outBits[k] + ")";
+                    }
+                }
+            }
+            line += ";";
             lines.add(line);
         }
         return lines;
