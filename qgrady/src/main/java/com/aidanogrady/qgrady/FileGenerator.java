@@ -34,6 +34,11 @@ public class FileGenerator {
     private char[] inputs;
 
     /**
+     * The input variable names.
+     */
+    private char[] outputs;
+
+    /**
      * Constructs a new FileGenerator object.
      *
      * @param box  the non-local box to be written.
@@ -43,12 +48,6 @@ public class FileGenerator {
         this.box = box;
         this.dest = dest;
         lines = new ArrayList<>();
-        inputs = new char[box.getInputs()];
-        char input = 'z';
-        for(int i = inputs.length - 1; i > -1; i--) {
-            inputs[i] = input;
-            input--;
-        }
     }
 
     /**
@@ -56,17 +55,42 @@ public class FileGenerator {
      * prism file.
      */
     public void generateLines() {
+        generateVariables();
         lines.add("dtmc");
         lines.add("");
         lines.add("module M1");
         lines.addAll(inputLines());
+        lines.add("");
         lines.add(inputSelection());
+        lines.add("");
         lines.addAll(inputReset());
         lines.add("endmodule");
         lines.add("");
         lines.add("module M2");
+        lines.addAll(outputLines());
+        lines.add("");
+        lines.addAll(outputSelection());
+        lines.add("");
         lines.add("endmodule");
+    }
 
+    /**
+     * Generates the variable names based on the number of inputs and outputs to
+     * satisfy.
+     */
+    private void generateVariables() {
+        inputs = new char[box.getInputs()];
+        char input = 'z';
+        for(int i = inputs.length - 1; i > -1; i--) {
+            inputs[i] = input;
+            input--;
+        }
+        outputs = new char[box.getOutputs()];
+        char output = 'a';
+        for(int i = 0; i < outputs.length; i++) {
+            outputs[i] = output;
+            output++;
+        }
     }
 
     /**
@@ -163,6 +187,50 @@ public class FileGenerator {
                 line += " & (" + inputs[j] + "'=-1)";
             }
             line += ";";
+            lines.add(line);
+        }
+        return lines;
+    }
+
+    /**
+     * Returns the lines generated that handle the input part of the model.
+     *
+     * @return inputLines
+     */
+    private List<String> outputLines() {
+        List<String> outputLines = new ArrayList<>();
+
+        for(char out : outputs) {
+            outputLines.add("\t" + out + ": [-1..1] init -1;");
+        }
+        return outputLines;
+    }
+
+    /**
+     * Returns the generated lines for the synced output choice.
+     *
+     * @return lines.
+     */
+    private List<String> outputSelection() {
+        List<String> lines = new ArrayList<>();
+        String sync = "sync";
+        int outcomes = (int) Math.pow(2, box.getInputs());
+        for(int i = 0; i < outcomes; i++) {
+            int[] bits = intToBitArray(i, box.getInputs());
+            String line = "\t[" + sync;
+            for(int bit : bits) {
+                line += bit;
+            }
+            line += "] ";
+
+            line += "(" +  outputs[0] + "=-1)";
+            for(int j = 1; j < outputs.length; j++) {
+                line += " & (" + outputs[j] + "=-1)";
+            }
+
+            line += " -> ";
+
+            //TODO implement RHS of output selection.
             lines.add(line);
         }
         return lines;
