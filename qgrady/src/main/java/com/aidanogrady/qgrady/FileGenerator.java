@@ -42,6 +42,11 @@ public class FileGenerator {
     private static final String COIN_TOSS =
             "\t[] VAR = -1 -> 0.5 : (VAR' =  0) + 0.5 : (VAR' = 1);";
 
+    /*
+     * The following are strings that are used throughout the file generation
+     * phase. Any instance of VAR or NUM indicates placeholders that will be
+     * replaced by actual content.
+     */
     private static final String EMPTY_LINE = "";
 
     private static final String END_MODULE = "endmodule";
@@ -121,6 +126,14 @@ public class FileGenerator {
             lines.add(END_MODULE);
             lines.add(EMPTY_LINE);
         }
+
+        for(int i = 0; i < box.getOutputs(); i++) {
+            String name = "OUTPUT_" + Character.toUpperCase(outputs[i]);
+            lines.add(MODULE + name);
+            lines.addAll(output(outputs[i]));
+            lines.add(END_MODULE);
+            lines.add(EMPTY_LINE);
+        }
     }
 
     /**
@@ -142,15 +155,35 @@ public class FileGenerator {
         }
     }
 
+    /**
+     * Returns a list of strings that form the input parts of the generated
+     * file.
+     *
+     * @param input  the input being generated
+     * @return lines
+     */
     private List<String> input(char input) {
         List<String> lines = new ArrayList<>();
         lines.add("\t" + input + VARIABLE_DECLARATION);
-        lines.add(COIN_TOSS.replaceAll("<V>", input + ""));
+        lines.add(COIN_TOSS.replaceAll("VAR", input + ""));
         for(int i = 0; i < 2; i++) {
             String var = input + "";
             String num = i + "";
             lines.add(SYNC.replaceAll("VAR", var).replaceAll("NUM", num));
         }
+        return lines;
+    }
+
+    /**
+     * Returns a list of strings that form the output parts of the generated
+     * file.
+     *
+     * @param output  the input being generated
+     * @return lines
+     */
+    private List<String> output(char output) {
+        List<String> lines = new ArrayList<>();
+        lines.add("\t" + output + VARIABLE_DECLARATION);
         return lines;
     }
 }
