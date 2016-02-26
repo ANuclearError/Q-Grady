@@ -1,10 +1,7 @@
 package com.aidanogrady.qgrady;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * The FileGenerator class handles the operations that convert the Box class
@@ -61,7 +58,7 @@ public class FileGenerator {
             "\t[sync_INNUM] IN = NUM -> (IN' = -1);";
 
     private static final String OUTPUT_SYNC =
-            "\t[sync_INNUM] OUT = -1 -> ";
+            "\t[sync_INNUM] OUT = -1 -> PROBS;";
 
     private static final String PROB = "PROB : (OUT' = NUM)";
 
@@ -136,7 +133,7 @@ public class FileGenerator {
         for(int i = 0; i < box.getOutputs(); i++) {
             String name = "OUTPUT_" + Character.toUpperCase(outputs[i]);
             lines.add(MODULE + name);
-            lines.addAll(output(outputs[i], inputs[i]));
+            lines.addAll(output(outputs[i], inputs[i], i));
             lines.add(END_MODULE);
             lines.add(EMPTY_LINE);
         }
@@ -188,17 +185,34 @@ public class FileGenerator {
      * @param output  the input being generated
      * @return lines
      */
-    private List<String> output(char output, char input) {
+    private List<String> output(char output, char input, int index) {
         List<String> lines = new ArrayList<>();
         lines.add("\t" + output + VARIABLE_DECLARATION);
         for(int i = 0; i < 2; i++) {
             String in = input + "";
             String out = output + "";
             String num = i + "";
-            lines.add(OUTPUT_SYNC.replaceAll("IN", in)
+            String probs = "";
+            List<String> list = new ArrayList<>();
+            for(int j = 0; j < 2; j++) {
+                num = j + "";
+                String prob =  box.prob(index, i, index, j) + "";
+                list.add(PROB.replaceAll("PROB", prob)
+                        .replaceAll("OUT", out)
+                        .replaceAll("NUM", num));
+            }
+            Iterator<String> iterator = list.iterator();
+            if(iterator.hasNext()) {
+                probs += iterator.next();
+            }
+            while(iterator.hasNext()) {
+                probs += " + " + iterator.next();
+            }
+            String line = OUTPUT_SYNC.replaceAll("IN", in)
                     .replaceAll("OUT", out)
-                    .replaceAll("NUM", num));
-
+                    .replaceAll("NUM", num)
+                    .replaceAll("PROBS", probs);
+            lines.add(line);
         }
         return lines;
     }
