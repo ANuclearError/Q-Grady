@@ -49,16 +49,22 @@ public class FileGenerator {
      */
     private static final String EMPTY_LINE = "";
 
-    private static final String END_MODULE = "endmodule";
-
     private static final String MODEL_TYPE = "dtmc";
 
     private static final String MODULE = "module ";
 
-    private static final String SYNC =
-            "\t[sync_VARNUM] VAR = NUM -> (VAR' = -1);";
+    private static final String END_MODULE = "endmodule";
 
     private static final String VARIABLE_DECLARATION = ": [-1..1] init - 1;";
+
+    private static final String INPUT_SYNC =
+            "\t[sync_INNUM] IN = NUM -> (IN' = -1);";
+
+    private static final String OUTPUT_SYNC =
+            "\t[sync_INNUM] OUT = -1 -> ";
+
+    private static final String PROB = "PROB : (OUT' = NUM)";
+
 
     /**
      * Constructs a new FileGenerator object.
@@ -130,7 +136,7 @@ public class FileGenerator {
         for(int i = 0; i < box.getOutputs(); i++) {
             String name = "OUTPUT_" + Character.toUpperCase(outputs[i]);
             lines.add(MODULE + name);
-            lines.addAll(output(outputs[i]));
+            lines.addAll(output(outputs[i], inputs[i]));
             lines.add(END_MODULE);
             lines.add(EMPTY_LINE);
         }
@@ -165,11 +171,12 @@ public class FileGenerator {
     private List<String> input(char input) {
         List<String> lines = new ArrayList<>();
         lines.add("\t" + input + VARIABLE_DECLARATION);
-        lines.add(COIN_TOSS.replaceAll("VAR", input + ""));
+        String in = input + "";
+        lines.add(COIN_TOSS.replaceAll("IN", in));
         for(int i = 0; i < 2; i++) {
-            String var = input + "";
             String num = i + "";
-            lines.add(SYNC.replaceAll("VAR", var).replaceAll("NUM", num));
+            lines.add(INPUT_SYNC.replaceAll("IN", in)
+                    .replaceAll("NUM", num));
         }
         return lines;
     }
@@ -181,9 +188,18 @@ public class FileGenerator {
      * @param output  the input being generated
      * @return lines
      */
-    private List<String> output(char output) {
+    private List<String> output(char output, char input) {
         List<String> lines = new ArrayList<>();
         lines.add("\t" + output + VARIABLE_DECLARATION);
+        for(int i = 0; i < 2; i++) {
+            String in = input + "";
+            String out = output + "";
+            String num = i + "";
+            lines.add(OUTPUT_SYNC.replaceAll("IN", in)
+                    .replaceAll("OUT", out)
+                    .replaceAll("NUM", num));
+
+        }
         return lines;
     }
 }
