@@ -119,6 +119,7 @@ public class FileGenerator {
             lines.add(MODULE + name);
             lines.addAll(input(inputs[i]));
             lines.add(END_MODULE);
+            lines.add(EMPTY_LINE);
         }
     }
 
