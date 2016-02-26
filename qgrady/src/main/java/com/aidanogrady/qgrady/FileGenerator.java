@@ -40,7 +40,7 @@ public class FileGenerator {
     private char[] outputs;
 
     private static final String COIN_TOSS =
-            "\t[] <V> = -1 -> 0.5 : (<V>' =  0) + 0.5 : (<V>' = 1);";
+            "\t[] VAR = -1 -> 0.5 : (VAR' =  0) + 0.5 : (VAR' = 1);";
 
     private static final String EMPTY_LINE = "";
 
