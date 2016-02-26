@@ -118,5 +118,24 @@ public class SemanticAnalyser {
                 }
             }
         }
+        for (int b = 0; b < 2; b++) {
+            for (int y = 0; y < 2; y++) {
+                for (int x = 0; x < 2; x++) {
+                    for (int x_ = 0; x_ < 2; x_++) {
+                        double sumA = 0;
+                        double sumA_ = 0;
+                        for (int a = 0; a < 2; a++) {
+                            int[] in = {x, y};
+                            int[] out = {a, b};
+                            sumA += box.prob(in, out);
+                            in = new int[] {x_, y};
+                            sumA_ += box.prob(in, out);
+                        }
+                        if (sumA != sumA_)
+                            throw new SignallingException("Signalling found.");
+                    }
+                }
+            }
+        }
     }
 }

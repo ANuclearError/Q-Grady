@@ -79,7 +79,8 @@ public class QGrady {
                 File source = validateInput(input);
                 File dest = validateOutput(output, input);
                 Box box = parse(source);
-                codeGeneration(box, dest);
+                if(box != null)
+                    codeGeneration(box, dest);
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
