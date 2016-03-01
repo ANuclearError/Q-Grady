@@ -5,8 +5,46 @@
 \label{cha:related_work}
 \section{Non-Local Boxes} % (fold)
 \label{sec:non_local_boxes}
+Consider a device with two ends, one of which is held by Alice, and the other of
+which is held by Bob. Each end has an input that can be provided by Alice (which
+we will call \(x\)) or Bob (which we will call \(y\), and an output that each
+can observe (\(a\) and \(b\) respectively. This would be our box, and it will
+output \(a\) and \(b\) based on some probability distribution \(P(a, b | x, y)\)
+where \(a, b, x, y \in {0, 1}\).
+
+An example of such a box would be the Popescu/Rohrlich (PR) box, the probability
+distribution of which is provided below.
+
+\begin{center}
+\begin{tabular}{l | c c c c}
+  & 00 & 01 & 10 & 11 \\
+  \hline
+  00 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
+  01 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
+  10 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
+  11 & 0 & \(\frac{1}{2}\) & \(\frac{1}{2}\) & 0 \\
+\end{tabular}
+\end{center}
+
+Where the row specifies the input \(x\) and \(y\), and the output specifies the
+output \(a\) and \(b\).
+
 \subsection{Non-Signalling} % (fold)
 \label{sub:non_signalling}
+As essential part of the definition of a non-local box is the non-signalling
+property. A non-signalling box means that Alice could not use the value of \(a\)
+to determine the value of \(y\) in the above configuration. This condition
+allows for the probability distribution \(P(a, b | x, y)\) to be reduced to
+simply \(P(a|x\).
+
+To ensure non-signalling, the following conditions must be met:
+
+\[\sum_{b} P(a, b | x, y) = \sum_{b} P(a, b | x, y') = P(a | x) 
+\quad \forall a, x, y, y'\]
+\[\sum_{a} P(a, b | x, y) = \sum_{a} P(a, b | x', y) = P(b | y) 
+\quad \forall b, y, x, x'\]
+
+The PR-box is one such example of a non-signalling box.
 
 % subsection non_signalling (end)
 % section non_local_boxes (end)
