@@ -36,14 +36,14 @@ public class FileGenerator {
      */
     private char[] outputs;
 
-    private static final String COIN_TOSS =
-            "\t[] VAR = -1 -> 0.5 : (VAR' =  0) + 0.5 : (VAR' = 1);";
-
     /*
      * The following are strings that are used throughout the file generation
      * phase. Any instance of VAR or NUM indicates placeholders that will be
      * replaced by actual content.
      */
+    private static final String COIN_TOSS =
+            "\t[] VAR = -1 -> 0.5 : (VAR' =  0) + 0.5 : (VAR' = 1);";
+
     private static final String EMPTY_LINE = "";
 
     private static final String MODEL_TYPE = "dtmc";
@@ -169,7 +169,7 @@ public class FileGenerator {
         List<String> lines = new ArrayList<>();
         lines.add("\t" + input + VARIABLE_DECLARATION);
         String in = input + "";
-        lines.add(COIN_TOSS.replaceAll("IN", in));
+        lines.add(COIN_TOSS.replaceAll("VAR", in));
         for(int i = 0; i < 2; i++) {
             String num = i + "";
             lines.add(INPUT_SYNC.replaceAll("IN", in)
