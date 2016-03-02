@@ -1,0 +1,69 @@
+\documentclass[report.tex]{subfiles}
+\begin{document}
+
+\section{Progress} % (fold)
+\label{cha:progress}
+
+\subsection{The Q'Grady Compiler} % (fold)
+\label{sub:the_q_grady_compiler}
+\subsubsection{Non-signalling check} % (fold)
+\label{sub:non_signalling_check}
+A naive non-signalling check has been implemented as part of the compiler.
+Currently, it is only applicable to a (2, 2, 2) set-up, meaning that it can only
+handle a device two two ends, with two inputs and two outputs in total. A more
+flexible alternative is being planned to try and make up for this problem.
+
+The non-signalling check performs the below equation for both inputs. 
+
+\[\sum_{b} P(a, b | x, y) = \sum_{b} P(a, b | x, y') = P(a | x) 
+\quad \forall a, x, y, y'\]
+
+I am currently unsure of how to best do this in a clean way, the current method
+using multiple nested loops to achieve the above is naturally not the most
+readable solution, although this has already been discussed with my supervisor.
+My more immediate concern is getting the .prism file generated correctly before
+I enhance this feature of the compiler.
+% subsubsection non_signalling_check (end)
+
+\subsubsection{Code Generation} % (fold)
+\label{ssub:code_generation}
+The code generation part of the compiler has not went as well as I had hoped.
+The .prism file I was working towards as part of this stage was not the model
+that my supervisor had wanted to be produced, meaning that any progress I
+thought was being made turned out to be misguided.
+
+Code generation is being achieved with the FileGenerator class, which contains
+various strings acting as templates that can be used to plug in values from
+the Box class into the file. There is the caveat that the names of variables
+within the .prism file are being created by this class currently, rather than
+in the .qgrady file itself, although given the time constraints currently, it is
+likely that this will not be changing in the near future.
+
+While my supervisor has tried to give me direction on the proper way to
+structure the .prism file, it has been extremely difficult for me to really
+grasp, which is an immediate problem that must be addressed.
+% subsubsection code_generation (end)
+% subsection the_q_grady_compiler (end)
+
+\subsection{The Q'Grady Report} % (fold)
+\label{sub:the_q_grady_report}
+Due to the issues surrounding the development of the compiler, the report has
+suffered setbacks as a result. I have started writing on the related work
+section, as well as on the problem description/specification and system design.
+Excerpts of these sections have been included for reading.
+% subsection the_q_grady_report (end)
+
+\subsection{Future Plans} % (fold)
+\label{sub:future_plans}
+At this point in time, I had wanted the compiler to be completed to enable me to
+run experiments using the .prism files it would generate. Clearly, this has not
+happened, and as a result, the project has fallen far behind. At this point in
+time, I no longer have the confidence in myself or my abilities to complete the
+project to the scope that was originally outlined. Should I complete the
+compiler by the 13th of March, I would just have 2 weeks to do so, which would
+not allow for the depth that would have originally been desired.
+% subsection future_plans (end)
+
+% section progress (end)
+\newpage
+\end{document}
