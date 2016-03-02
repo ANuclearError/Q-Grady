@@ -6,6 +6,18 @@
 % chapter system_design (end)
 \section{Q'Grady Language} % (fold)
 \label{sec:q_grady_language}
+The Q'Grady language is designed to describe the set-up of non-local boxes. This
+is achieved through defining the probability distribution of that set-up. The
+intent was to focus on providing a clear syntax to represent the distribution so
+that the probabilities could be easily identified. My original designs did not
+achieve this aim, my attempts to divide the distribution and separate each row 
+only became unclear. Examples of previous prototypes are found in the Detailed
+Design chapter.
+
+The following is a Q'Grady file representing the PR box:
+\begin{center}
+[0.5, 0, 0, 0.5; 0.5, 0, 0, 0.5; 0.5, 0, 0, 0.5; 0, 0.5, 0.5, 0;]
+\end{center}
 
 \subsection{Syntax} % (fold)
 \label{sub:syntax}

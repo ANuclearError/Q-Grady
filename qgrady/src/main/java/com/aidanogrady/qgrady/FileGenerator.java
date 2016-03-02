@@ -174,11 +174,10 @@ public class FileGenerator {
         for(int i = 0; i < 2; i++) {
             String in = input + "";
             String out = output + "";
-            String num = i + "";
             String probs = "";
             List<String> list = new ArrayList<>();
             for(int j = 0; j < 2; j++) {
-                num = j + "";
+                String num = j + "";
                 String prob =  box.prob(index, i, index, j) + "";
                 list.add(PROB.replaceAll("PROB", prob)
                         .replaceAll("OUT", out)
@@ -191,10 +190,12 @@ public class FileGenerator {
             while(iterator.hasNext()) {
                 probs += " + " + iterator.next();
             }
+            String num = i + "";
             String line = OUTPUT_SYNC.replaceAll("IN", in)
                     .replaceAll("OUT", out)
                     .replaceAll("NUM", num)
                     .replaceAll("PROBS", probs);
+            System.out.println(num + ", " + i);
             lines.add(line);
         }
         return lines;
