@@ -75,6 +75,7 @@ public class FileGenerator {
         lines = new ArrayList<>();
     }
 
+
     /**
      * Begins the file writing process.
      */
@@ -92,27 +93,6 @@ public class FileGenerator {
         }
     }
 
-    /**
-     * Converts a given integer to an array of its bit representation of the
-     * given size and returns.
-     *
-     * If the given size is larger than necessary, it will simply be filled
-     * with 0s, such that intToBitArray(5, 5) returns [0, 0, 1, 0, 1].
-     *
-     * @param value  the number being converted
-     * @param size  the size the array must fill.
-     * @return array representation.
-     */
-    private int[] intToBitArray(int value, int size) {
-        int[] array = new int[size];
-        int index = size - 1;
-        while(index >= 0) {
-            array[index] = value % 2;
-            value = value / 2;
-            index--;
-        }
-        return array;
-    }
 
     /**
      * Systematically generates all the lines that are to be written to the
@@ -139,6 +119,7 @@ public class FileGenerator {
         }
     }
 
+
     /**
      * Generates the variable names based on the number of inputs and outputs to
      * satisfy.
@@ -157,6 +138,7 @@ public class FileGenerator {
             output++;
         }
     }
+
 
     /**
      * Returns a list of strings that form the input parts of the generated
@@ -177,6 +159,7 @@ public class FileGenerator {
         }
         return lines;
     }
+
 
     /**
      * Returns a list of strings that form the output parts of the generated

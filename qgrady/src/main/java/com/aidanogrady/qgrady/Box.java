@@ -59,6 +59,7 @@ public class Box {
         return inputs;
     }
 
+
     /**
      * Returns the number of inputs in this setup.
      *
