@@ -155,4 +155,26 @@ public class Box {
         }
         return sum;
     }
+
+    public double[] normalisedProb(int[] input, int outputIndex, int output) {
+        // Iterate through map
+        // Extract all where input[inputIndex] == input (and same for output)
+        List<Instance> list = new ArrayList<>();
+        distribution.forEach((k, v) -> {
+            int[] in = k.getInput();
+            int[] out = k.getOutput();
+            if (Arrays.equals(input, in) && out[outputIndex] == output) {
+                list.add(k);
+            }
+        });
+        double sum = 0;
+        for(Instance i : list) {
+            sum += distribution.get(i);
+        }
+        double[] norm = new double[list.size()];
+        for (int i = 0; i < norm.length; i++) {
+            norm[i] = distribution.get(list.get(i)) / sum;
+        }
+        return norm;
+    }
 }

@@ -195,7 +195,6 @@ public class FileGenerator {
                     .replaceAll("OUT", out)
                     .replaceAll("NUM", num)
                     .replaceAll("PROBS", probs);
-            System.out.println(num + ", " + i);
             lines.add(line);
         }
         return lines;

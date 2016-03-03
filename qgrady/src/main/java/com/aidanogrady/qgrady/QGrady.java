@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -133,6 +134,8 @@ public class QGrady {
             System.out.println("\t\ty = 0, b = 1: " + box.prob(1, 0, 1, 1));
             System.out.println("\t\ty = 1, b = 0: " + box.prob(1, 1, 1, 0));
             System.out.println("\t\ty = 1, b = 1: " + box.prob(1, 1, 1, 1));
+
+            System.out.println(Arrays.toString(box.normalisedProb(new int[]{0,0}, 0, 0)));
 
             return box;
         } catch (Exception e) {
