@@ -136,7 +136,7 @@ public class QGrady {
 
             return box;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -164,6 +164,12 @@ public class QGrady {
     }
 
 
+    /**
+     * Starts the file generation part of the compiler.
+     *
+     * @param box  the box being converted into .prism file.
+     * @param dest  the .prism file to be written.
+     */
     private void codeGeneration(Box box, File dest) {
         System.out.print("Writing box to " + dest.getName() + "...");
         FileGenerator gen = new FileGenerator(box, dest);
