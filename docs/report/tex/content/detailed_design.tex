@@ -3,32 +3,113 @@
 
 \chapter{Detailed Design and Implementation} % (fold)
 \label{cha:detailed_design_and_implementation}
+
+% ==============================================================================
+% ==============================================================================
+
 \section{Implementation Languages} % (fold)
 \label{sec:implementation_languages}
 
+% ==============================================================================
+
+\subsection{Java 8} % (fold)
+\label{sub:java_8}
+The compiler was created using Java version 8. The primary motivation behind
+using Java was my familiarity with the language and the libraries \& frameworks
+available. The complex nature of this project meant that I did not want to spend
+time getting familiar with a language such as C++, while I knew that I take
+advantage of a build system like Maven to handle the inevitable dependency and
+testing suites I would require.
+% subsection java_8 (end)
+
+% ==============================================================================
+% ==============================================================================
+
+% subsection subsection_name (end)
 % section implementation_languages (end)
 \section{Tools} % (fold)
 \label{sec:tools}
+The Q'Grady compiler makes use of several libraries to assist in development.
+These have been outlined below, outlining their function and why they were used
+for the development of the compiler.
 
+% ==============================================================================
+
+\subsection{Cup} % (fold)
+\label{sub:cup}
+Cup (\url{http://www2.cs.tum.edu/projects/cup}) is a parser generator that was
+used to convert the Q'Grady grammar as specified in the .cup file into Java
+classes that could be inserted into the Q'Grady compiler.
+% subsection cup (end)
+
+\subsection{JFlex} % (fold)
+\label{sub:jflex}
+JFlex (\url{http://jflex.de})is a scanner generatorfor Java. It generated an
+additional Java class for the compiler, matching tokens from the scanned input
+to regular expressions outlined in the .flex file.
+% subsection jflex (end)
+
+\subsection{Apache Maven} % (fold)
+\label{sub:apache_maven}
+Maven (\url{http://maven.apache.org}) was used primarily for handling dependency
+injection. Plugins for JFlex and Cup were used to make the use of the libraries
+a lot easier, since they would handle executing the generation of classes while
+compiling my own Java classes. It also allowed me to automate JUnit testing
+during the compilation and packaging stages.
+% subsection apache_maven (end)
+
+\subsection{Apache Commons CLI \& IO} % (fold)
+\label{sub:apache_commons_cli}
+The Apache Commons CLI (\url{http://commons.apache.org/proper/commons-cli}) was
+used for handling the parsing of command line arguments when executing the
+compiler. It was used for handling the logic behind managing the presence of
+the mandatory and optional arguments for the compiler, such as the source and
+destination files.
+
+The Commons IO (\url{http://commons.apache.org/proper/commons-io}) library was
+required for methods relating to handling files, such as ensuring that files
+had the proper extension when required.
+% subsection apache_commons_cli (end)
+
+\subsection{JUnit} % (fold)
+\label{sub:junit}
+JUnit (\url{http://junit.org}) was used for testing the Java code, ensuring that
+features of the compiler were accurate and doing what was intended.
+% subsection junit (end)
 % section tools (end)
+
+% ==============================================================================
+% ==============================================================================
+
 \section{Compiler} % (fold)
 \label{sec:compiler}
+
+% ==============================================================================
+
 \subsection{Syntax Checking} % (fold)
 \label{sub:syntax_checking}
-
+Content.
 % subsection syntax_checking (end)
+
 \subsection{Semantic Analysis} % (fold)
 \label{sub:semantic_analysis}
+Content.
+
 \subsubsection{Non-Signalling} % (fold)
 \label{ssub:non_signalling}
-
+Content.
 % subsubsection non_signalling (end)
 % subsection semantic_analysis (end)
+
 \subsection{Code Generation} % (fold)
 \label{sub:code_generation}
-
+Content.
 % subsection code_generation (end)
 % section compiler (end)
 % chapter detailed_design_and_implementation (end)
+
+% ==============================================================================
+% ==============================================================================
+
 \newpage
 \end{document}
