@@ -157,8 +157,6 @@ public class Box {
     }
 
     public double[] normalisedProb(int[] input, int outputIndex, int output) {
-        // Iterate through map
-        // Extract all where input[inputIndex] == input (and same for output)
         List<Instance> list = new ArrayList<>();
         distribution.forEach((k, v) -> {
             int[] in = k.getInput();
