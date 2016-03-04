@@ -3,6 +3,10 @@
 
 \chapter{Related Work} % (fold)
 \label{cha:related_work}
+
+% ==============================================================================
+% ==============================================================================
+
 \section{Non-Local Boxes} % (fold)
 \label{sec:non_local_boxes}
 Consider a device with two ends, one of which is held by Alice, and the other of
@@ -13,7 +17,8 @@ output \(a\) and \(b\) based on some probability distribution \(P(a, b | x, y)\)
 where \(a, b, x, y \in {0, 1}\).
 
 An example of such a box would be the Popescu/Rohrlich (PR) box, the probability
-distribution of which is provided below.
+distribution of which is provided below, where the row specifies the input \(x\)
+and \(y\), and the columns specifies the output \(a\) and \(b\).
 
 \begin{center}
 \begin{tabular}{l | c c c c}
@@ -26,8 +31,17 @@ distribution of which is provided below.
 \end{tabular}
 \end{center}
 
-Where the row specifies the input \(x\) and \(y\), and the output specifies the
-output \(a\) and \(b\).
+The PR box can be described as a (2, 2, 2) set-up, meaning that it has two ends,
+two inputs and two outputs. It is possible for there to be non-local boxes with
+different set-ups, although these are more complex to work with. Note that the
+probability of the PR box \(P(a, b | x, y\) can be simplified as:
+\[
+    P(a, b | x, y) = 
+    \begin{cases}
+        \frac{1}{2} & \quad a \text{ XOR } B = x \text{ AND } y \\
+        0 & \quad \text{otherwise} \\
+    \end{cases}
+\]
 
 \subsection{Non-Signalling} % (fold)
 \label{sub:non_signalling}
@@ -37,7 +51,8 @@ to determine the value of \(y\) in the above configuration. This condition
 allows for the probability distribution \(P(a, b | x, y)\) to be reduced to
 simply \(P(a|x\).
 
-To ensure non-signalling, the following conditions must be met:
+To ensure non-signalling in a (2, 2, 2) set- up, the following conditions must
+be met:
 
 \[\sum_{b} P(a, b | x, y) = \sum_{b} P(a, b | x, y') = P(a | x) 
 \quad \forall a, x, y, y'\]
@@ -46,11 +61,18 @@ To ensure non-signalling, the following conditions must be met:
 
 The PR-box is one such example of a non-signalling box.
 
+% ==============================================================================
+
 % subsection non_signalling (end)
 % section non_local_boxes (end)
 \section{Prism} % (fold)
 \label{sec:prism}
+PRISM is a probabilistic model checker, software used to create formal models
+using the PRISM language and allows for analysis of the models created. The
+models are created to represent systems with random or probabilistic behaviour.
 
+Non-local boxes can be created using the PRISM language, although it is not the
+most elegant system.
 % section prism (end)
 % chapter related_work (end)
 
