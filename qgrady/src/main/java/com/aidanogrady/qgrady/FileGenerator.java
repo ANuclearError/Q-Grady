@@ -228,26 +228,6 @@ public class FileGenerator {
                     String in = Character.toString(inputs[index]);
 
                     String probs = "";
-
-                    List<String> list = new ArrayList<>();
-                    int[] input = {i, j};
-                    System.out.println(Arrays.toString(input));
-                    double[] norms =  box.normalisedProb(input, 0, k);
-                    for(int l = 0; l < norms.length; l++) {
-                        String prob = norms[l] + "";
-                        String val = l + "";
-                        list.add(PROB.replaceAll("PROB", prob)
-                        .replaceAll("OUT", out)
-                        .replaceAll("NUM", val));
-                    }
-                    Iterator<String> iterator = list.iterator();
-                    if(iterator.hasNext()) {
-                        probs += iterator.next();
-                    }
-                    while(iterator.hasNext()) {
-                        probs += " + " + iterator.next();
-                    }
-
                     String line = OUTPUT_SYNC.replaceAll("IN", in)
                             .replaceAll("OUT", guard)
                             .replaceAll("NUM", num)

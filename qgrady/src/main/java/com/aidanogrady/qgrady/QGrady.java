@@ -123,20 +123,6 @@ public class QGrady {
             SemanticAnalyser.nonSignalling(box);
             System.out.println("OK!");
 
-            System.out.print("P(a|x):");
-            System.out.println("\tx = 0, a = 0: " + box.prob(0, 0, 0, 0));
-            System.out.println("\t\tx = 0, a = 1: " + box.prob(0, 0, 0, 1));
-            System.out.println("\t\tx = 1, a = 0: " + box.prob(0, 1, 0, 0));
-            System.out.println("\t\tx = 1, a = 1: " + box.prob(0, 1, 0, 1));
-
-            System.out.print("P(b|y):");
-            System.out.println("\ty = 0, b = 0: " + box.prob(1, 0, 1, 0));
-            System.out.println("\t\ty = 0, b = 1: " + box.prob(1, 0, 1, 1));
-            System.out.println("\t\ty = 1, b = 0: " + box.prob(1, 1, 1, 0));
-            System.out.println("\t\ty = 1, b = 1: " + box.prob(1, 1, 1, 1));
-
-            System.out.println(Arrays.toString(box.normalisedProb(new int[]{0,0}, 0, 0)));
-
             return box;
         } catch (Exception e) {
             System.out.println(e.getMessage());
