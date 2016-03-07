@@ -82,6 +82,19 @@ public class QGrady {
                 Box box = parse(source);
                 if(box != null)
                     codeGeneration(box, dest);
+
+                for(int i = 0; i < 2; i++) {
+                    for(int j = 0; j < 2; j++) {
+                        for(int k = 0; k < 2; k++) {
+                            System.out.print("Input: " + i + j);
+                            System.out.print("\tOutput: " + k + "?");
+                            int[] in = {i, j};
+                            double[] probs = box.normalisedProb(in, 0, k);
+                            System.out.println("\t" + Arrays.toString(probs));
+                            System.out.println();
+                        }
+                    }
+                }
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
@@ -160,7 +173,7 @@ public class QGrady {
      * @param dest  the .prism file to be written.
      */
     private void codeGeneration(Box box, File dest) {
-        System.out.print("Writing box to " + dest.getName() + "...");
+        System.out.print("Writing box to " + dest.getName() + "... ");
         FileGenerator gen = new FileGenerator(box, dest);
         gen.generateLines();
         gen.write();

@@ -172,6 +172,7 @@ public class Box {
                 list.add(k);
             }
         });
+        System.out.print("\t" + list);
         double sum = 0;
         for(Instance i : list) {
             sum += distribution.get(i);

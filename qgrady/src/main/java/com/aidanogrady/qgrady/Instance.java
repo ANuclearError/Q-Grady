@@ -2,6 +2,7 @@ package com.aidanogrady.qgrady;
 
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * The Instance class represents a particular result in the non-local box set-up.
@@ -12,7 +13,7 @@ import java.util.Arrays;
  * @author Aidan O'Grady
  * @since 0.4
  */
-public class Instance {
+public class Instance implements Comparator<Instance>{
 
     /**
      * The inputs that produce this outcome.
@@ -74,6 +75,10 @@ public class Instance {
         return output;
     }
 
+    @Override
+    public int compare(Instance o1, Instance o2) {
+        return 0;
+    }
 
     @Override
     public boolean equals(Object o) {
