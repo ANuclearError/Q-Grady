@@ -146,9 +146,8 @@ public class Box {
                     prob += distribution.get(entry.getKey());
                 }
             }
-
             if(sum == 0.0) { // Check that we're not multiplying by 0.
-                sum = prob;
+                sum += prob;
             } else {
                 sum *= prob;
             }
@@ -156,6 +155,14 @@ public class Box {
         return sum;
     }
 
+    /**
+     * Returns the normalized probability distribution based on the given
+     * input and output.
+     * @param input - the known input values
+     * @param outputIndex - the known output index
+     * @param output - the known output value
+     * @return
+     */
     public double[] normalisedProb(int[] input, int outputIndex, int output) {
         List<Instance> list = new ArrayList<>();
         distribution.forEach((k, v) -> {
