@@ -62,6 +62,10 @@ public class FileGenerator {
 
     private static final String NEQ_NEG_ONE = "VAR != -1";
 
+    /*
+     * These are the placeholders in the above Strings to be replaced by the
+     * non-local box set-up.
+     */
     private static final String SYNC = "SYNC";
 
     private static final String GUARD = "GUARD";
