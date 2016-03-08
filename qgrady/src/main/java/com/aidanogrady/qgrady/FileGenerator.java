@@ -41,9 +41,6 @@ public class FileGenerator {
      * phase. Any instance of VAR or NUM indicates placeholders that will be
      * replaced by actual content.
      */
-    private static final String COIN_TOSS =
-            "\t[] VAR = -1 -> 0.5 : (VAR' =  0) + 0.5 : (VAR' = 1);";
-
     private static final String EMPTY_LINE = "";
 
     private static final String MODEL_TYPE = "dtmc";
@@ -52,15 +49,22 @@ public class FileGenerator {
 
     private static final String END_MODULE = "endmodule";
 
-    private static final String VARIABLE_DECLARATION = ": [-1..1] init - 1;";
+    private static final String VAR_DEC = "\tVAR : [-1..1] init - 1;";
+
+    private static final String COIN_TOSS =
+            "\t[SYNC] GUARD -> 0.5 : (VAR' =  0) + 0.5 : (VAR' = 1);";
 
     private static final String INPUT_SYNC =
-            "\t[sync_INNUM] IN = NUM -> (IN' = -1);";
-
-    private static final String OUTPUT_SYNC =
-            "\t[sync_INNUM] OUT = -1 -> PROBS;";
-
-    private static final String PROB = "PROB : (OUT' = NUM)";
+            "\t[INNUM] IN = NUM -> (IN' = NUM);";
+//
+//    private static final String OUTPUT_SYNC =
+//            "\t[INNUM] GUARD = -1 -> PROBS;";
+//
+//    private static final String ASSIGN = "(VAR' = NUM)";
+//
+    private static final String EQ_NEG_ONE = "VAR = -1";
+//
+//    private static final String PROB = "PROB : (OUT' = NUM)";
 
 
     /**
@@ -105,11 +109,10 @@ public class FileGenerator {
         for(int i = 0; i < box.getInputs(); i++) {
             String name = "INPUT_" + Character.toUpperCase(inputs[i]);
             lines.add(MODULE + name);
-            lines.addAll(input(inputs[i]));
+            lines.addAll(input(i));
             lines.add(END_MODULE);
             lines.add(EMPTY_LINE);
         }
-
         lines.addAll(output());
     }
 
@@ -138,20 +141,54 @@ public class FileGenerator {
      * Returns a list of strings that form the input parts of the generated
      * file.
      *
-     * @param input  the input being generated
+     * @param index  the input being generated
      * @return lines
      */
-    private List<String> input(char input) {
+    private List<String> input(int index) {
         List<String> lines = new ArrayList<>();
-        lines.add("\t" + input + VARIABLE_DECLARATION);
-        String in = input + "";
-        lines.add(COIN_TOSS.replaceAll("VAR", in));
+        String in = Character.toString(inputs[index]);
+        lines.add(VAR_DEC.replaceAll("VAR", in));
+        lines.add(EMPTY_LINE);
+
+        // The initial coin toss action.
+        lines.add(coinToss(index));
+        for(int i = 0; i < outputs.length; i++) {
+            if(index != i) {
+                String sync = Character.toString(outputs[i]);
+                lines.add(coinToss(index, sync));
+            }
+        }
+        lines.add(EMPTY_LINE);
+
+        // The sync actions on the input
         for(int i = 0; i < 2; i++) {
             String num = i + "";
             lines.add(INPUT_SYNC.replaceAll("IN", in)
                     .replaceAll("NUM", num));
         }
         return lines;
+    }
+
+    private String coinToss(int index) {
+        String in = Character.toString(inputs[0]);
+        String guard = EQ_NEG_ONE.replaceAll("VAR", in);
+        for(int i = 1; i < inputs.length; i++) {
+            in = Character.toString(inputs[i]);
+            guard += " &" + EQ_NEG_ONE.replaceAll("VAR", in);
+        }
+        in = Character.toString(inputs[index]);
+        return COIN_TOSS.replaceAll("SYNC", EMPTY_LINE)
+                .replaceAll("GUARD", guard)
+                .replaceAll("VAR", in);
+    }
+
+    private String coinToss(int index, String sync) {
+        String in = Character.toString(inputs[index]);
+        String guard = EQ_NEG_ONE.replaceAll("VAR", in);
+        in = Character.toString(inputs[index]);
+        return COIN_TOSS.replaceAll("GUARD", guard)
+                .replaceAll("VAR", in)
+                .replaceAll("SYNC", sync);
     }
 
 
@@ -165,12 +202,8 @@ public class FileGenerator {
 
         List<String> lines = new ArrayList<>();
         lines.add(MODULE + "OUTPUT");
-        for(int i = 0; i < box.getOutputs(); i++) {
-            lines.add("\t" + outputs[i] + VARIABLE_DECLARATION);
-        }
 
-        lines.addAll(firstOutput());
-        for(int i = 1; i < box.getOutputs(); i++) {
+        for(int i = 0; i < box.getOutputs(); i++) {
             lines.addAll(output(i));
         }
 
@@ -179,63 +212,12 @@ public class FileGenerator {
         return lines;
     }
 
-    private List<String> firstOutput() {
-        int index = 0;
-        List<String> lines = new ArrayList<>();
-        String out = Character.toString(outputs[index]);
-
-        for(int i = 0; i < 2; i++) { // Input value
-            String probs = ""; // All the probability calculations
-
-            List<String> list = new ArrayList<>();
-            for(int j = 0; j < 2; j++) { // Output value
-                String num = j + "";
-                String prob =  box.prob(index, i, index, j) + "";
-                list.add(PROB.replaceAll("PROB", prob)
-                        .replaceAll("OUT", out)
-                        .replaceAll("NUM", num));
-            }
-
-            Iterator<String> iterator = list.iterator();
-            if(iterator.hasNext()) {
-                probs += iterator.next();
-            }
-            while(iterator.hasNext()) {
-                probs += " + " + iterator.next();
-            }
-
-            String num = Integer.toString(i);
-            String in = Character.toString(inputs[index]);
-            String line = OUTPUT_SYNC.replaceAll("IN", in)
-                    .replaceAll("OUT", out)
-                    .replaceAll("NUM", num)
-                    .replaceAll("PROBS", probs);
-            lines.add(line);
-        }
-        return lines;
-    }
 
     private List<String> output(int index) {
         List<String> lines = new ArrayList<>();
-        for(int i = 0; i < 2; i++) {
-            for(int j = 0; j < 2; j++) {
-                for(int k = 0; k < 2; k++) {
-                    String guard = inputs[0] + " = " + j + " & ";
-                    guard += outputs[0] + " = " + k + " & ";
-                    String out = Character.toString(outputs[index]);
-                    guard += out;
-                    String num = Integer.toString(i);
-                    String in = Character.toString(inputs[index]);
-
-                    String probs = "";
-                    String line = OUTPUT_SYNC.replaceAll("IN", in)
-                            .replaceAll("OUT", guard)
-                            .replaceAll("NUM", num)
-                            .replaceAll("PROBS", probs);
-                    lines.add(line);
-                }
-            }
-        }
+        String in = Character.toString(outputs[index]);
+        lines.add(VAR_DEC.replaceAll("VAR", in));
+        lines.add(EMPTY_LINE);
         return lines;
     }
 }
