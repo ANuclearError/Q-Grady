@@ -23,6 +23,12 @@ using multiple nested loops to achieve the above is naturally not the most
 readable solution, although this has already been discussed with my supervisor.
 My more immediate concern is getting the .prism file generated correctly before
 I enhance this feature of the compiler.
+
+I had made the mistake at once stage where I only checked non-signalling from
+one end to the other, without making the same check in reverse. This meant that
+some set ups that were signalling would not be discovered by the check in my
+compiler. This was found during a meeting with Ross, and the vice versa of the
+original algorithm was quickly added afterwards.
 % subsubsection non_signalling_check (end)
 
 \subsubsection{Code Generation} % (fold)
@@ -48,9 +54,9 @@ grasp, which is an immediate problem that must be addressed.
 \subsection{The Q'Grady Report} % (fold)
 \label{sub:the_q_grady_report}
 Due to the issues surrounding the development of the compiler, the report has
-suffered setbacks as a result. I have started writing on the related work
-section, as well as on the problem description/specification and system design.
-Excerpts of these sections have been included for reading.
+suffered setbacks as a result. I have started some writing for the related work,
+problem description and system design chapters, but it will take the next
+weekend for these to fleshed out enough.
 % subsection the_q_grady_report (end)
 
 \subsection{Future Plans} % (fold)
