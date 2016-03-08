@@ -77,6 +77,11 @@ public class Instance implements Comparator<Instance>{
 
     @Override
     public int compare(Instance o1, Instance o2) {
+        int[] in1 = o1.getInput();
+        int[] in2 = o2.getInput();
+        if(Arrays.equals(in1, in2)) {
+            // DO output
+        }
         return 0;
     }
 

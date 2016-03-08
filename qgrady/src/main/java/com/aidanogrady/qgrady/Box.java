@@ -163,24 +163,12 @@ public class Box {
      * @param output - the known output value
      * @return
      */
-    public double[] normalisedProb(int[] input, int outputIndex, int output) {
-        List<Instance> list = new ArrayList<>();
-        distribution.forEach((k, v) -> {
-            int[] in = k.getInput();
-            int[] out = k.getOutput();
-            if (Arrays.equals(input, in) && out[outputIndex] == output) {
-                list.add(k);
-            }
-        });
-        System.out.print("\t" + list);
-        double sum = 0;
-        for(Instance i : list) {
-            sum += distribution.get(i);
-        }
-        double[] norm = new double[list.size()];
-        for (int i = 0; i < norm.length; i++) {
-            norm[i] = distribution.get(list.get(i)) / sum;
-        }
-        return norm;
+    public double normalisedProb(int[] input, int[] output, int outputIndex) {
+        int[] outputCopy = output;
+        outputCopy[outputIndex] = 0;
+        double sum = prob(input, outputCopy);
+        outputCopy[outputIndex] = 1;
+        sum += prob(input, outputCopy);
+        return prob(input, output) / sum;
     }
 }
