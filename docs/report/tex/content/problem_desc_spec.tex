@@ -3,21 +3,55 @@
 
 \chapter{Problem Description and Specification} % (fold)
 \label{cha:problem_description_and_specification}
-% chapter problem_description_and_specification (end)
+
+% ==============================================================================
+% ==============================================================================
+
 \section{Problem Description} % (fold)
 \label{sec:problem_description}
+Non-local boxes, as described in Chapter 2, can be modelled using PRISM, 
+allowing for simulations and experiments to be done using the models. However,
+the language is more low-level and rudimentary than would be ideal. For someone
+interested in studying non-local boxes, the PRISM language may be a hindrance.
 
+The purpose of this project is to create a language for defining the set-ups of
+non-local boxes, and to implement a compiler to convert files of this new
+language into PRISM models to be used for further experimentation.
 % section problem_description (end)
+
+% ==============================================================================
+
 \section{Requirements} % (fold)
 \label{sec:requirements}
+
 \subsection{Functional} % (fold)
 \label{sub:functional}
+The requirements for this project demand the creation of a new language for
+describing non-local boxes. It is important that the language's syntax and
+semantics are organized and well meaning, allowing for the understand of the
+language to create new set-ups.
+
+The compiler must take in a source file of this new language, and perform
+correct syntax and semantics checking on the given file. The set-up must be
+checked to ensure that it is non-signalling before producing an accurate PRISM
+file that defines a model of the set-up provided. It is also required that
+meaningful warnings and errors are displayed to alert the user to problems
+encountered during the attempted compilation.
 
 % subsection functional (end)
 \subsection{Non-Functional} % (fold)
 \label{sub:non_functional}
+In addition to the functional requirements, there some addition non-functional
+requirements as well. Documentation should enable someone to to create their own
+set-ups with ease using the language, while the language should try to not rely
+on PRISM knowledge as much as possible.
 
+In addition, the compiler should run in a relatively short time, providing
+documentation for the using and any future maintaining of the compiler. In
+addition, it would be ideal to provide a full list of issues of an invalid
+set-up rather than halting on the first issue encountered.
 % subsection non_functional (end)
 % section requirements (end)
+% chapter problem_description_and_specification (end)
 \newpage
 \end{document}

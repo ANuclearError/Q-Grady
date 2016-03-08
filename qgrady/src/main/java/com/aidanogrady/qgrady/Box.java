@@ -146,13 +146,29 @@ public class Box {
                     prob += distribution.get(entry.getKey());
                 }
             }
-
             if(sum == 0.0) { // Check that we're not multiplying by 0.
-                sum = prob;
+                sum += prob;
             } else {
                 sum *= prob;
             }
         }
         return sum;
+    }
+
+    /**
+     * Returns the normalized probability distribution based on the given
+     * input and output.
+     * @param input - the known input values
+     * @param outputIndex - the known output index
+     * @param output - the known output value
+     * @return
+     */
+    public double normalisedProb(int[] input, int[] output, int outputIndex) {
+        int[] outputCopy = output;
+        outputCopy[outputIndex] = 0;
+        double sum = prob(input, outputCopy);
+        outputCopy[outputIndex] = 1;
+        sum += prob(input, outputCopy);
+        return prob(input, output) / sum;
     }
 }

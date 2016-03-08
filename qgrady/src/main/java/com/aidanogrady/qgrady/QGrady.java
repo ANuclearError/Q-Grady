@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -122,21 +123,9 @@ public class QGrady {
             SemanticAnalyser.nonSignalling(box);
             System.out.println("OK!");
 
-            System.out.print("P(a|x):");
-            System.out.println("\tx = 0, a = 0: " + box.prob(0, 0, 0, 0));
-            System.out.println("\t\tx = 0, a = 1: " + box.prob(0, 0, 0, 1));
-            System.out.println("\t\tx = 1, a = 0: " + box.prob(0, 1, 0, 0));
-            System.out.println("\t\tx = 1, a = 1: " + box.prob(0, 1, 0, 1));
-
-            System.out.print("P(b|y):");
-            System.out.println("\ty = 0, b = 0: " + box.prob(1, 0, 1, 0));
-            System.out.println("\t\ty = 0, b = 1: " + box.prob(1, 0, 1, 1));
-            System.out.println("\t\ty = 1, b = 0: " + box.prob(1, 1, 1, 0));
-            System.out.println("\t\ty = 1, b = 1: " + box.prob(1, 1, 1, 1));
-
             return box;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -164,8 +153,14 @@ public class QGrady {
     }
 
 
+    /**
+     * Starts the file generation part of the compiler.
+     *
+     * @param box  the box being converted into .prism file.
+     * @param dest  the .prism file to be written.
+     */
     private void codeGeneration(Box box, File dest) {
-        System.out.print("Writing box to " + dest.getName() + "...");
+        System.out.print("Writing box to " + dest.getName() + "... ");
         FileGenerator gen = new FileGenerator(box, dest);
         gen.generateLines();
         gen.write();

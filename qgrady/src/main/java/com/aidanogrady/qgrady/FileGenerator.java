@@ -110,13 +110,7 @@ public class FileGenerator {
             lines.add(EMPTY_LINE);
         }
 
-        for(int i = 0; i < box.getOutputs(); i++) {
-            String name = "OUTPUT_" + Character.toUpperCase(outputs[i]);
-            lines.add(MODULE + name);
-            lines.addAll(output(outputs[i], inputs[i], i));
-            lines.add(END_MODULE);
-            lines.add(EMPTY_LINE);
-        }
+        lines.addAll(output());
     }
 
 
@@ -165,24 +159,43 @@ public class FileGenerator {
      * Returns a list of strings that form the output parts of the generated
      * file.
      *
-     * @param output  the input being generated
      * @return lines
      */
-    private List<String> output(char output, char input, int index) {
+    private List<String> output() {
+
         List<String> lines = new ArrayList<>();
-        lines.add("\t" + output + VARIABLE_DECLARATION);
-        for(int i = 0; i < 2; i++) {
-            String in = input + "";
-            String out = output + "";
-            String probs = "";
+        lines.add(MODULE + "OUTPUT");
+        for(int i = 0; i < box.getOutputs(); i++) {
+            lines.add("\t" + outputs[i] + VARIABLE_DECLARATION);
+        }
+
+        lines.addAll(firstOutput());
+        for(int i = 1; i < box.getOutputs(); i++) {
+            lines.addAll(output(i));
+        }
+
+        lines.add(END_MODULE);
+        lines.add(EMPTY_LINE);
+        return lines;
+    }
+
+    private List<String> firstOutput() {
+        int index = 0;
+        List<String> lines = new ArrayList<>();
+        String out = Character.toString(outputs[index]);
+
+        for(int i = 0; i < 2; i++) { // Input value
+            String probs = ""; // All the probability calculations
+
             List<String> list = new ArrayList<>();
-            for(int j = 0; j < 2; j++) {
+            for(int j = 0; j < 2; j++) { // Output value
                 String num = j + "";
                 String prob =  box.prob(index, i, index, j) + "";
                 list.add(PROB.replaceAll("PROB", prob)
                         .replaceAll("OUT", out)
                         .replaceAll("NUM", num));
             }
+
             Iterator<String> iterator = list.iterator();
             if(iterator.hasNext()) {
                 probs += iterator.next();
@@ -190,13 +203,38 @@ public class FileGenerator {
             while(iterator.hasNext()) {
                 probs += " + " + iterator.next();
             }
-            String num = i + "";
+
+            String num = Integer.toString(i);
+            String in = Character.toString(inputs[index]);
             String line = OUTPUT_SYNC.replaceAll("IN", in)
                     .replaceAll("OUT", out)
                     .replaceAll("NUM", num)
                     .replaceAll("PROBS", probs);
-            System.out.println(num + ", " + i);
             lines.add(line);
+        }
+        return lines;
+    }
+
+    private List<String> output(int index) {
+        List<String> lines = new ArrayList<>();
+        for(int i = 0; i < 2; i++) {
+            for(int j = 0; j < 2; j++) {
+                for(int k = 0; k < 2; k++) {
+                    String guard = inputs[0] + " = " + j + " & ";
+                    guard += outputs[0] + " = " + k + " & ";
+                    String out = Character.toString(outputs[index]);
+                    guard += out;
+                    String num = Integer.toString(i);
+                    String in = Character.toString(inputs[index]);
+
+                    String probs = "";
+                    String line = OUTPUT_SYNC.replaceAll("IN", in)
+                            .replaceAll("OUT", guard)
+                            .replaceAll("NUM", num)
+                            .replaceAll("PROBS", probs);
+                    lines.add(line);
+                }
+            }
         }
         return lines;
     }
