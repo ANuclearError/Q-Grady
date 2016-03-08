@@ -51,20 +51,26 @@ public class FileGenerator {
 
     private static final String VAR_DEC = "\tVAR : [-1..1] init - 1;";
 
-    private static final String COIN_TOSS =
-            "\t[SYNC] GUARD -> 0.5 : (VAR' =  0) + 0.5 : (VAR' = 1);";
+    private static final String COMMAND = "\t[SYNC] GUARD -> ACTION;";
 
-    private static final String INPUT_SYNC =
-            "\t[INNUM] IN = NUM -> (IN' = NUM);";
-//
-//    private static final String OUTPUT_SYNC =
-//            "\t[INNUM] GUARD = -1 -> PROBS;";
-//
-//    private static final String ASSIGN = "(VAR' = NUM)";
-//
+    private static final String COIN_TOSS =
+            "0.5 : (VAR' =  0) + 0.5 : (VAR' = 1)";
+
+    private static final String ASSIGN = "(VAR' = VAL)";
+
     private static final String EQ_NEG_ONE = "VAR = -1";
-//
-//    private static final String PROB = "PROB : (OUT' = NUM)";
+
+    private static final String NEQ_NEG_ONE = "VAR != -1";
+
+    private static final String SYNC = "SYNC";
+
+    private static final String GUARD = "GUARD";
+
+    private static final String ACTION = "ACTION";
+
+    private static final String VAR = "VAR";
+
+    private static final String VAL = "VAL";
 
 
     /**
@@ -113,7 +119,12 @@ public class FileGenerator {
             lines.add(END_MODULE);
             lines.add(EMPTY_LINE);
         }
-        lines.addAll(output());
+        lines.add(MODULE + "OUTPUT");
+        for(int i = 0; i < box.getOutputs(); i++) {
+            lines.addAll(output(i));
+        }
+        lines.add(END_MODULE);
+        lines.add(EMPTY_LINE);
     }
 
 
@@ -146,8 +157,8 @@ public class FileGenerator {
      */
     private List<String> input(int index) {
         List<String> lines = new ArrayList<>();
-        String in = Character.toString(inputs[index]);
-        lines.add(VAR_DEC.replaceAll("VAR", in));
+        String var = Character.toString(inputs[index]);
+        lines.add(VAR_DEC.replaceAll("VAR", var));
         lines.add(EMPTY_LINE);
 
         // The initial coin toss action.
@@ -162,61 +173,83 @@ public class FileGenerator {
 
         // The sync actions on the input
         for(int i = 0; i < 2; i++) {
-            String num = i + "";
-            lines.add(INPUT_SYNC.replaceAll("IN", in)
-                    .replaceAll("NUM", num));
+            String val = i + "";
+            String sync = var + val;
+            String guard = var + " = " + val;
+            String action = ASSIGN.replaceAll(VAR, var)
+                    .replaceAll(VAL, val);
+            lines.add(COMMAND.replaceAll(SYNC, sync)
+                .replaceAll(GUARD, guard)
+                .replaceAll(ACTION, action));
         }
         return lines;
     }
 
+    /**
+     * Generates the coin toss line for input with the given index.
+     *
+     * This is the coin toss that acts as the potential first action of the
+     * model. Thus, it requires an addition to the guard to ensure that all
+     * inputs are uninitialized for this action to occur.
+     *
+     * @param index  the input being handled
+     * @return line
+     */
     private String coinToss(int index) {
         String in = Character.toString(inputs[0]);
-        String guard = EQ_NEG_ONE.replaceAll("VAR", in);
+        String guard = EQ_NEG_ONE.replaceAll(VAR, in);
         for(int i = 1; i < inputs.length; i++) {
             in = Character.toString(inputs[i]);
-            guard += " &" + EQ_NEG_ONE.replaceAll("VAR", in);
+            guard += " & " + EQ_NEG_ONE.replaceAll(VAR, in);
         }
         in = Character.toString(inputs[index]);
-        return COIN_TOSS.replaceAll("SYNC", EMPTY_LINE)
-                .replaceAll("GUARD", guard)
-                .replaceAll("VAR", in);
-    }
+        String toss = COIN_TOSS.replaceAll(VAR, in);
+        return COMMAND.replaceAll(SYNC, "")
+                .replaceAll(GUARD, guard)
+                .replaceAll(ACTION, toss);
 
-    private String coinToss(int index, String sync) {
-        String in = Character.toString(inputs[index]);
-        String guard = EQ_NEG_ONE.replaceAll("VAR", in);
-        in = Character.toString(inputs[index]);
-        return COIN_TOSS.replaceAll("GUARD", guard)
-                .replaceAll("VAR", in)
-                .replaceAll("SYNC", sync);
     }
 
 
     /**
-     * Returns a list of strings that form the output parts of the generated
-     * file.
+     * Generates the coin toss line for input with the given index.
      *
-     * @return lines
+     * This is a coin toss for an action further down the path, meaning that
+     * an output has just recently been chosen. This syncs on that output to
+     * produce the next action in the path.
+     *
+     * @param index  the input being chosen.
+     * @param sync  the output that causes the sync.
+     * @return
      */
-    private List<String> output() {
-
-        List<String> lines = new ArrayList<>();
-        lines.add(MODULE + "OUTPUT");
-
-        for(int i = 0; i < box.getOutputs(); i++) {
-            lines.addAll(output(i));
-        }
-
-        lines.add(END_MODULE);
-        lines.add(EMPTY_LINE);
-        return lines;
+    private String coinToss(int index, String sync) {
+        String in = Character.toString(inputs[index]);
+        String guard = EQ_NEG_ONE.replaceAll(VAR, in);
+        in = Character.toString(inputs[index]);
+        String toss = COIN_TOSS.replaceAll(VAR, in);
+        return COMMAND.replaceAll(SYNC, sync)
+                .replaceAll(GUARD, guard)
+                .replaceAll(ACTION, toss);
     }
 
 
+    /**
+     * Returns a generated list of lines that handles the actions related to
+     * the output with the given index.
+     *
+     * @param index  the output being worked on.
+     * @return  lines
+     */
     private List<String> output(int index) {
         List<String> lines = new ArrayList<>();
-        String in = Character.toString(outputs[index]);
-        lines.add(VAR_DEC.replaceAll("VAR", in));
+        String var = Character.toString(outputs[index]);
+        lines.add(VAR_DEC.replaceAll(VAR, var));
+        String guard = NEQ_NEG_ONE.replaceAll(VAR, var);
+        String action = ASSIGN.replaceAll(VAR, var)
+                .replaceAll(VAL, var);
+        lines.add(COMMAND.replaceAll(SYNC, var)
+                .replaceAll(GUARD, guard)
+        .replaceAll(ACTION, action));
         lines.add(EMPTY_LINE);
         return lines;
     }
