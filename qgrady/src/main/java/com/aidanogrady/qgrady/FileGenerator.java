@@ -254,6 +254,9 @@ public class FileGenerator {
 
         lines.addAll(prob(index));
         lines.add(EMPTY_LINE);
+
+        lines.addAll(probs(index));
+        lines.add(EMPTY_LINE);
         return lines;
     }
 
@@ -307,6 +310,11 @@ public class FileGenerator {
             }
             lines.add(command(sync, guard, action));
         }
+        return lines;
+    }
+
+    private List<String> probs(int index) {
+        List<String> lines = new ArrayList<>();
         return lines;
     }
 }

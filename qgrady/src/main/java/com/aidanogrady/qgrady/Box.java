@@ -81,7 +81,7 @@ public class Box {
      * @param size  the size the array must fill.
      * @return array representation.
      */
-    private int[] intToBitArray(int value, int size) {
+    public static int[] intToBitArray(int value, int size) {
         int[] array = new int[size];
         int index = size - 1;
         while(index >= 0) {
