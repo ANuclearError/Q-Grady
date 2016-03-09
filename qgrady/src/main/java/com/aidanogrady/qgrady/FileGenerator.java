@@ -331,11 +331,18 @@ public class FileGenerator {
                 }
             }
 
-            for(int j = 0; j < out; j+=2) {
+            for(int j = 0; j < out / 2; j++) {
                 String extraGuard = "";
+                int[] outBits = Box.intToBitArray(j, outputs.length - 1);
                 for(int k = 0; k < outputs.length; k++) {
                     if(k != index) {
-                        extraGuard += " & " + outputs[k] + " = " + "?";
+                        int bit;
+                        if(k > index) {
+                            bit = outBits[k - 1];
+                        } else {
+                            bit = outBits[k];
+                        }
+                        extraGuard += " & " + outputs[k] + " = " + bit;
                     }
                 }
                 extraGuard = guard + extraGuard;
