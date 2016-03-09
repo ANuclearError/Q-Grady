@@ -315,6 +315,49 @@ public class FileGenerator {
 
     private List<String> probs(int index) {
         List<String> lines = new ArrayList<>();
+        int in = (int) Math.pow(RANGE, inputs.length);
+        int out = (int) Math.pow(RANGE, outputs.length);
+
+        String var = Character.toString(outputs[index]);
+        for(int i = 0; i < in; i++) {
+            int[] inBits = Box.intToBitArray(i, inputs.length);
+            String sync = Character.toString(inputs[index]) + inBits[index];
+
+            String guard = EQ_NEG_ONE.replaceAll(VAR, var);
+            // Add the inputs to guard.
+            for (int j = 0; j < inputs.length; j++) {
+                if(j != index) {
+                    guard += " & " + inputs[j] + " = " + inBits[j];
+                }
+            }
+
+            for(int j = 0; j < out; j+=2) {
+                String extraGuard = "";
+                for(int k = 0; k < outputs.length; k++) {
+                    if(k != index) {
+                        extraGuard += " & " + outputs[k] + " = " + "?";
+                    }
+                }
+                extraGuard = guard + extraGuard;
+
+                String val = Integer.toString(0);
+                String assign = ASSIGN.replaceAll(VAR, var)
+                        .replaceAll(VAL, val);
+                String action = PROB.replaceAll(VAL, "?")
+                        .replaceAll(ACTION, assign);
+                for (int k = 1; k < RANGE; k++) {
+                    val = Integer.toString(k);
+                    assign = ASSIGN.replaceAll(VAR, var)
+                            .replaceAll(VAL, val);
+                    action += " + " + PROB.replaceAll(VAL, "?")
+                            .replaceAll(ACTION, assign);
+                }
+
+                lines.add(COMMAND.replaceAll(SYNC, sync)
+                        .replaceAll(GUARD, extraGuard)
+                        .replaceAll(ACTION, action));
+            }
+        }
         return lines;
     }
 }
