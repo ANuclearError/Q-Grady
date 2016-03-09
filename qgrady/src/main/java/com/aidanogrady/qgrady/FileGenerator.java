@@ -56,7 +56,7 @@ public class FileGenerator {
     private static final String COIN_TOSS =
             "0.5 : (VAR' =  0) + 0.5 : (VAR' = 1)";
 
-    private static final String PROB = "PROB : ACTION";
+    private static final String PROB = "VAL : ACTION";
 
     private static final String ASSIGN = "(VAR' = VAL)";
 
@@ -258,7 +258,18 @@ public class FileGenerator {
                 String out = Character.toString(outputs[j]);
                 guard += " & " + EQ_NEG_ONE.replaceAll(VAR, out);
             }
-            action = ACTION;
+            String prob = Double.toString(box.prob(index, i, index, 0));
+            String assign = ASSIGN.replaceAll(VAR, var)
+                    .replaceAll(VAL, Integer.toString(0));
+            action = PROB.replaceAll(VAL, prob)
+                    .replaceAll(ACTION, assign);
+            for(int j = 1; j < 2; j++) {
+                prob = Double.toString(box.prob(index, i, index, j));
+                assign = ASSIGN.replaceAll(VAR, var)
+                        .replaceAll(VAL, Integer.toString(j));
+                action += " + " + PROB.replaceAll(VAL, prob)
+                        .replaceAll(ACTION, assign);
+            }
             lines.add(command(sync, guard, action));
         }
         lines.add(EMPTY_LINE);
