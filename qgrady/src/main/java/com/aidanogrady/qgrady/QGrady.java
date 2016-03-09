@@ -122,7 +122,6 @@ public class QGrady {
             System.out.print("Checking for non-signalling... ");
             SemanticAnalyser.nonSignalling(box);
             System.out.println("OK!");
-
             return box;
         } catch (Exception e) {
             System.out.println(e.getMessage());

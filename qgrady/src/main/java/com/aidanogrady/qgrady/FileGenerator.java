@@ -333,30 +333,43 @@ public class FileGenerator {
 
             for(int j = 0; j < out / 2; j++) {
                 String extraGuard = "";
-                int[] outBits = Box.intToBitArray(j, outputs.length - 1);
+                int[] bits = Box.intToBitArray(j, outputs.length - 1);
                 for(int k = 0; k < outputs.length; k++) {
                     if(k != index) {
                         int bit;
                         if(k > index) {
-                            bit = outBits[k - 1];
+                            bit = bits[k - 1];
                         } else {
-                            bit = outBits[k];
+                            bit = bits[k];
                         }
                         extraGuard += " & " + outputs[k] + " = " + bit;
                     }
                 }
                 extraGuard = guard + extraGuard;
 
+                int[] outBits = new int[outputs.length];
+                for (int k = 0; k < bits.length; k++) {
+                    if(k >= index) {
+                        outBits[k+1] = bits[k];
+                    } else {
+                        outBits[k] = bits[k];
+                    }
+                }
+                outBits[index] = 0;
+
                 String val = Integer.toString(0);
                 String assign = ASSIGN.replaceAll(VAR, var)
                         .replaceAll(VAL, val);
-                String action = PROB.replaceAll(VAL, "?")
+                val = Double.toString(box.normalisedProb(inBits, outBits, index));
+                String action = PROB.replaceAll(VAL, val)
                         .replaceAll(ACTION, assign);
                 for (int k = 1; k < RANGE; k++) {
+                    outBits[index] = k;
                     val = Integer.toString(k);
                     assign = ASSIGN.replaceAll(VAR, var)
                             .replaceAll(VAL, val);
-                    action += " + " + PROB.replaceAll(VAL, "?")
+                    val = Double.toString(box.normalisedProb(inBits, outBits, index));
+                    action += " + " + PROB.replaceAll(VAL, val)
                             .replaceAll(ACTION, assign);
                 }
 

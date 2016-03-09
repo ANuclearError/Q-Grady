@@ -164,7 +164,7 @@ public class Box {
      * @return
      */
     public double normalisedProb(int[] input, int[] output, int outputIndex) {
-        int[] outputCopy = output;
+        int[] outputCopy = Arrays.copyOf(output, output.length);
         outputCopy[outputIndex] = 0;
         double sum = prob(input, outputCopy);
         outputCopy[outputIndex] = 1;
