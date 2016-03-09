@@ -56,6 +56,8 @@ public class FileGenerator {
     private static final String COIN_TOSS =
             "0.5 : (VAR' =  0) + 0.5 : (VAR' = 1)";
 
+    private static final String PROB = "PROB : ACTION";
+
     private static final String ASSIGN = "(VAR' = VAL)";
 
     private static final String EQ_NEG_ONE = "VAR = -1";
@@ -182,9 +184,7 @@ public class FileGenerator {
             String guard = var + " = " + val;
             String action = ASSIGN.replaceAll(VAR, var)
                     .replaceAll(VAL, val);
-            lines.add(COMMAND.replaceAll(SYNC, sync)
-                .replaceAll(GUARD, guard)
-                .replaceAll(ACTION, action));
+            lines.add(command(sync, guard, action));
         }
         return lines;
     }
@@ -207,11 +207,8 @@ public class FileGenerator {
             guard += " & " + EQ_NEG_ONE.replaceAll(VAR, in);
         }
         in = Character.toString(inputs[index]);
-        String toss = COIN_TOSS.replaceAll(VAR, in);
-        return COMMAND.replaceAll(SYNC, "")
-                .replaceAll(GUARD, guard)
-                .replaceAll(ACTION, toss);
-
+        String action = COIN_TOSS.replaceAll(VAR, in);
+        return command(EMPTY_LINE, guard, action);
     }
 
 
@@ -229,11 +226,8 @@ public class FileGenerator {
     private String coinToss(int index, String sync) {
         String in = Character.toString(inputs[index]);
         String guard = EQ_NEG_ONE.replaceAll(VAR, in);
-        in = Character.toString(inputs[index]);
-        String toss = COIN_TOSS.replaceAll(VAR, in);
-        return COMMAND.replaceAll(SYNC, sync)
-                .replaceAll(GUARD, guard)
-                .replaceAll(ACTION, toss);
+        String action = COIN_TOSS.replaceAll(VAR, in);
+        return command(sync, guard, action);
     }
 
 
@@ -247,14 +241,33 @@ public class FileGenerator {
     private List<String> output(int index) {
         List<String> lines = new ArrayList<>();
         String var = Character.toString(outputs[index]);
-        lines.add(VAR_DEC.replaceAll(VAR, var));
+        lines.add(VAR_DEC.replaceAll(VAR, var)); // Variable declaration
+
+        // The output sync
         String guard = NEQ_NEG_ONE.replaceAll(VAR, var);
         String action = ASSIGN.replaceAll(VAR, var)
                 .replaceAll(VAL, var);
-        lines.add(COMMAND.replaceAll(SYNC, var)
-                .replaceAll(GUARD, guard)
-        .replaceAll(ACTION, action));
+        lines.add(command(var, guard, action));
+        lines.add(EMPTY_LINE);
+
+        // probability of single output given single input
+        for(int i = 0; i < 2; i++) {
+            String sync = Character.toString(inputs[index]) + i;
+            guard = EQ_NEG_ONE.replaceAll(VAR, var);
+            for(int j = 1; j < outputs.length; j++) {
+                String out = Character.toString(outputs[j]);
+                guard += " & " + EQ_NEG_ONE.replaceAll(VAR, out);
+            }
+            action = ACTION;
+            lines.add(command(sync, guard, action));
+        }
         lines.add(EMPTY_LINE);
         return lines;
+    }
+
+    private String command(String sync, String guard, String action) {
+        return COMMAND.replaceAll(SYNC, sync)
+                .replaceAll(GUARD, guard)
+                .replaceAll(ACTION, action);
     }
 }
