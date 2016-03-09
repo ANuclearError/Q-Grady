@@ -36,6 +36,8 @@ public class FileGenerator {
      */
     private char[] outputs;
 
+    private static final int RANGE = 2;
+
     /*
      * The following are strings that are used throughout the file generation
      * phase. Any instance of VAR or NUM indicates placeholders that will be
@@ -178,7 +180,7 @@ public class FileGenerator {
         lines.add(EMPTY_LINE);
 
         // The sync actions on the input
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < RANGE; i++) {
             String val = i + "";
             String sync = var + val;
             String guard = var + " = " + val;
@@ -250,20 +252,53 @@ public class FileGenerator {
         lines.add(command(var, guard, action));
         lines.add(EMPTY_LINE);
 
+        lines.addAll(prob(index));
+        lines.add(EMPTY_LINE);
+        return lines;
+    }
+
+
+    /**
+     * Returns string representing a command in PRISM.
+     * @param sync  the sync of the command
+     * @param guard  the guard of the command
+     * @param action  the action of the command.
+     * @return command
+     */
+    private String command(String sync, String guard, String action) {
+        return COMMAND.replaceAll(SYNC, sync)
+                .replaceAll(GUARD, guard)
+                .replaceAll(ACTION, action);
+    }
+
+    /**
+     * Returns a list of strings handling the actions deciding P(a|x) where a
+     * is the output with the given index, and x is the input with the given
+     * index.
+     *
+     * @param index  the index of the input and output
+     * @return  commands
+     */
+    private List<String> prob(int index) {
+        List<String> lines = new ArrayList<>();
         // probability of single output given single input
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < RANGE; i++) {
+            String var = Character.toString(outputs[index]);
             String sync = Character.toString(inputs[index]) + i;
-            guard = EQ_NEG_ONE.replaceAll(VAR, var);
+            String guard = EQ_NEG_ONE.replaceAll(VAR, var);
             for(int j = 1; j < outputs.length; j++) {
                 String out = Character.toString(outputs[j]);
                 guard += " & " + EQ_NEG_ONE.replaceAll(VAR, out);
             }
+
+            // Need to handle the P(0|0| case before entering loop.
             String prob = Double.toString(box.prob(index, i, index, 0));
             String assign = ASSIGN.replaceAll(VAR, var)
                     .replaceAll(VAL, Integer.toString(0));
-            action = PROB.replaceAll(VAL, prob)
+            String action = PROB.replaceAll(VAL, prob)
                     .replaceAll(ACTION, assign);
-            for(int j = 1; j < 2; j++) {
+
+            for(int j = 1; j < RANGE; j++) {
                 prob = Double.toString(box.prob(index, i, index, j));
                 assign = ASSIGN.replaceAll(VAR, var)
                         .replaceAll(VAL, Integer.toString(j));
@@ -272,13 +307,6 @@ public class FileGenerator {
             }
             lines.add(command(sync, guard, action));
         }
-        lines.add(EMPTY_LINE);
         return lines;
-    }
-
-    private String command(String sync, String guard, String action) {
-        return COMMAND.replaceAll(SYNC, sync)
-                .replaceAll(GUARD, guard)
-                .replaceAll(ACTION, action);
     }
 }
