@@ -152,7 +152,7 @@ public class Box {
                 sum *= prob;
             }
         }
-        return sum;
+        return sum / 0.5;
     }
 
     /**
