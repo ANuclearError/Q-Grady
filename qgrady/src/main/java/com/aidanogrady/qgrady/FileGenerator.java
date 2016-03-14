@@ -119,12 +119,14 @@ public class FileGenerator {
         String module = PrismMacros.MODULE + " INPUT_" + input;
         lines.add(module);
 
-        lines.add(PrismMacros.varDec(input, RANGE - 1));
+        lines.add(PrismMacros.varDec(input, RANGE - 1, -1));
 
         String sync = "";
+
         String guard = PrismMacros.isEqual(input, -1);
         String action = PrismMacros.equalDist(input, RANGE);
         lines.add(PrismMacros.command(sync, guard, action));
+        lines.add(PrismMacros.EMPTY_LINE);
 
         for(int i = 0; i < RANGE; i++) {
             sync = input + i;
@@ -133,6 +135,7 @@ public class FileGenerator {
             lines.add(PrismMacros.command(sync, guard, action));
         }
 
+        lines.add(PrismMacros.EMPTY_LINE);
         lines.add(PrismMacros.END_MODULE);
         lines.add(PrismMacros.EMPTY_LINE);
     }
@@ -142,9 +145,9 @@ public class FileGenerator {
      * Handles the generation of the output part of the Prism model.
      */
     private void output() {
-        lines.add(PrismMacros.varDec(ready, 1));
+        lines.add(PrismMacros.varDec(ready, 1, 1));
         for(int i = 0; i < box.getOutputs(); i++) {
-            lines.add(PrismMacros.varDec(outputs[i], RANGE - 1));
+            lines.add(PrismMacros.varDec(outputs[i], RANGE - 1, -1));
         }
         lines.add(PrismMacros.EMPTY_LINE);
         outputSyncs();
@@ -216,9 +219,9 @@ public class FileGenerator {
         int in = (int) Math.pow(RANGE, inputs.length);
         int out = (int) Math.pow(RANGE, outputs.length);
         for(int i = 0; i < outputs.length; i++) {
-            String sync = "";
-            String guard = "";
-            String action = "";
+            String sync;
+            String guard;
+            String action;
             for(int j = 0; j < in; j++) {
                 int[] inBits = Box.intToBitArray(j, inputs.length);
                 sync = inputs[i] + inBits[i];
@@ -249,6 +252,30 @@ public class FileGenerator {
                         }
                     }
                     guard = PrismMacros.listToString(guards, '&');
+
+                    int[] outBits = new int[outputs.length];
+                    for (int l = 0; l < bits.length; l++) {
+                        if(l >= i) {
+                            outBits[l + 1] = bits[l];
+                        } else {
+                            outBits[l] = bits[l];
+                        }
+                    }
+                    outBits[i] = 0;
+
+                    List<String> actions = new ArrayList<>();
+                    for(int l = 0; l < RANGE; l++) {
+                        outBits[i] = l;
+                        double prob = box.normalisedProb(inBits, outBits, i);
+                        if(prob > 0) {
+                            List<String> acts = new ArrayList<>();
+                            acts.add(PrismMacros.assign(ready, 0));
+                            acts.add(PrismMacros.assign(outputs[i], l));
+                            String act = PrismMacros.listToString(acts, '&');
+                            actions.add(PrismMacros.prob(prob, act));
+                        }
+                    }
+                    action = PrismMacros.listToString(actions, '+');
                     lines.add(PrismMacros.command(sync, guard, action));
                 }
             }

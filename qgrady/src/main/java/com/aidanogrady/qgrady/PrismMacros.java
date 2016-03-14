@@ -28,9 +28,12 @@ public class PrismMacros {
 
     private static final String VAL = "VAL";
 
-    public static String varDec(String variable, int range) {
-        String varDec = "\tVAR : [-1..VAL] init - 1;";
+    private static final String INIT = "INIT";
+
+    public static String varDec(String variable, int range, int init) {
+        String varDec = "\tVAR : [-1..VAL] init INIT;";
         return varDec.replaceAll(VAL, Integer.toString(range))
+                .replaceAll(INIT, Integer.toString(init))
                 .replaceAll(VAR, variable);
     }
 
@@ -72,7 +75,7 @@ public class PrismMacros {
             String action = assign(variable, i);
             actions.add(prob(prob, action));
         }
-       return listToString(actions, '&');
+       return listToString(actions, '+');
     }
 
     public static String listToString(List<String> list, char separator) {
