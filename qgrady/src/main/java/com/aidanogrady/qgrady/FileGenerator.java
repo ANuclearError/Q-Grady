@@ -165,5 +165,32 @@ public class FileGenerator {
                 lines.add(PrismMacros.command(sync, guard, action));
             }
         }
+        lines.add(PrismMacros.EMPTY_LINE);
+        reduced();
+    }
+
+    private void reduced() {
+        List<String> guards = new ArrayList<>();
+        guards.add(PrismMacros.isEqual(ready, 1));
+        for (String output : outputs) {
+            guards.add(PrismMacros.isEqual(output, -1));
+        }
+        String guard = PrismMacros.listToString(guards, '&');
+        for(int i = 0; i < box.getOutputs(); i++) {
+            for(int j = 0; j < RANGE; j++) {
+                String sync = inputs[i] + j;
+                List<String> probs = new ArrayList<>();
+                for(int k = 0; k < RANGE; k++) {
+                    List<String> actions = new ArrayList<>();
+                    actions.add(PrismMacros.assign(ready, 0));
+                    actions.add(PrismMacros.assign(outputs[i], k));
+                    String action = PrismMacros.listToString(actions, '&');
+                    double prob = box.prob(i, j, i, k);
+                    probs.add(PrismMacros.prob(prob, action));
+                }
+                String action = PrismMacros.listToString(probs, '+');
+                lines.add(PrismMacros.command(sync, guard, action));
+            }
+        }
     }
 }
