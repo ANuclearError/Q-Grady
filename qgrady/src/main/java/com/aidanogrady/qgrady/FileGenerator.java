@@ -79,9 +79,9 @@ public class FileGenerator {
         lines.add(PrismMacros.MODEL_TYPE);
         lines.add(PrismMacros.EMPTY_LINE);
         for(int i = 0; i < box.getInputs(); i++) {
-            lines.addAll(input(i));
+            lines.addAll(input(inputs[i]));
         }
-        lines.add(PrismMacros.MODULE + "OUTPUT");
+        lines.add(PrismMacros.MODULE + " OUTPUT");
         for(int i = 0; i < box.getOutputs(); i++) {
             lines.addAll(output(i));
         }
@@ -114,11 +114,30 @@ public class FileGenerator {
      * Returns a list of strings that form the input parts of the generated
      * file.
      *
-     * @param index  the input being generated
+     * @param input  the input being generated
      * @return lines
      */
-    private List<String> input(int index) {
+    private List<String> input(String input) {
         List<String> lines = new ArrayList<>();
+        String module = PrismMacros.MODULE + " INPUT_" + input;
+        lines.add(module);
+
+        lines.add(PrismMacros.varDec(input, RANGE - 1));
+
+        String sync = "";
+        String guard = PrismMacros.isEqual(input, -1);
+        String action = PrismMacros.equalDist(input, RANGE);
+        lines.add(PrismMacros.command(sync, guard, action));
+
+        for(int i = 0; i < RANGE; i++) {
+            sync = input + i;
+            guard = PrismMacros.isEqual(input, i);
+            action = PrismMacros.assign(input, i);
+            lines.add(PrismMacros.command(sync, guard, action));
+        }
+
+        lines.add(PrismMacros.END_MODULE);
+        lines.add(PrismMacros.EMPTY_LINE);
         return lines;
     }
 
