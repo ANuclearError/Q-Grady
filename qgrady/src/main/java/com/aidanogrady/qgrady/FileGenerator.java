@@ -38,6 +38,7 @@ public class FileGenerator {
 
     private static final int RANGE = 2;
 
+    private String ready = "ready";
 
     /**
      * Constructs a new FileGenerator object.
@@ -79,16 +80,13 @@ public class FileGenerator {
         lines.add(PrismMacros.MODEL_TYPE);
         lines.add(PrismMacros.EMPTY_LINE);
         for(int i = 0; i < box.getInputs(); i++) {
-            lines.addAll(input(inputs[i]));
+            input(inputs[i]);
         }
         lines.add(PrismMacros.MODULE + " OUTPUT");
-        for(int i = 0; i < box.getOutputs(); i++) {
-            lines.addAll(output(i));
-        }
+        output();
         lines.add(PrismMacros.END_MODULE);
         lines.add(PrismMacros.EMPTY_LINE);
     }
-
 
     /**
      * Generates the variable names based on the number of inputs and outputs to
@@ -117,8 +115,7 @@ public class FileGenerator {
      * @param input  the input being generated
      * @return lines
      */
-    private List<String> input(String input) {
-        List<String> lines = new ArrayList<>();
+    private void input(String input) {
         String module = PrismMacros.MODULE + " INPUT_" + input;
         lines.add(module);
 
@@ -138,20 +135,35 @@ public class FileGenerator {
 
         lines.add(PrismMacros.END_MODULE);
         lines.add(PrismMacros.EMPTY_LINE);
-        return lines;
     }
 
 
     /**
-     * Returns a generated list of lines that handles the actions related to
-     * the output with the given index.
-     *
-     * @param index  the output being worked on.
-     * @return  lines
+     * Handles the generation of the output part of the Prism model.
      */
-    private List<String> output(int index) {
-        List<String> lines = new ArrayList<>();
-        return lines;
-    }
+    private void output() {
+        lines.add(PrismMacros.varDec(ready, 1));
+        for(int i = 0; i < box.getOutputs(); i++) {
+            lines.add(PrismMacros.varDec(outputs[i], RANGE - 1));
+        }
+        lines.add(PrismMacros.EMPTY_LINE);
+        for(int i = 0; i < box.getOutputs(); i++) {
+            for(int j = 0; j < RANGE; j++) {
+                String sync = outputs[i] + j;
 
+                String[] guards = new String[2];
+                guards[0] = PrismMacros.isEqual(ready, 0);
+                guards[1] = PrismMacros.isEqual(outputs[i], j);
+                List<String> list = Arrays.asList(guards);
+                String guard = PrismMacros.listToString(list, '&');
+
+                String[] actions = new String[2];
+                actions[0] = PrismMacros.assign(ready, 1);
+                actions[1] = PrismMacros.assign(outputs[i], j);
+                list = Arrays.asList(actions);
+                String action = PrismMacros.listToString(list, '&');
+                lines.add(PrismMacros.command(sync, guard, action));
+            }
+        }
+    }
 }

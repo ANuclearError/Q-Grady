@@ -72,14 +72,20 @@ public class PrismMacros {
             String action = assign(variable, i);
             actions.add(prob(prob, action));
         }
-        String action = "";
-        Iterator it = actions.iterator();
+       return listToString(actions, '&');
+    }
+
+    public static String listToString(List<String> list, char separator) {
+        String sep = " " + separator + " ";
+        String string = "";
+        Iterator it = list.iterator();
         if(it.hasNext()) {
-            action += it.next();
+            string += it.next();
         }
         while(it.hasNext()) {
-            action += " + " + it.next();
+            string += sep;
+            string += it.next();
         }
-        return action;
+        return string;
     }
 }
