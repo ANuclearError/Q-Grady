@@ -147,6 +147,18 @@ public class FileGenerator {
             lines.add(PrismMacros.varDec(outputs[i], RANGE - 1));
         }
         lines.add(PrismMacros.EMPTY_LINE);
+        outputSyncs();
+        lines.add(PrismMacros.EMPTY_LINE);
+        reduced();
+        lines.add(PrismMacros.EMPTY_LINE);
+        normalised();
+    }
+
+
+    /**
+     * Generates the output syncs for handling the ready transitions.
+     */
+    private void outputSyncs() {
         for(int i = 0; i < box.getOutputs(); i++) {
             for(int j = 0; j < RANGE; j++) {
                 String sync = outputs[i] + j;
@@ -165,22 +177,27 @@ public class FileGenerator {
                 lines.add(PrismMacros.command(sync, guard, action));
             }
         }
-        lines.add(PrismMacros.EMPTY_LINE);
-        reduced();
     }
 
+
+    /**
+     * Adds the reduced probabilities (P(a|x)) to be added to the file.
+     */
     private void reduced() {
+        // The guard is the same in all cases, so generate it first.
         List<String> guards = new ArrayList<>();
         guards.add(PrismMacros.isEqual(ready, 1));
         for (String output : outputs) {
             guards.add(PrismMacros.isEqual(output, -1));
         }
         String guard = PrismMacros.listToString(guards, '&');
-        for(int i = 0; i < box.getOutputs(); i++) {
-            for(int j = 0; j < RANGE; j++) {
+
+        for(int i = 0; i < box.getOutputs(); i++) { // Handle each output
+            for(int j = 0; j < RANGE; j++) { // Handle each input possibility
                 String sync = inputs[i] + j;
+
                 List<String> probs = new ArrayList<>();
-                for(int k = 0; k < RANGE; k++) {
+                for(int k = 0; k < RANGE; k++) { // P(k | j);
                     List<String> actions = new ArrayList<>();
                     actions.add(PrismMacros.assign(ready, 0));
                     actions.add(PrismMacros.assign(outputs[i], k));
@@ -188,9 +205,54 @@ public class FileGenerator {
                     double prob = box.prob(i, j, i, k);
                     probs.add(PrismMacros.prob(prob, action));
                 }
+
                 String action = PrismMacros.listToString(probs, '+');
                 lines.add(PrismMacros.command(sync, guard, action));
             }
+        }
+    }
+
+    private void normalised() {
+        int in = (int) Math.pow(RANGE, inputs.length);
+        int out = (int) Math.pow(RANGE, outputs.length);
+        for(int i = 0; i < outputs.length; i++) {
+            String sync = "";
+            String guard = "";
+            String action = "";
+            for(int j = 0; j < in; j++) {
+                int[] inBits = Box.intToBitArray(j, inputs.length);
+                sync = inputs[i] + inBits[i];
+                List<String> guards = new ArrayList<>();
+                guards.add(PrismMacros.isEqual(ready, 1));
+                guards.add(PrismMacros.isEqual(outputs[i], -1));
+
+                // Add the inputs to guard.
+                for (int k = 0; k < inputs.length; k++) {
+                    if(k != i) {
+                        guards.add(PrismMacros.isEqual(inputs[k], inBits[k]));
+                    }
+                }
+
+                guards.add("");
+                for(int k = 0; k < out / 2; k++) {
+                    int[] bits = Box.intToBitArray(k, outputs.length - 1);
+                    for(int l = 0; l < outputs.length; l++) {
+                        if(l != i) {
+                            int bit;
+                            if(l > i) {
+                                bit = bits[l - 1];
+                            } else {
+                                bit = bits[l];
+                            }
+                            guards.remove(guards.size() - 1);
+                            guards.add(PrismMacros.isEqual(outputs[l], bit));
+                        }
+                    }
+                    guard = PrismMacros.listToString(guards, '&');
+                    lines.add(PrismMacros.command(sync, guard, action));
+                }
+            }
+            lines.add(PrismMacros.EMPTY_LINE);
         }
     }
 }
