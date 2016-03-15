@@ -41,7 +41,7 @@ public class BoxTest {
             for(int j = 0; j < 2; j++) {
                 for (int k = 0; k < 2; k++) {
                     // In the PR box, all probabilities of p(a|x) == 0.25
-                    assertEquals(box.prob(i, j, i, k), 0.25, 0);
+                    assertEquals(box.prob(i, j, i, k), 0.5, 0);
                 }
             }
         }
