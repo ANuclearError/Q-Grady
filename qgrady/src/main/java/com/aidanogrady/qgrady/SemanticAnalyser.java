@@ -4,6 +4,8 @@ import com.aidanogrady.qgrady.exceptions.InvalidRowException;
 import com.aidanogrady.qgrady.exceptions.InvalidValueException;
 import com.aidanogrady.qgrady.exceptions.SignallingException;
 
+import java.util.Arrays;
+
 /**
  * The Semantic Analyser ensures that the semantics of the language are
  * maintained. It checks the probability distribution to ensure that all
@@ -99,43 +101,33 @@ public class SemanticAnalyser {
      * @throws SignallingException
      */
     public static void nonSignalling(Box box) throws SignallingException {
-        for (int a = 0; a < 2; a++) {
-            for (int x = 0; x < 2; x++) {
-                for (int y = 0; y < 2; y++) {
-                    for (int y_ = 0; y_ < 2; y_++) {
-                        double sumB = 0;
-                        double sumB_ = 0;
-                        for (int b = 0; b < 2; b++) {
-                            int[] in = {x, y};
-                            int[] out = {a, b};
-                            sumB += box.prob(in, out);
-                            in = new int[] {x, y_};
-                            sumB_ += box.prob(in, out);
-                        }
-                        if (sumB != sumB_)
-                            throw new SignallingException("Signalling found.");
+       nonSignalling(box, 1);
+    }
+
+    private static void nonSignalling(Box box, int index) throws SignallingException {
+        int range = 2;
+        int inRange = (int) Math.pow(range, box.getInputs());
+        int outRange = (int) Math.pow(range, box.getOutputs());
+
+        for (int i = 0; i < inRange; i++) {
+            int[] inBits = Box.intToBitArray(i, box.getInputs());
+            for (int j = 0; j < outRange; j++) {
+                int[] outBits = Box.intToBitArray(i, box.getOutputs());
+                double[] sum = new double[range];
+                for (int k = 0; k < range; k++) {
+                    inBits[index] = k;
+                    for (int l = 0; l < range; l++) {
+                        outBits[index] = l;
+                        sum[k] += box.prob(inBits, outBits);
                     }
                 }
-            }
-        }
-        for (int b = 0; b < 2; b++) {
-            for (int y = 0; y < 2; y++) {
-                for (int x = 0; x < 2; x++) {
-                    for (int x_ = 0; x_ < 2; x_++) {
-                        double sumA = 0;
-                        double sumA_ = 0;
-                        for (int a = 0; a < 2; a++) {
-                            int[] in = {x, y};
-                            int[] out = {a, b};
-                            sumA += box.prob(in, out);
-                            in = new int[] {x_, y};
-                            sumA_ += box.prob(in, out);
-                        }
-                        if (sumA != sumA_)
-                            throw new SignallingException("Signalling found.");
-                    }
+
+                for (int k = 1; k < sum.length; k++) {
+                    if(sum[0] != sum[k])
+                        throw new SignallingException("Signalling found");
                 }
             }
+
         }
     }
 }
