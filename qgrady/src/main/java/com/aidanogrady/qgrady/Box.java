@@ -131,6 +131,7 @@ public class Box {
             int[] out = k.getOutput();
             if(in[inputIndex] == input && out[outputIndex] == output) {
                 horribleMap.put(k, k.getInput());
+                System.out.println(Arrays.toString(k.getInput()) + Arrays.toString(k.getOutput()));
             }
         });
 
@@ -146,13 +147,20 @@ public class Box {
                     prob += distribution.get(entry.getKey());
                 }
             }
+            System.out.println(Arrays.toString(in) + prob);
             if(sum == 0.0) { // Check that we're not multiplying by 0.
                 sum += prob;
             } else {
                 sum *= prob;
             }
         }
-        return sum / 0.5;
+
+        // Need to perform some weird stuff to ensure that the reduced
+        // probability is accurate.
+        int power = (int) Math.pow(2, inputs - 1) - 1;
+        if(power > 0)
+            power = -1 * power;
+        return sum / Math.pow(2, power);
     }
 
     /**
