@@ -155,9 +155,7 @@ public class Box {
 
         // Need to perform some weird stuff to ensure that the reduced
         // probability is accurate.
-        int power = (int) Math.pow(2, inputs - 1) - 1;
-        if(power > 0)
-            power = -1 * power;
+        int power = ((int) Math.pow(2, inputs - 1) - 1) * -1;
         return sum / Math.pow(2, power);
     }
 
