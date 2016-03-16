@@ -101,7 +101,9 @@ public class SemanticAnalyser {
      * @throws SignallingException
      */
     public static void nonSignalling(Box box) throws SignallingException {
-       nonSignalling(box, 1);
+        for (int i = 0; i < box.getInputs(); i++) {
+            nonSignalling(box, i);
+        }
     }
 
     private static void nonSignalling(Box box, int index) throws SignallingException {

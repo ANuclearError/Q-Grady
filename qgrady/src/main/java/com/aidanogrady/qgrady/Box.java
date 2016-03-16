@@ -131,7 +131,6 @@ public class Box {
             int[] out = k.getOutput();
             if(in[inputIndex] == input && out[outputIndex] == output) {
                 horribleMap.put(k, k.getInput());
-                System.out.println(Arrays.toString(k.getInput()) + Arrays.toString(k.getOutput()));
             }
         });
 
@@ -147,7 +146,6 @@ public class Box {
                     prob += distribution.get(entry.getKey());
                 }
             }
-            System.out.println(Arrays.toString(in) + prob);
             if(sum == 0.0) { // Check that we're not multiplying by 0.
                 sum += prob;
             } else {
