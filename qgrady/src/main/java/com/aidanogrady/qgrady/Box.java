@@ -146,17 +146,13 @@ public class Box {
                     prob += distribution.get(entry.getKey());
                 }
             }
-            if(sum == 0.0) { // Check that we're not multiplying by 0.
-                sum += prob;
-            } else {
-                sum *= prob;
-            }
+
+            sum += prob;
         }
 
         // Need to perform some weird stuff to ensure that the reduced
         // probability is accurate.
-        int power = ((int) Math.pow(2, inputs - 1) - 1) * -1;
-        return sum / Math.pow(2, power);
+        return sum / Math.pow(2, inputs - 1);
     }
 
     /**
@@ -164,7 +160,7 @@ public class Box {
      * input and output.
      * @param input - the known input values
      * @param outputIndex - the known output index
-     * @param output - the known output value
+     * @param output - the known output to be normalised over.
      * @return
      */
     public double normalisedProb(int[] input, int[] output, int outputIndex) {
