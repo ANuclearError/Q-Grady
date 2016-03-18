@@ -79,7 +79,7 @@ public class FileGenerator {
         generateVariables();
         lines.add(PrismMacros.MODEL_TYPE);
         lines.add(PrismMacros.EMPTY_LINE);
-        for(int i = 0; i < box.getInputs(); i++) {
+        for(int i = 0; i < box.getInputs().size(); i++) {
             input(inputs[i]);
         }
         lines.add(PrismMacros.MODULE + " OUTPUT");
@@ -93,13 +93,13 @@ public class FileGenerator {
      * satisfy.
      */
     private void generateVariables() {
-        inputs = new String[box.getInputs()];
+        inputs = new String[box.getInputs().size()];
         char input = 'z';
         for (int i = inputs.length - 1; i > -1; i--) {
             inputs[i] = Character.toString(input);
             input--;
         }
-        outputs = new String[box.getOutputs()];
+        outputs = new String[box.getOutputs().size()];
         char output = 'a';
         for (int i = 0; i < outputs.length; i++) {
             outputs[i] = Character.toString(output);
@@ -146,7 +146,7 @@ public class FileGenerator {
      */
     private void output() {
         lines.add(PrismMacros.varDec(ready, 1, 1));
-        for(int i = 0; i < box.getOutputs(); i++) {
+        for(int i = 0; i < box.getOutputs().size(); i++) {
             lines.add(PrismMacros.varDec(outputs[i], RANGE - 1, -1));
         }
         lines.add(PrismMacros.EMPTY_LINE);
@@ -162,7 +162,7 @@ public class FileGenerator {
      * Generates the output syncs for handling the ready transitions.
      */
     private void outputSyncs() {
-        for(int i = 0; i < box.getOutputs(); i++) {
+        for(int i = 0; i < box.getOutputs().size(); i++) {
             for(int j = 0; j < RANGE; j++) {
                 String sync = outputs[i] + j;
 
@@ -195,7 +195,7 @@ public class FileGenerator {
         }
         String guard = PrismMacros.listToString(guards, '&');
 
-        for(int i = 0; i < box.getOutputs(); i++) { // Handle each output
+        for(int i = 0; i < box.getOutputs().size(); i++) { // Handle each output
             for(int j = 0; j < RANGE; j++) { // Handle each input possibility
                 String sync = inputs[i] + j;
 

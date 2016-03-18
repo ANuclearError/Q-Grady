@@ -101,20 +101,20 @@ public class SemanticAnalyser {
      * @throws SignallingException
      */
     public static void nonSignalling(Box box) throws SignallingException {
-        for (int i = 0; i < box.getInputs(); i++) {
+        for (int i = 0; i < box.getInputs().size(); i++) {
             nonSignalling(box, i);
         }
     }
 
     private static void nonSignalling(Box box, int index) throws SignallingException {
         int range = 2;
-        int inRange = (int) Math.pow(range, box.getInputs());
-        int outRange = (int) Math.pow(range, box.getOutputs());
+        int inRange = (int) Math.pow(range, box.getInputs().size());
+        int outRange = (int) Math.pow(range, box.getOutputs().size());
 
         for (int i = 0; i < inRange; i++) {
-            int[] inBits = Box.intToBitArray(i, box.getInputs());
+            int[] inBits = Box.intToBitArray(i, box.getInputs().size());
             for (int j = 0; j < outRange; j++) {
-                int[] outBits = Box.intToBitArray(i, box.getOutputs());
+                int[] outBits = Box.intToBitArray(i, box.getOutputs().size());
                 double[] sum = new double[range];
                 for (int k = 0; k < range; k++) {
                     inBits[index] = k;

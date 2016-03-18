@@ -103,21 +103,19 @@ public class QGrady {
         try {
             Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
             Object result = p.parse().value;
-            double[][] probs = convertList((List<List<Double>>) result);
+            Box box = (Box) result;
 
             System.out.print("Checking values... ");
-            SemanticAnalyser.validateValues(probs);
+            SemanticAnalyser.validateValues(box.getProbs());
             System.out.println("OK!");
 
             System.out.print("Checking row lengths... ");
-            SemanticAnalyser.validateRowLengths(probs);
+            SemanticAnalyser.validateRowLengths(box.getProbs());
             System.out.println("OK!");
 
             System.out.print("Checking row sums... ");
-            SemanticAnalyser.validateRowSums(probs);
+            SemanticAnalyser.validateRowSums(box.getProbs());
             System.out.println("OK!");
-
-            Box box = new Box(probs);
 
             System.out.print("Checking for non-signalling... ");
             SemanticAnalyser.nonSignalling(box);
@@ -128,29 +126,6 @@ public class QGrady {
             return null;
         }
     }
-
-
-    /**
-     * Converts a List of Lists into a two-dimensional array. When parsing with
-     * Cup, the List was preferred due to the ease of using of not having to
-     * manually handle the dynamic array desired, hence this conversion method
-     * to handle it instead.
-     *
-     * @param res - the distribution read in by the parser.
-     * @return res as 2D array
-     */
-    private double[][] convertList(List<List<Double>> res) {
-        double[][] box = new double[res.size()][];
-        for(int i = 0; i < res.size(); i++) {
-            List<Double> row = res.get(i);
-            box[i] = new double[row.size()];
-            for(int j = 0; j < row.size(); j++) {
-                box[i][j] = row.get(j);
-            }
-        }
-        return box;
-    }
-
 
     /**
      * Starts the file generation part of the compiler.

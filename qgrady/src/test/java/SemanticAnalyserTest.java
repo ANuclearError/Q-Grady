@@ -4,6 +4,10 @@ import com.aidanogrady.qgrady.exceptions.InvalidRowException;
 import com.aidanogrady.qgrady.exceptions.InvalidValueException;
 import com.aidanogrady.qgrady.exceptions.SignallingException;
 import org.junit.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -128,7 +132,14 @@ public class SemanticAnalyserTest {
 
     @Test
     public void validateNonsignalling() {
-        Box box = new Box(pr);
+        List<String> inputs = new ArrayList<>();
+        List<String> outputs = new ArrayList<>();
+        inputs.add("x");
+        outputs.add("y");
+        inputs.add("a");
+        outputs.add("b");
+
+        Box box = new Box(inputs, outputs, pr);
         try {
             SemanticAnalyser.nonSignalling(box);
         } catch (SignallingException e) {
@@ -144,7 +155,13 @@ public class SemanticAnalyserTest {
                 {0.4, 0, 0, 0.6},
                 {0, 0.4, 0.6, 0}
         };
-        Box box = new Box(signalling);
+        List<String> inputs = new ArrayList<>();
+        List<String> outputs = new ArrayList<>();
+        inputs.add("x");
+        outputs.add("y");
+        inputs.add("a");
+        outputs.add("b");
+        Box box = new Box(inputs, outputs, signalling);
         try {
             SemanticAnalyser.nonSignalling(box);
         } catch (SignallingException e) {

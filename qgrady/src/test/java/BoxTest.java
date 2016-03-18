@@ -1,5 +1,9 @@
 import com.aidanogrady.qgrady.Box;
 import org.junit.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,6 +18,12 @@ public class BoxTest {
 
     @BeforeClass
     public static void setup() {
+        List<String> inputs = new ArrayList<>();
+        List<String> outputs = new ArrayList<>();
+        inputs.add("x");
+        outputs.add("y");
+        inputs.add("a");
+        outputs.add("b");
         // Perfectly valid PR box.
         pr = new double[][] {
                 {0.5, 0, 0, 0.5},
@@ -22,7 +32,7 @@ public class BoxTest {
                 {0, 0.5, 0.5, 0}
         };
 
-        box = new Box(pr);
+        box = new Box(inputs, outputs, pr);
     }
 
     @Test

@@ -8,21 +8,25 @@ package com.aidanogrady.qgrady.syntax;
 /** CUP generated interface containing symbol constants. */
 public interface sym {
   /* terminals */
-  public static final int COMMA = 3;
-  public static final int SEMICOLON = 2;
-  public static final int error = 1;
-  public static final int NUMBER = 6;
-  public static final int RBRACKET = 5;
-  public static final int LBRACKET = 4;
+  public static final int NUM = 7;
   public static final int EOF = 0;
+  public static final int VAR = 8;
+  public static final int ARROW = 2;
+  public static final int RBRACKET = 5;
+  public static final int error = 1;
+  public static final int COMMA = 3;
+  public static final int SEMICOLON = 6;
+  public static final int LBRACKET = 4;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "SEMICOLON",
+  "ARROW",
   "COMMA",
   "LBRACKET",
   "RBRACKET",
-  "NUMBER"
+  "SEMICOLON",
+  "NUM",
+  "VAR"
   };
 }
 

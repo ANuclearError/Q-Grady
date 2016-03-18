@@ -18,44 +18,58 @@ public class Box {
     private Map<Instance, Double> distribution;
 
     /**
-     * The number of inputs in the set-up.
+     * The given array.
      */
-    private int inputs;
+    private double[][] probs;
 
     /**
-     * The number of outputs in the set-up.
+     * The inputs of this box.
      */
-    private int outputs;
-
+    private List<String> inputs;
 
     /**
-     * Constructor.
+     * The outputs of this box.
+     */
+    private List<String> outputs;
+
+    /**
+     * Constructs a new box.
      *
-     * @param box - the probability distribution.
+     * @param inputs  the inputs of this box
+     * @param outputs  the outputs of this box
+     * @param probs  the probability distribution of this box.
      */
-    public Box(double[][] box) {
+    public Box(List<String> inputs, List<String> outputs, double[][] probs) {
         distribution = new HashMap<>();
-        inputs = (int) (Math.log(box.length) / Math.log(2));
-        outputs = (int) (Math.log(box[0].length) / Math.log(2));
-        for(int i = 0; i < box.length; i++) {
-            int[] input = intToBitArray(i, inputs);
-            for(int j = 0; j < box[i].length; j++) {
-                int[] output = intToBitArray(j, outputs);
-                Instance prob = new Instance(inputs, outputs);
+        this.probs = probs;
+        this.inputs = inputs;
+        this. outputs = outputs;
+        for(int i = 0; i < probs.length; i++) {
+            int[] input = intToBitArray(i, inputs.size());
+            for(int j = 0; j < probs[i].length; j++) {
+                int[] output = intToBitArray(j, outputs.size());
+                Instance prob = new Instance(inputs.size(), outputs.size());
                 prob.setInput(input);
                 prob.setOutput(output);
-                distribution.put(prob, box[i][j]);
+                distribution.put(prob, probs[i][j]);
             }
         }
     }
 
+    /**
+     *
+     * @return probs
+     */
+    public double[][] getProbs() {
+        return probs;
+    }
 
     /**
      * Returns the number of inputs in this setup.
      *
      * @return inputs
      */
-    public int getInputs() {
+    public List<String> getInputs() {
         return inputs;
     }
 
@@ -65,8 +79,30 @@ public class Box {
      *
      * @return outputs
      */
-    public int getOutputs() {
+    public List<String> getOutputs() {
         return outputs;
+    }
+
+
+    /**
+     * Converts a List of Lists into a two-dimensional array. When parsing with
+     * Cup, the List was preferred due to the ease of using of not having to
+     * manually handle the dynamic array desired, hence this conversion method
+     * to handle it instead.
+     *
+     * @param res - the distribution read in by the parser.
+     * @return res as 2D array
+     */
+    public static double[][] convertList(List<List<Double>> res) {
+        double[][] box = new double[res.size()][];
+        for(int i = 0; i < res.size(); i++) {
+            List<Double> row = res.get(i);
+            box[i] = new double[row.size()];
+            for(int j = 0; j < row.size(); j++) {
+                box[i][j] = row.get(j);
+            }
+        }
+        return box;
     }
 
 
@@ -92,7 +128,6 @@ public class Box {
         return array;
     }
 
-
     /**
      * Returns of the probability of the given output being produced by the
      * given input.
@@ -102,7 +137,7 @@ public class Box {
      * @return p(output &#124; input)
      */
     public double prob(int[] input, int[] output) {
-        Instance prob = new Instance(inputs, outputs);
+        Instance prob = new Instance(inputs.size(), outputs.size());
         prob.setInput(input);
         prob.setOutput(output);
         return distribution.get(prob);
@@ -152,7 +187,7 @@ public class Box {
 
         // Need to perform some weird stuff to ensure that the reduced
         // probability is accurate.
-        return sum / Math.pow(2, inputs - 1);
+        return sum / Math.pow(2, inputs.size() - 1);
     }
 
     /**
