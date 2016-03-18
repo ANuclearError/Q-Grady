@@ -5,6 +5,7 @@ import com.aidanogrady.qgrady.exceptions.InvalidValueException;
 import com.aidanogrady.qgrady.exceptions.SignallingException;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * The Semantic Analyser ensures that the semantics of the language are
@@ -15,6 +16,23 @@ import java.util.Arrays;
  * @version 0.3
  */
 public class SemanticAnalyser {
+
+    /**
+     * List of words that are reserved in prism language, and thus cannot be
+     * used as variables.
+     *
+     * Taken from:
+     * http://www.prismmodelchecker.org/manual/ThePRISMLanguage/ModulesAndVariables
+     */
+    private static final String[] KEYWORDS = {
+            "A", "bool", "clock", "const", "ctmc", "C", "double", "dtmc", "E",
+            "endinit", "endinvariant", "endmodule", "endrewards", "endsystem",
+            "false", "formula", "filter", "func", "F", "global", "G", "init",
+            "invariant", "I", "int", "label", "max", "mdp", "min", "module",
+            "X", "nondeterministic", "Pmax", "Pmin", "P", "probabilistic",
+            "prob", "pta", "rate", "rewards", "Rmax", "Rmin", "R", "S",
+            "stochastic", "system", "true", "U", "W"
+    };
 
     /**
      * Determines whether there are any invalid values within the distribution.
