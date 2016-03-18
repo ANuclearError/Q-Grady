@@ -2,9 +2,11 @@ package com.aidanogrady.qgrady;
 
 import com.aidanogrady.qgrady.exceptions.InvalidRowException;
 import com.aidanogrady.qgrady.exceptions.InvalidValueException;
+import com.aidanogrady.qgrady.exceptions.InvalidVariableException;
 import com.aidanogrady.qgrady.exceptions.SignallingException;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,15 +26,47 @@ public class SemanticAnalyser {
      * Taken from:
      * http://www.prismmodelchecker.org/manual/ThePRISMLanguage/ModulesAndVariables
      */
-    private static final String[] KEYWORDS = {
+    private static final List<String> KEYWORDS = Arrays.asList(
             "A", "bool", "clock", "const", "ctmc", "C", "double", "dtmc", "E",
             "endinit", "endinvariant", "endmodule", "endrewards", "endsystem",
             "false", "formula", "filter", "func", "F", "global", "G", "init",
             "invariant", "I", "int", "label", "max", "mdp", "min", "module",
             "X", "nondeterministic", "Pmax", "Pmin", "P", "probabilistic",
             "prob", "pta", "rate", "rewards", "Rmax", "Rmin", "R", "S",
-            "stochastic", "system", "true", "U", "W"
-    };
+            "stochastic", "system", "true", "U", "W");
+
+    public static void validateVariables(Box box) throws
+            InvalidVariableException {
+        List<String> strings = box.getInputs();
+        for(String string : strings) {
+            validateVariable(box, string, strings);
+        }
+        strings = box.getOutputs();
+        for(String string : strings) {
+            validateVariable(box, string, strings);
+        }
+    }
+
+    private static void validateVariable(Box box, String string, List<String> strings) throws
+            InvalidVariableException {
+        boolean in = box.getInputs().contains(string);
+        boolean out = box.getOutputs().contains(string);
+        if (in && out) {
+            String msg = "Variable " + string + " is both input and output.";
+            throw new InvalidVariableException(msg);
+        }
+
+        if (KEYWORDS.contains(string)) {
+            String msg = "Variable " + string + " is a Prism keyword.";
+            throw new InvalidVariableException(msg);
+        }
+
+        if (Collections.frequency(strings, string) > 1) {
+            String msg = "Variable " + string + " is used multiple times.";
+            throw new InvalidVariableException(msg);
+
+        }
+    }
 
     /**
      * Determines whether there are any invalid values within the distribution.

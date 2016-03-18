@@ -105,6 +105,10 @@ public class QGrady {
             Object result = p.parse().value;
             Box box = (Box) result;
 
+            System.out.print("Checking variables... ");
+            SemanticAnalyser.validateVariables(box);
+            System.out.println("OK!");
+
             System.out.print("Checking values... ");
             SemanticAnalyser.validateValues(box.getProbs());
             System.out.println("OK!");
