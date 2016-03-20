@@ -140,7 +140,7 @@ public class FileGenerator {
      * Generates the output syncs for handling the ready transitions.
      */
     private void outputSyncs() {
-        for(int i = 0; i < box.getOutputs().size(); i++) {
+        for(int i = 0; i < box.getNoOfOutputs(); i++) {
             for(int j = 0; j < RANGE; j++) {
                 String sync = outputs.get(i) + j;
 
@@ -173,7 +173,7 @@ public class FileGenerator {
         }
         String guard = PrismMacros.listToString(guards, '&');
 
-        for(int i = 0; i < box.getOutputs().size(); i++) { // Handle each output
+        for(int i = 0; i < box.getNoOfOutputs(); i++) { // Handle each output
             for(int j = 0; j < RANGE; j++) { // Handle each input possibility
                 String sync = inputs.get(i) + j;
 

@@ -13,14 +13,15 @@ import java.util.*;
 public class Box {
 
     /**
+     * The probability distribution in 2D array format.
+     */
+    private final double[][] probs;
+
+
+    /**
      * The probability distribution.
      */
     private Map<Instance, Double> distribution;
-
-    /**
-     * The given array.
-     */
-    private double[][] probs;
 
     /**
      * The inputs of this box.
@@ -41,9 +42,9 @@ public class Box {
      */
     public Box(List<String> inputs, List<String> outputs, double[][] probs) {
         distribution = new HashMap<>();
-        this.probs = probs;
         this.inputs = inputs;
         this. outputs = outputs;
+        this.probs = probs;
         for(int i = 0; i < probs.length; i++) {
             int[] input = intToBitArray(i, inputs.size());
             for(int j = 0; j < probs[i].length; j++) {
@@ -57,30 +58,46 @@ public class Box {
     }
 
     /**
-     *
-     * @return probs
+     * Returns the probabilities of this box.
+     * @return
      */
     public double[][] getProbs() {
         return probs;
     }
 
     /**
-     * Returns the number of inputs in this setup.
-     *
+     * Returns the inputs of this setup.
      * @return inputs
      */
     public List<String> getInputs() {
         return inputs;
     }
 
+    /**
+     * Retrusn the number of inputs in this setup.
+     * @return inputs size
+     */
+    public int getNoOfInputs() {
+        return inputs.size();
+    }
+
 
     /**
-     * Returns the number of inputs in this setup.
+     * Returns the outputs of this setup.
      *
      * @return outputs
      */
     public List<String> getOutputs() {
         return outputs;
+    }
+
+    /**
+     * Returns the number of outputs in this setup.
+     *
+     * @return outputs
+     */
+    public int getNoOfOutputs() {
+        return outputs.size();
     }
 
 
@@ -196,14 +213,16 @@ public class Box {
      * @param input - the known input values
      * @param outputIndex - the known output index
      * @param output - the known output to be normalised over.
-     * @return
+     * @return probability
      */
     public double normalisedProb(int[] input, int[] output, int outputIndex) {
         int[] outputCopy = Arrays.copyOf(output, output.length);
-        outputCopy[outputIndex] = 0;
-        double sum = prob(input, outputCopy);
-        outputCopy[outputIndex] = 1;
-        sum += prob(input, outputCopy);
+        int range = 2;
+        double sum = 0;
+        for(int i = 0; i < range; i++) {
+            outputCopy[outputIndex] = i;
+            sum += prob(input, outputCopy);
+        }
         return prob(input, output) / sum;
     }
 }
