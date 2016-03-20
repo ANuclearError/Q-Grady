@@ -17,12 +17,6 @@ public class Box {
      */
     private final double[][] probs;
 
-
-    /**
-     * The probability distribution.
-     */
-    private Map<Instance, Double> distribution;
-
     /**
      * The inputs of this box.
      */
@@ -41,20 +35,9 @@ public class Box {
      * @param probs  the probability distribution of this box.
      */
     public Box(List<String> inputs, List<String> outputs, double[][] probs) {
-        distribution = new HashMap<>();
         this.inputs = inputs;
         this. outputs = outputs;
         this.probs = probs;
-        for(int i = 0; i < probs.length; i++) {
-            int[] input = intToBitArray(i, inputs.size());
-            for(int j = 0; j < probs[i].length; j++) {
-                int[] output = intToBitArray(j, outputs.size());
-                Instance prob = new Instance(inputs.size(), outputs.size());
-                prob.setInput(input);
-                prob.setOutput(output);
-                distribution.put(prob, probs[i][j]);
-            }
-        }
     }
 
     /**
@@ -122,6 +105,15 @@ public class Box {
         return box;
     }
 
+    public static int bitArrayToInt(int[] array, int base) {
+        int value = 0;
+        for(int i = 0; i < array.length; i++) {
+            int power = array.length - 1 - i;
+            value += array[i] * Math.pow(base, power);
+        }
+        return value;
+    }
+
 
     /**
      * Converts a given integer to an array of its bit representation of the
@@ -154,10 +146,9 @@ public class Box {
      * @return p(output &#124; input)
      */
     public double prob(int[] input, int[] output) {
-        Instance prob = new Instance(inputs.size(), outputs.size());
-        prob.setInput(input);
-        prob.setOutput(output);
-        return distribution.get(prob);
+        int in = Box.bitArrayToInt(input, 2);
+        int out = Box.bitArrayToInt(output, 2);
+        return probs[in][out];
     }
 
 
@@ -175,31 +166,13 @@ public class Box {
      */
     public double prob(int inputIndex, int input, int outputIndex, int output) {
         double sum = 0.0;
-        // Iterate through map
-        // Extract all where input[inputIndex] == input (and same for output)
-        Map<Instance, int[]> horribleMap = new HashMap<>();
-        distribution.forEach((k, v) -> {
-            int[] in = k.getInput();
-            int[] out = k.getOutput();
-            if(in[inputIndex] == input && out[outputIndex] == output) {
-                horribleMap.put(k, k.getInput());
+        for(int i = 0; i < probs.length; i++) {
+            for(int j = 0; j < probs.length; j++) {
+                int[] in = Box.intToBitArray(i, inputs.size());
+                int[] out = Box.intToBitArray(j, inputs.size());
+                if(in[inputIndex] == input  && out[outputIndex] == output)
+                    sum += prob(in, out);
             }
-        });
-
-        // Because Maps don't all us to do by themselves, need to convert
-        // the values collection into a set to remove repeats.
-        Set<int[]> horribleSet = new HashSet<>(horribleMap.values());
-
-        // Sum every matching input, then multiply them to get probability.
-        for(int[] in : horribleSet) {
-            double prob = 0.0;
-            for(Map.Entry<Instance, int[]> entry : horribleMap.entrySet()) {
-                if(Arrays.equals(in, entry.getValue())) {
-                    prob += distribution.get(entry.getKey());
-                }
-            }
-
-            sum += prob;
         }
 
         // Need to perform some weird stuff to ensure that the reduced

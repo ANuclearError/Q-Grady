@@ -210,7 +210,7 @@ public class FileGenerator {
                 // Add the inputs to guard.
                 for (int k = 0; k < inputs.size(); k++) {
                     if(k != i) {
-                        guards.add(PrismMacros.isEqual(inputs.get(i), inBits[k]));
+                        guards.add(PrismMacros.isEqual(inputs.get(k), inBits[k]));
                     }
                 }
 
@@ -226,7 +226,7 @@ public class FileGenerator {
                                 bit = bits[l];
                             }
                             guards.remove(guards.size() - 1);
-                            guards.add(PrismMacros.isEqual(outputs.get(i), bit));
+                            guards.add(PrismMacros.isEqual(outputs.get(l), bit));
                         }
                     }
                     guard = PrismMacros.listToString(guards, '&');
