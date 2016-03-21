@@ -16,15 +16,62 @@ non-locality was inspired by the CHSH inequality by Causer et al.
 Consider a device with two ends, held by Alice and Bob. Each provides an
 input (\(x\) and \(y)\), and observe the output produced by the box (\(a\) and
 \(b)\). Based on some probability distribution \(P(a,b | x,y)\) where \(a, b, x,
-y \in {0, 1}\). This device will immediately produce an output when given an
-input, preventing any communication as a result of a delayed input. These
-devices are non-signalling, forbidding faster than light communication and
-ensuring that Alice or Bob cannot learn anything from the other party's input.
+y \in {0, 1}\) (\cite[Definition~1]{nlb_lamontagne}). 
+
+This device will immediately produce an output when given an input, preventing
+any communication as a result of a delayed input. These devices are
+non-signalling, forbidding faster than light communication and ensuring that
+Alice or Bob cannot learn anything from the other party's input.
 
 \subsection{Non-Signalling} % (fold)
 \label{sub:non_signalling}
+As mentioned in Section \ref{sec:non_local_boxes}, an important part of the
+non-local box is that it is non-signalling. Non-signalling means that in the
+described experiment, Alice can not be made aware of Bob's choice of input or
+vice-versa. This requirement imposes restrictions on the probability
+distribution, since the probability of an output should depend solely on its
+respective input. These restrictions allow for a represented of a reduced
+probability on the outputs as well.
 
+The non-signalling restriction can be represented by the given formulae
+(\cite[Section~II.A]{PhysRevA.71.022101}):
+\[\sum_{b} P(a, b | x, y) = \sum_{b} P(a, b | x, y') = P(a | x) 
+\quad \forall a, x, y, y'\]
+\[\sum_{a} P(a, b | x, y) = \sum_{a} P(a, b | x', y) = P(b | y) 
+\quad \forall b, y, x, x'\]
 % subsection non_signalling (end)
+
+
+\subsection{PR-Box} % (fold)
+\label{sub:pr_box}
+The PR-box, originally proposed by and named after Popescu-Rorlich, can be
+considered the `Hello World' of non-local boxes. It is the most basic structure,
+with two inputs and two outputs, and is the basis for this area of research.
+
+The PR-Box has the following probability distribution:
+\[
+    P(a, b | x, y) = 
+    \begin{cases}
+        \frac{1}{2} & \quad a \text{ XOR } B = x \text{ AND } y \\
+        0 & \quad \text{otherwise} \\
+    \end{cases}
+\]
+
+This set-up can alternatively be described using a matrix denoting the 
+probabilities, sacrificing the brevity of the above definition with the ability
+to more easily look at specific inputs or outputs.
+
+\begin{center}
+\begin{tabular}{l | c c c c}
+  & 00 & 01 & 10 & 11 \\
+  \hline
+  00 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
+  01 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
+  10 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
+  11 & 0 & \(\frac{1}{2}\) & \(\frac{1}{2}\) & 0 \\
+\end{tabular}
+\end{center}
+% subsection pr_box (end)
 % section non_local_boxes (end)
 
 % ==============================================================================
