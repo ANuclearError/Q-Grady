@@ -164,8 +164,6 @@ public class SemanticAnalyser {
      * property can be summarized as 'the input of one party cannot influence
      * the output of another party's output'.
      *
-     * TODO: make generic for various set-ups beyond (2, 2, 2).
-     *
      * @param box  the set-up being examined.
      * @throws SignallingException
      */
@@ -176,18 +174,18 @@ public class SemanticAnalyser {
     }
 
     private static void nonSignalling(Box box, int index) throws SignallingException {
+        int inSize = box.getNoOfInputs();
+        int outSize = box.getNoOfOutputs();
         int range = box.getInputRange();
-        int inRange = (int) Math.pow(range, box.getInputs().size());
+        int inRange = (int) Math.pow(range, inSize);
         range = box.getOutputRange();
-        int outRange = (int) Math.pow(range, box.getOutputs().size());
+        int outRange = (int) Math.pow(range, outSize);
 
         for (int i = 0; i < inRange; i++) {
-            int inSize = box.getInputs().size();
             range = box.getInputRange();
             int[] inBits = Box.intToArray(i, inSize, range);
             for (int j = 0; j < outRange; j++) {
                 range = box.getOutputRange();
-                int outSize = box.getOutputs().size();
                 int[] outBits = Box.intToArray(i, outSize, range);
                 double[] sum = new double[range];
                 for (int k = 0; k < range; k++) {
