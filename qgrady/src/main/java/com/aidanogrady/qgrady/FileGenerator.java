@@ -36,8 +36,6 @@ public class FileGenerator {
      */
     private List<String> outputs;
 
-    private static final int RANGE = 2;
-
     private String ready = "ready";
 
     /**
@@ -96,16 +94,16 @@ public class FileGenerator {
             String module = PrismMacros.MODULE + " INPUT_" + input;
             lines.add(module);
 
-            lines.add(PrismMacros.varDec(input, RANGE - 1, -1));
+            lines.add(PrismMacros.varDec(input, box.getInputRange() - 1, -1));
 
             String sync = "";
 
             String guard = PrismMacros.isEqual(input, -1);
-            String action = PrismMacros.equalDist(input, RANGE);
+            String action = PrismMacros.equalDist(input, box.getInputRange());
             lines.add(PrismMacros.command(sync, guard, action));
             lines.add(PrismMacros.EMPTY_LINE);
 
-            for(int i = 0; i < RANGE; i++) {
+            for(int i = 0; i < box.getInputRange(); i++) {
                 sync = input + i;
                 guard = PrismMacros.isEqual(input, i);
                 action = PrismMacros.assign(input, i);
@@ -125,7 +123,7 @@ public class FileGenerator {
     private void outputs() {
         lines.add(PrismMacros.varDec(ready, 1, 1));
         for(String output : outputs) {
-            lines.add(PrismMacros.varDec(output, RANGE - 1, -1));
+            lines.add(PrismMacros.varDec(output, box.getOutputRange() - 1, -1));
         }
         lines.add(PrismMacros.EMPTY_LINE);
         outputSyncs();
@@ -141,7 +139,7 @@ public class FileGenerator {
      */
     private void outputSyncs() {
         for(int i = 0; i < box.getNoOfOutputs(); i++) {
-            for(int j = 0; j < RANGE; j++) {
+            for(int j = 0; j < box.getOutputRange(); j++) {
                 String sync = outputs.get(i) + j;
 
                 String[] guards = new String[2];
@@ -174,11 +172,11 @@ public class FileGenerator {
         String guard = PrismMacros.listToString(guards, '&');
 
         for(int i = 0; i < box.getNoOfOutputs(); i++) { // Handle each output
-            for(int j = 0; j < RANGE; j++) { // Handle each input possibility
+            for(int j = 0; j < box.getInputRange(); j++) { // Handle each input possibility
                 String sync = inputs.get(i) + j;
 
                 List<String> probs = new ArrayList<>();
-                for(int k = 0; k < RANGE; k++) { // P(k | j);
+                for(int k = 0; k < box.getOutputRange(); k++) { // P(k | j);
                     List<String> actions = new ArrayList<>();
                     actions.add(PrismMacros.assign(ready, 0));
                     actions.add(PrismMacros.assign(outputs.get(i), k));
@@ -194,8 +192,8 @@ public class FileGenerator {
     }
 
     private void normalised() {
-        int in = (int) Math.pow(RANGE, inputs.size());
-        int out = (int) Math.pow(RANGE, outputs.size());
+        int in = (int) Math.pow(box.getInputRange(), inputs.size());
+        int out = (int) Math.pow(box.getOutputRange(), outputs.size());
         for(int i = 0; i < outputs.size(); i++) {
             String sync;
             String guard;
@@ -244,7 +242,7 @@ public class FileGenerator {
                     outBits[i] = 0;
 
                     List<String> actions = new ArrayList<>();
-                    for(int l = 0; l < RANGE; l++) {
+                    for(int l = 0; l < box.getOutputRange(); l++) {
                         outBits[i] = l;
                         double prob = box.normalisedProb(inBits, outBits, i);
                         if(prob > 0) {
