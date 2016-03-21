@@ -9,70 +9,28 @@
 
 \section{Non-Local Boxes} % (fold)
 \label{sec:non_local_boxes}
-Consider a device with two ends, one of which is held by Alice, and the other of
-which is held by Bob. Each end has an input that can be provided by Alice (which
-we will call \(x\)) or Bob (which we will call \(y\), and an output that each
-can observe (\(a\) and \(b\) respectively. This would be our box, and it will
-output \(a\) and \(b\) based on some probability distribution \(P(a, b | x, y)\)
-where \(a, b, x, y \in {0, 1}\).
+The study of non-local boxes was introduced by Sandu Popescu and Daniel
+Rohrlich, physicists in 1993 and 1994, as part of their research on quantum
+non-locality was inspired by the CHSH inequality by Causer et al.
 
-An example of such a box would be the Popescu/Rohrlich (PR) box, the probability
-distribution of which is provided below, where the row specifies the input \(x\)
-and \(y\), and the columns specifies the output \(a\) and \(b\).
-
-\begin{center}
-\begin{tabular}{l | c c c c}
-  & 00 & 01 & 10 & 11 \\
-  \hline
-  00 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
-  01 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
-  10 & \(\frac{1}{2}\) & 0 & 0 & \(\frac{1}{2}\) \\
-  11 & 0 & \(\frac{1}{2}\) & \(\frac{1}{2}\) & 0 \\
-\end{tabular}
-\end{center}
-
-The PR box can be described as a (2, 2, 2) set-up, meaning that it has two ends,
-two inputs and two outputs. It is possible for there to be non-local boxes with
-different set-ups, although these are more complex to work with. Note that the
-probability of the PR box \(P(a, b | x, y\) can be simplified as:
-\[
-    P(a, b | x, y) = 
-    \begin{cases}
-        \frac{1}{2} & \quad a \text{ XOR } B = x \text{ AND } y \\
-        0 & \quad \text{otherwise} \\
-    \end{cases}
-\]
+Consider a device with two ends, held by Alice and Bob. Each provides an
+input (\(x\) and \(y)\), and observe the output produced by the box (\(a\) and
+\(b)\). Based on some probability distribution \(P(a,b | x,y)\) where \(a, b, x,
+y \in {0, 1}\). This device will immediately produce an output when given an
+input, preventing any communication as a result of a delayed input. These
+devices are non-signalling, forbidding faster than light communication and
+ensuring that Alice or Bob cannot learn anything from the other party's input.
 
 \subsection{Non-Signalling} % (fold)
 \label{sub:non_signalling}
-As essential part of the definition of a non-local box is the non-signalling
-property. A non-signalling box means that Alice could not use the value of \(a\)
-to determine the value of \(y\) in the above configuration. This condition
-allows for the probability distribution \(P(a, b | x, y)\) to be reduced to
-simply \(P(a|x)\).
-
-To ensure non-signalling in a (2, 2, 2) set- up, the following conditions must
-be met:
-
-\[\sum_{b} P(a, b | x, y) = \sum_{b} P(a, b | x, y') = P(a | x) 
-\quad \forall a, x, y, y'\]
-\[\sum_{a} P(a, b | x, y) = \sum_{a} P(a, b | x', y) = P(b | y) 
-\quad \forall b, y, x, x'\]
-
-The PR-box is one such example of a non-signalling box.
-
-% ==============================================================================
 
 % subsection non_signalling (end)
 % section non_local_boxes (end)
+
+% ==============================================================================
+
 \section{Prism} % (fold)
 \label{sec:prism}
-PRISM is a probabilistic model checker, software used to create formal models
-using the PRISM language and allows for analysis of the models created. The
-models are created to represent systems with random or probabilistic behaviour.
-
-Non-local boxes can be created using the PRISM language, although it is not the
-most elegant system.
 % section prism (end)
 % chapter related_work (end)
 
