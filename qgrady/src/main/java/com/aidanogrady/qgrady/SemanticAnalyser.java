@@ -64,8 +64,8 @@ public class SemanticAnalyser {
      * @param vars  The variable list the var appears in.
      * @throws InvalidVariableException
      */
-    private static void validateVariable(Box box, String var, List<String> vars) throws
-            InvalidVariableException {
+    private static void validateVariable(Box box, String var, List<String> vars)
+            throws InvalidVariableException {
         boolean in = box.getInputs().contains(var);
         boolean out = box.getOutputs().contains(var);
         if (in && out) {
@@ -135,13 +135,13 @@ public class SemanticAnalyser {
             InvalidRowException
     {
         int inputs = box.getNoOfOutputs();
-        int range = box.getInputRange();
-        int expected = (int) Math.pow(range, inputs);
+        int range = box.getOutputRange();
+        int ex = (int) Math.pow(range, inputs);
         double[][] matrix = box.getProbs();
         for(int i = 1; i < matrix.length; i++) {
             int row = matrix[i].length;
-            if (row != expected) {
-                String msg = i + ": Expected: " + expected + " values, got: " + row;
+            if (row != ex) {
+                String msg = i + ": Expected " + ex + " values, got: " + row;
                 throw new InvalidRowException(msg);
             }
         }
@@ -189,7 +189,8 @@ public class SemanticAnalyser {
         }
     }
 
-    private static void nonSignalling(Box box, int index) throws SignallingException {
+    private static void nonSignalling(Box box, int index) throws
+            SignallingException {
         int inSize = box.getNoOfInputs();
         int outSize = box.getNoOfOutputs();
         int range = box.getInputRange();

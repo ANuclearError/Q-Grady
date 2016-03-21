@@ -1,6 +1,6 @@
 package com.aidanogrady.qgrady;
 
-import com.aidanogrady.qgrady.exceptions.InvalidFileTypeException;
+import com.aidanogrady.qgrady.exceptions.*;
 import com.aidanogrady.qgrady.syntax.*;
 import com.aidanogrady.qgrady.syntax.Parser;
 import org.apache.commons.cli.*;
@@ -129,10 +129,18 @@ public class QGrady {
             SemanticAnalyser.nonSignalling(box);
             System.out.println("OK!");
             return box;
-        } catch (Exception e) {
+        } catch (SignallingException e) {
+            System.out.println("Signalling found: ");
+        } catch (InvalidValueException |
+                InvalidRowException |
+                InvalidVariableException e) {
             System.out.println(e.getMessage());
-            return null;
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot continue, file missing.");
+        } catch (Exception e) {
+            System.out.println("Cannot continue, unknown error.");
         }
+        return null;
     }
 
     /**
