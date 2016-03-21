@@ -97,7 +97,16 @@ public class SemanticAnalyserTest {
     @Test
     public void validateGreaterRowLengthsTest() {
         try {
-            SemanticAnalyser.validateRowLengths(highRow);
+            List<String> inputs = new ArrayList<>();
+            List<String> outputs = new ArrayList<>();
+            inputs.add("x");
+            outputs.add("y");
+            inputs.add("a");
+            outputs.add("b");
+
+            Box box = new Box(highRow, inputs, outputs, 2, 2);
+
+            SemanticAnalyser.validateRowLengths(box);
         } catch (InvalidRowException e) {
             assertEquals(e.getMessage(), "Error in row 1: Expected: 4 values, got: 5");
         }
@@ -106,7 +115,16 @@ public class SemanticAnalyserTest {
     @Test
     public void validateSmallerRowLengthsTest() {
         try {
-            SemanticAnalyser.validateRowLengths(lowRow);
+            List<String> inputs = new ArrayList<>();
+            List<String> outputs = new ArrayList<>();
+            inputs.add("x");
+            outputs.add("y");
+            inputs.add("a");
+            outputs.add("b");
+
+            Box box = new Box(lowRow, inputs, outputs, 2, 2);
+
+            SemanticAnalyser.validateRowLengths(box);
         } catch (InvalidRowException e) {
             assertEquals(e.getMessage(), "Error in row 1: Expected: 4 values, got: 3");
         }
@@ -172,8 +190,16 @@ public class SemanticAnalyserTest {
     @Test
     public void allIsWellTest() {
         try {
+            List<String> inputs = new ArrayList<>();
+            List<String> outputs = new ArrayList<>();
+            inputs.add("x");
+            outputs.add("y");
+            inputs.add("a");
+            outputs.add("b");
+            Box box = new Box(pr, inputs, outputs, 2, 2);
+
             SemanticAnalyser.validateValues(pr);
-            SemanticAnalyser.validateRowLengths(pr);
+            SemanticAnalyser.validateRowLengths(box);
             SemanticAnalyser.validateRowSums(pr);
         } catch(Exception e) {
             fail();

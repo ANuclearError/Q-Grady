@@ -213,7 +213,7 @@ public class Box {
         }
         // Need to perform some weird stuff to ensure that the reduced
         // probability is accurate.
-        return sum / Math.pow(2, inputs.size() - 1);
+        return sum / Math.pow(inputRange, inputs.size() - 1);
     }
 
     /**

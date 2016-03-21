@@ -107,6 +107,19 @@ public class SemanticAnalyser {
         }
     }
 
+    public static void validateRowAmount(Box box) throws InvalidRowException {
+        int inputs = box.getNoOfInputs();
+        int range = box.getInputRange();
+        int expected = (int) Math.pow(range, inputs);
+        int result = box.getProbs().length;
+        if (result != expected) {
+            String msg = "Set up has " + inputs + " inputs with range " + range
+                    + ". Expected matrix to have " + expected + " rows, got "
+                    + result + ".";
+            throw new InvalidRowException(msg);
+        }
+    }
+
 
     /**
      * Determines whether there are any rows in the distribution with the
@@ -118,14 +131,17 @@ public class SemanticAnalyser {
      * @param box  the 2D array extracted from parsing to checked.
      * @throws InvalidRowException
      */
-    public static void validateRowLengths(double[][] box) throws
+    public static void validateRowLengths(Box box) throws
             InvalidRowException
     {
-        int size = box[0].length;
-        for(int i = 1; i < box.length; i++) {
-            int row = box[i].length;
-            if (row != size) {
-                String msg = i + ": Expected: " + size + " values, got: " + row;
+        int inputs = box.getNoOfOutputs();
+        int range = box.getInputRange();
+        int expected = (int) Math.pow(range, inputs);
+        double[][] matrix = box.getProbs();
+        for(int i = 1; i < matrix.length; i++) {
+            int row = matrix[i].length;
+            if (row != expected) {
+                String msg = i + ": Expected: " + expected + " values, got: " + row;
                 throw new InvalidRowException(msg);
             }
         }

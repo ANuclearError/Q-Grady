@@ -113,8 +113,12 @@ public class QGrady {
             SemanticAnalyser.validateValues(box.getProbs());
             System.out.println("OK!");
 
+            System.out.print("Checking number of rows... ");
+            SemanticAnalyser.validateRowAmount(box);
+            System.out.println("OK!");
+
             System.out.print("Checking row lengths... ");
-            SemanticAnalyser.validateRowLengths(box.getProbs());
+            SemanticAnalyser.validateRowLengths(box);
             System.out.println("OK!");
 
             System.out.print("Checking row sums... ");
