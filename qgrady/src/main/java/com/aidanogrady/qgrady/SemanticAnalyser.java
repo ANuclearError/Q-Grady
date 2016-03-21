@@ -35,34 +35,51 @@ public class SemanticAnalyser {
             "prob", "pta", "rate", "rewards", "Rmax", "Rmin", "R", "S",
             "stochastic", "system", "true", "U", "W");
 
+
+    /**
+     * Validates all variables to ensure that there are no conflicts within the
+     * set-up or with Prism.
+     * @param box  the box being analysed.
+     * @throws InvalidVariableException
+     */
     public static void validateVariables(Box box) throws
             InvalidVariableException {
+        // Handle all inputs.
         List<String> strings = box.getInputs();
         for(String string : strings) {
             validateVariable(box, string, strings);
         }
+
+        // Handle all inputs.
         strings = box.getOutputs();
         for(String string : strings) {
             validateVariable(box, string, strings);
         }
     }
 
-    private static void validateVariable(Box box, String string, List<String> strings) throws
+    /**
+     * Handles the validation of a single variable.
+     * @param box  The box being analysed.
+     * @param var  The variable name
+     * @param vars  The variable list the var appears in.
+     * @throws InvalidVariableException
+     */
+    private static void validateVariable(Box box, String var, List<String> vars) throws
             InvalidVariableException {
-        boolean in = box.getInputs().contains(string);
-        boolean out = box.getOutputs().contains(string);
+        boolean in = box.getInputs().contains(var);
+        boolean out = box.getOutputs().contains(var);
         if (in && out) {
-            String msg = "Variable " + string + " is both input and output.";
+            String msg = "Variable " + var + " is both input and output.";
             throw new InvalidVariableException(msg);
         }
 
-        if (KEYWORDS.contains(string)) {
-            String msg = "Variable " + string + " is a Prism keyword.";
+        if (KEYWORDS.contains(var)) {
+            String msg = "Variable " + var + " is a Prism keyword.";
             throw new InvalidVariableException(msg);
         }
 
-        if (Collections.frequency(strings, string) > 1) {
-            String msg = "Variable " + string + " is used multiple times.";
+        if (Collections.frequency(vars, var) > 1) {
+            String msg = "Variable " + var + " is used multiple times.";
             throw new InvalidVariableException(msg);
 
         }
@@ -159,14 +176,19 @@ public class SemanticAnalyser {
     }
 
     private static void nonSignalling(Box box, int index) throws SignallingException {
-        int range = 2;
+        int range = box.getInputRange();
         int inRange = (int) Math.pow(range, box.getInputs().size());
+        range = box.getOutputRange();
         int outRange = (int) Math.pow(range, box.getOutputs().size());
 
         for (int i = 0; i < inRange; i++) {
-            int[] inBits = Box.intToBitArray(i, box.getInputs().size());
+            int inSize = box.getInputs().size();
+            range = box.getInputRange();
+            int[] inBits = Box.intToArray(i, inSize, range);
             for (int j = 0; j < outRange; j++) {
-                int[] outBits = Box.intToBitArray(i, box.getOutputs().size());
+                range = box.getOutputRange();
+                int outSize = box.getOutputs().size();
+                int[] outBits = Box.intToArray(i, outSize, range);
                 double[] sum = new double[range];
                 for (int k = 0; k < range; k++) {
                     inBits[index] = k;

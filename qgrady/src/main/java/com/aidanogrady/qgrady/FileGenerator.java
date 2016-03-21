@@ -201,7 +201,8 @@ public class FileGenerator {
             String guard;
             String action;
             for(int j = 0; j < in; j++) {
-                int[] inBits = Box.intToBitArray(j, inputs.size());
+                int size = inputs.size();
+                int[] inBits = Box.intToArray(j, size, box.getInputRange());
                 sync = inputs.get(i) + inBits[i];
                 List<String> guards = new ArrayList<>();
                 guards.add(PrismMacros.isEqual(ready, 1));
@@ -216,7 +217,8 @@ public class FileGenerator {
 
                 guards.add("");
                 for(int k = 0; k < out / 2; k++) {
-                    int[] bits = Box.intToBitArray(k, outputs.size() - 1);
+                    size = outputs.size() - 1;
+                    int[] bits = Box.intToArray(k, size, box.getOutputRange());
                     for(int l = 0; l < outputs.size(); l++) {
                         if(l != i) {
                             int bit;

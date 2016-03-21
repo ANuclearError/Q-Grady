@@ -28,6 +28,16 @@ public class Box {
     private List<String> outputs;
 
     /**
+     * The range from 0 of the input values.
+     */
+    private int inputRange;
+
+    /**
+     * The range from 0 of the input values.
+     */
+    private int outputRange;
+
+    /**
      * Constructs a new box.
      *
      * @param inputs  the inputs of this box
@@ -38,6 +48,8 @@ public class Box {
         this.inputs = inputs;
         this. outputs = outputs;
         this.probs = probs;
+        this.inputRange = 2;
+        this.outputRange = 2;
     }
 
     /**
@@ -64,6 +76,13 @@ public class Box {
         return inputs.size();
     }
 
+    /**
+     * Returns the range for the input values.
+     * @return  inputRange
+     */
+    public int getInputRange() {
+        return inputRange;
+    }
 
     /**
      * Returns the outputs of this setup.
@@ -83,6 +102,13 @@ public class Box {
         return outputs.size();
     }
 
+    /**
+     * Returns the range for the output values.
+     * @return  outputRange
+     */
+    public int getOutputRange() {
+        return outputRange;
+    }
 
     /**
      * Converts a List of Lists into a two-dimensional array. When parsing with
@@ -105,7 +131,13 @@ public class Box {
         return box;
     }
 
-    public static int bitArrayToInt(int[] array, int base) {
+    /**
+     * Converts an array of ints into an integer based on the given base.
+     * @param array  the array being converted
+     * @param base  the base of the conversion
+     * @return value
+     */
+    public static int arrayToInt(int[] array, int base) {
         int value = 0;
         for(int i = 0; i < array.length; i++) {
             int power = array.length - 1 - i;
@@ -126,12 +158,12 @@ public class Box {
      * @param size  the size the array must fill.
      * @return array representation.
      */
-    public static int[] intToBitArray(int value, int size) {
+    public static int[] intToArray(int value, int size, int base) {
         int[] array = new int[size];
         int index = size - 1;
         while(index >= 0) {
-            array[index] = value % 2;
-            value = value / 2;
+            array[index] = value % base;
+            value = value / base;
             index--;
         }
         return array;
@@ -146,8 +178,8 @@ public class Box {
      * @return p(output &#124; input)
      */
     public double prob(int[] input, int[] output) {
-        int in = Box.bitArrayToInt(input, 2);
-        int out = Box.bitArrayToInt(output, 2);
+        int in = Box.arrayToInt(input, inputRange);
+        int out = Box.arrayToInt(output, outputRange);
         return probs[in][out];
     }
 
@@ -168,13 +200,12 @@ public class Box {
         double sum = 0.0;
         for(int i = 0; i < probs.length; i++) {
             for(int j = 0; j < probs.length; j++) {
-                int[] in = Box.intToBitArray(i, inputs.size());
-                int[] out = Box.intToBitArray(j, inputs.size());
+                int[] in = Box.intToArray(i, inputs.size(), inputRange);
+                int[] out = Box.intToArray(j, inputs.size(), inputRange);
                 if(in[inputIndex] == input  && out[outputIndex] == output)
                     sum += prob(in, out);
             }
         }
-
         // Need to perform some weird stuff to ensure that the reduced
         // probability is accurate.
         return sum / Math.pow(2, inputs.size() - 1);
@@ -190,9 +221,8 @@ public class Box {
      */
     public double normalisedProb(int[] input, int[] output, int outputIndex) {
         int[] outputCopy = Arrays.copyOf(output, output.length);
-        int range = 2;
         double sum = 0;
-        for(int i = 0; i < range; i++) {
+        for(int i = 0; i < outputRange; i++) {
             outputCopy[outputIndex] = i;
             sum += prob(input, outputCopy);
         }
