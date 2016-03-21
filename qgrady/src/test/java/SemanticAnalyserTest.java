@@ -139,7 +139,7 @@ public class SemanticAnalyserTest {
         inputs.add("a");
         outputs.add("b");
 
-        Box box = new Box(inputs, outputs, pr);
+        Box box = new Box(pr, inputs, outputs, 2, 2);
         try {
             SemanticAnalyser.nonSignalling(box);
         } catch (SignallingException e) {
@@ -161,7 +161,7 @@ public class SemanticAnalyserTest {
         outputs.add("y");
         inputs.add("a");
         outputs.add("b");
-        Box box = new Box(inputs, outputs, signalling);
+        Box box = new Box(signalling, inputs, outputs, 2, 2);
         try {
             SemanticAnalyser.nonSignalling(box);
         } catch (SignallingException e) {

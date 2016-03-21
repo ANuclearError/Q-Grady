@@ -71,40 +71,49 @@ parser code {:
  * The first line of terminals are those that do not have a value, the second
  * line are those that do.
  */
-terminal        ARROW, COMMA, LBRACKET, RBRACKET, SEMICOLON;
-terminal Double NUM;
-terminal String VAR;
+terminal            ARROW, COMMA, INRANGE, LBRACKET, OUTRANGE, RBRACKET, SEMICOLON;
+terminal Integer    INT;
+terminal Double     NUM;
+terminal String     VAR;
 
 /*
  * Non terminals:
  */
-non terminal              box;
-non terminal List<List<Double>>   list;
-non terminal List<Double> dist;
-non terminal List<Double> row;
-non terminal List<String> ins;
-non terminal List<String> outs;
-non terminal List<String> vars;
+non terminal                        box;
+non terminal Integer                inr, outr;
+non terminal List<List<Double>>     list;
+non terminal List<Double>           dist, row;
+non terminal List<String>           ins, outs, vars;
 
 /*
  * The grammar rules
  */
-box  ::= ins:i ARROW outs:o LBRACKET list:l RBRACKET  {: RESULT = new Box(i, o, Box.convertList(l)); :}
+box ::= inr:ir outr:or ins:i ARROW outs:o LBRACKET list:l RBRACKET  {: RESULT = new Box(Box.convertList(l), i, o, ir, or); :}
+        ;
+
+inr  ::= INRANGE INT:i SEMICOLON    {: RESULT = i; :}
+        ;
+
+outr  ::= OUTRANGE INT:i SEMICOLON  {: RESULT = i; :}
         ;
 
 list ::= list:l row:r           {: l.add(r); RESULT = l; :}
         |                       {: RESULT = new ArrayList<List<Double>>(); :}
         ;
+
 row  ::= NUM:n dist:d SEMICOLON {: d.add(0, n); RESULT = d; :}
         ;
+
 dist ::= dist:d COMMA NUM:n     {: d.add(n); RESULT = d; :}
         |                       {: RESULT = new ArrayList<Double>(); :}
         ;
 
 ins  ::= VAR:v vars:l           {: l.add(0, v); RESULT = l; :}
         ;
+
 outs ::= VAR:v vars:l           {: l.add(0, v); RESULT = l; :}
         ;
+
 vars ::= vars:l COMMA VAR:v     {: l.add(v); RESULT = l; :}
         |                       {: RESULT = new ArrayList<String>(); :}
         ;

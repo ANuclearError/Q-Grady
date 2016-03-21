@@ -32,7 +32,7 @@ public class BoxTest {
                 {0, 0.5, 0.5, 0}
         };
 
-        box = new Box(inputs, outputs, pr);
+        box = new Box(pr, inputs, outputs, 2, 2);
     }
 
     @Test

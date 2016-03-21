@@ -40,16 +40,21 @@ public class Box {
     /**
      * Constructs a new box.
      *
+     * @param probs  the probability distribution of this box.
      * @param inputs  the inputs of this box
      * @param outputs  the outputs of this box
-     * @param probs  the probability distribution of this box.
      */
-    public Box(List<String> inputs, List<String> outputs, double[][] probs) {
+    public Box(double[][] probs,
+               List<String> inputs,
+               List<String> outputs,
+               int inputRange,
+               int outputRange)
+    {
         this.inputs = inputs;
         this. outputs = outputs;
         this.probs = probs;
-        this.inputRange = 2;
-        this.outputRange = 2;
+        this.inputRange = inputRange;
+        this.outputRange = outputRange;
     }
 
     /**

@@ -41,10 +41,12 @@ import java_cup.runtime.*;
 %}
 
 /* Macro Declarations */
-LineTerminator = \r|\n|\r\n
-Space     = {LineTerminator} | [ \t\f]
-dec = ([0-9]*\.)?[0-9]+
-str = [a-zA-Z$_] [a-zA-Z0-9$_]*
+LineTerm    = \r|\n|\r\n
+Space       = {LineTerm} | [ \t\f]
+Digit       = [0-9]
+Integer     = {Digit}+
+Decimal     = ([0-9]*\.)?[0-9]+
+String      = [a-zA-Z$_] [a-zA-Z0-9$_]*
 
 %%
 
@@ -56,23 +58,18 @@ str = [a-zA-Z$_] [a-zA-Z0-9$_]*
 
 <YYINITIAL> {
 
-    /* Return the token SEMI declared in the class sym that was found. */
-
-    /* Print the token found that was declared in the class sym and then
-       return it.*/
-    "->"    { return symbol(sym.ARROW);     }
-    ","     { return symbol(sym.COMMA);     }
-    "["     { return symbol(sym.LBRACKET);  }
-    "]"     { return symbol(sym.RBRACKET);  }
-    ";"     { return symbol(sym.SEMICOLON); }
+    "->"                { return symbol(sym.ARROW);         }
+    ","                 { return symbol(sym.COMMA);         }
+    "input range ="     { return symbol(sym.INRANGE);       }
+    "["                 { return symbol(sym.LBRACKET);      }
+    "output range ="    { return symbol(sym.OUTRANGE);      }
+    "]"                 { return symbol(sym.RBRACKET);      }
+    ";"                 { return symbol(sym.SEMICOLON);     }
 
 
-    /* If an integer is found print it out, return the token NUMBER
-       that represents an integer and the value of the integer that is
-       held in the string yytext which will get turned into an integer
-       before returning */
-    {dec}   { return symbol(sym.NUM, new Double(yytext())); }
-    {str}   { return symbol(sym.VAR, yytext()); }
+    {String}    { return symbol(sym.VAR, yytext());                 }
+    {Integer}   { return symbol(sym.INT, new Integer(yytext()));    }
+    {Decimal}   { return symbol(sym.NUM, new Double(yytext()));     }
 
     /* Don't do anything if whitespace is found */
     {Space} { /* just skip what was found, do nothing */ }
