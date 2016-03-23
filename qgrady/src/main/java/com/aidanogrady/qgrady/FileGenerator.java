@@ -196,70 +196,12 @@ public class FileGenerator {
     private void normalised() {
         int in = (int) Math.pow(box.getInputRange(), inputs.size());
         int out = (int) Math.pow(box.getOutputRange(), outputs.size());
-        for(int i = 0; i < outputs.size(); i++) {
-            String sync;
-            String guard;
-            String action;
-            for(int j = 0; j < in; j++) {
-                int size = inputs.size();
-                int[] inBits = Box.intToArray(j, size, box.getInputRange());
-                sync = inputs.get(i) + inBits[i];
-                List<String> guards = new ArrayList<>();
-                guards.add(PrismMacros.isEqual(ready, 1));
-                guards.add(PrismMacros.isEqual(outputs.get(i), -1));
+        for(List<Integer> list : powerSet(outputs.size())) {
+            lines.add("Adding " + list);
+            String sync = "";
+            String guard = "";
+            String action = "";
 
-                // Add the inputs to guard.
-                for (int k = 0; k < inputs.size(); k++) {
-                    if(k != i) {
-                        guards.add(PrismMacros.isEqual(inputs.get(k), inBits[k]));
-                    }
-                }
-
-                guards.add("");
-                for(int k = 0; k < out / 2; k++) {
-                    size = outputs.size() - 1;
-                    int[] bits = Box.intToArray(k, size, box.getOutputRange());
-                    for(int l = 0; l < outputs.size(); l++) {
-                        if(l != i) {
-                            int bit;
-                            if(l > i) {
-                                bit = bits[l - 1];
-                            } else {
-                                bit = bits[l];
-                            }
-                            guards.remove(guards.size() - 1);
-                            guards.add(PrismMacros.isEqual(outputs.get(l), bit));
-                        }
-                    }
-                    guard = PrismMacros.listToString(guards, '&');
-
-                    int[] outBits = new int[outputs.size()];
-                    for (int l = 0; l < bits.length; l++) {
-                        if(l >= i) {
-                            outBits[l + 1] = bits[l];
-                        } else {
-                            outBits[l] = bits[l];
-                        }
-                    }
-                    outBits[i] = 0;
-
-                    List<String> actions = new ArrayList<>();
-                    for(int l = 0; l < box.getOutputRange(); l++) {
-                        outBits[i] = l;
-                        int[] indices = {i};
-                        double prob = box.normalisedProb(inBits, outBits, indices );
-                        if(prob > 0) {
-                            List<String> acts = new ArrayList<>();
-                            acts.add(PrismMacros.assign(ready, 0));
-                            acts.add(PrismMacros.assign(outputs.get(i), l));
-                            String act = PrismMacros.listToString(acts, '&');
-                            actions.add(PrismMacros.prob(prob, act));
-                        }
-                    }
-                    action = PrismMacros.listToString(actions, '+');
-                    lines.add(PrismMacros.command(sync, guard, action));
-                }
-            }
             lines.add(PrismMacros.EMPTY_LINE);
         }
     }
@@ -276,27 +218,11 @@ public class FileGenerator {
      */
     private List<List<Integer>> powerSet(int size) {
         List<List<Integer>> ps = new ArrayList<>();
-        ps.add(new ArrayList<>());   // add the empty set
-
-        // for every item in the original list
         for (int i = 0; i < size; i++) {
-            List<List<Integer>> newPs = new ArrayList<>();
-
-            for (List<Integer> subset : ps) {
-                // copy all of the current powerset's subsets
-                newPs.add(subset);
-
-                // plus the subsets appended with the current item
-                List<Integer> newSubset = new ArrayList<>(subset);
-                newSubset.add(i);
-                newPs.add(newSubset);
-            }
-
-            // powerset is now powerset of list.subList(0, list.indexOf(item)+1)
-            ps = newPs;
+            List<Integer> list = new ArrayList<>();
+            list.add(i);
+            ps.add(list);
         }
-        ps.remove(0);
-        ps.remove(ps.size() - 1);
         return ps;
     }
 }
