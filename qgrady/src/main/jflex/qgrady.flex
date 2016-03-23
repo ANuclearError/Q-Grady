@@ -45,7 +45,6 @@ LineTerm    = \r|\n|\r\n
 Space       = {LineTerm} | [ \t\f]
 Digit       = [0-9]
 Integer     = {Digit}+
-Decimal     = ([0-9]*\.)?[0-9]+
 String      = [a-zA-Z$_] [a-zA-Z0-9$_]*
 
 %%
@@ -58,19 +57,16 @@ String      = [a-zA-Z$_] [a-zA-Z0-9$_]*
 
 <YYINITIAL> {
 
-    "->"                { return symbol(sym.ARROW);         }
-    ","                 { return symbol(sym.COMMA);         }
-    "input range ="     { return symbol(sym.INRANGE);       }
-    "["                 { return symbol(sym.LBRACKET);      }
-    "output range ="    { return symbol(sym.OUTRANGE);      }
-    "]"                 { return symbol(sym.RBRACKET);      }
-    ";"                 { return symbol(sym.SEMICOLON);     }
+    "->"        { return symbol(sym.ARROW);     }
+    ","         { return symbol(sym.COMMA);     }
+    "="         { return symbol(sym.EQUALS);    }
+    "input"     { return symbol(sym.INPUT);     }
+    "output"    { return symbol(sym.OUTPUT);    }
+    "range"     { return symbol(sym.RANGE);     }
+    ";"         { return symbol(sym.SEMICOLON); }
 
-
-    {String}    { return symbol(sym.VAR, yytext());                 }
-    {Integer}   { return symbol(sym.INT, new Integer(yytext()));    }
-    {Decimal}   { return symbol(sym.NUM, new Double(yytext()));     }
-
+    {Integer}   { return symbol(sym.NUMBER, new Integer(yytext())); }
+    {String}    { return symbol(sym.VARIABLE, yytext());            }
     /* Don't do anything if whitespace is found */
     {Space} { /* just skip what was found, do nothing */ }
 }

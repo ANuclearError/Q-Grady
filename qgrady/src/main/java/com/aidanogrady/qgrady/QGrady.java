@@ -80,8 +80,8 @@ public class QGrady {
                 File source = validateInput(input);
                 File dest = validateOutput(output, input);
                 Box box = parse(source);
-                if(box != null)
-                    codeGeneration(box, dest);
+                System.out.println(box);
+
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
@@ -104,30 +104,6 @@ public class QGrady {
             Parser p = new Parser(new Lexer(new FileReader(source.getPath())));
             Object result = p.parse().value;
             Box box = (Box) result;
-
-            System.out.print("Checking variables... ");
-            SemanticAnalyser.validateVariables(box);
-            System.out.println("OK!");
-
-            System.out.print("Checking values... ");
-            SemanticAnalyser.validateValues(box.getProbs());
-            System.out.println("OK!");
-
-            System.out.print("Checking number of rows... ");
-            SemanticAnalyser.validateRowAmount(box);
-            System.out.println("OK!");
-
-            System.out.print("Checking row lengths... ");
-            SemanticAnalyser.validateRowLengths(box);
-            System.out.println("OK!");
-
-            System.out.print("Checking row sums... ");
-            SemanticAnalyser.validateRowSums(box.getProbs());
-            System.out.println("OK!");
-
-            System.out.print("Checking for non-signalling... ");
-            SemanticAnalyser.nonSignalling(box);
-            System.out.println("OK!");
             return box;
         } catch (SignallingException e) {
             System.out.println("Signalling found: ");
@@ -141,20 +117,6 @@ public class QGrady {
             System.out.println("Cannot continue, unknown error.");
         }
         return null;
-    }
-
-    /**
-     * Starts the file generation part of the compiler.
-     *
-     * @param box  the box being converted into .prism file.
-     * @param dest  the .prism file to be written.
-     */
-    private void codeGeneration(Box box, File dest) {
-        System.out.print("Writing box to " + dest.getName() + "... ");
-        FileGenerator gen = new FileGenerator(box, dest);
-        gen.generateLines();
-        gen.write();
-        System.out.println("OK!");
     }
 
 

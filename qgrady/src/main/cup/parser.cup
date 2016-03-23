@@ -5,115 +5,43 @@ import java.util.List;
 import java.util.ArrayList;
 import com.aidanogrady.qgrady.Box;
 
-/*
- * Parser code to change the way the parser reports errors (include line and
- * column number of the error).
- */
-parser code {:
+parser code  {:
+  public void report_error(String message, Object info) {
+    StringBuilder m = new StringBuilder("Error ");
 
-    /*
-     * Change the method report_error so it will display the line and column of
-     * where the error occurred in the input as well as the reason for the error
-     * which is passed into the method in the String 'message'.
-     */
-    public void report_error(String message, Object info) {
+    if (info instanceof java_cup.runtime.Symbol)
+      m.append( "("+info.toString()+")" );
 
-        /* Create a StringBuilder called 'm' with the string 'Error' in it. */
-        StringBuilder m = new StringBuilder("Error");
+    m.append(" : "+message);
 
-        /* Check if the information passed to the method is the same
-           type as the type java_cup.runtime.Symbol. */
-        if (info instanceof java_cup.runtime.Symbol) {
-            /* Declare a java_cup.runtime.Symbol object 's' with the
-               information in the object info that is being typecasted
-               as a java_cup.runtime.Symbol object. */
-            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+    System.out.println(m);
+  }
 
-            /* Check if the line number in the input is greater or
-               equal to zero. */
-            if (s.left >= 0) {
-                /* Add to the end of the StringBuilder error message
-                   the line number of the error in the input. */
-                m.append(" in line " + (s.left + 1));
-                /* Check if the column number in the input is greater
-                   or equal to zero. */
-                if (s.right >= 0)
-                    /* Add to the end of the StringBuilder error message
-                       the column number of the error in the input. */
-                    m.append(", column " + (s.right + 1));
-            }
-        }
-
-        /* Add to the end of the StringBuilder error message created in
-           this method the message that was passed into this method. */
-        m.append(" : " + message);
-
-        /* Print the contents of the StringBuilder 'm', which contains
-           an error message, out on a line. */
-        System.err.println(m);
-    }
-
-    /*
-     * Change the method report_fatal_error so when it reports a fatal error it
-     * will display the line and column number of where the fatal error occurred
-     * in the input as well as the reason for the fatal error which is passed
-     * into the method in the object 'message' and then exit.
-     */
-    public void report_fatal_error(String message, Object info) {
-        report_error(message, info);
-        System.exit(1);
-    }
+  public void report_fatal_error(String message, Object info) {
+    report_error(message, info);
+    throw new RuntimeException("Fatal Syntax Error");
+  }
 :};
 
-/*
- * Terminals (tokens returned by the scanner).
- *
- * The first line of terminals are those that do not have a value, the second
- * line are those that do.
- */
-terminal            ARROW, COMMA, INRANGE, LBRACKET, OUTRANGE, RBRACKET, SEMICOLON;
-terminal Integer    INT;
-terminal Double     NUM;
-terminal String     VAR;
 
-/*
- * Non terminals:
- */
-non terminal                        box;
-non terminal Integer                inr, outr;
-non terminal List<List<Double>>     list;
-non terminal List<Double>           dist, row;
-non terminal List<String>           ins, outs, vars;
+terminal            ARROW, COMMA, EQUALS, INPUT, OUTPUT, RANGE, SEMICOLON;
+terminal Integer    NUMBER;
+terminal String     VARIABLE;
 
-/*
- * The grammar rules
- */
-box ::= inr:ir outr:or ins:i ARROW outs:o LBRACKET list:l RBRACKET  {: RESULT = new Box(Box.convertList(l), i, o, ir, or); :}
-        ;
+non terminal                box;
+non terminal Integer        inr, outr, range;
+non terminal List<String>   varlist, vars;
 
-inr  ::= INRANGE INT:i SEMICOLON    {: RESULT = i; :}
-        ;
-
-outr  ::= OUTRANGE INT:i SEMICOLON  {: RESULT = i; :}
-        ;
-
-list ::= list:l row:r           {: l.add(r); RESULT = l; :}
-        |                       {: RESULT = new ArrayList<List<Double>>(); :}
-        ;
-
-row  ::= NUM:n dist:d SEMICOLON {: d.add(0, n); RESULT = d; :}
-        ;
-
-dist ::= dist:d COMMA NUM:n     {: d.add(n); RESULT = d; :}
-        |                       {: RESULT = new ArrayList<Double>(); :}
-        ;
-
-ins  ::= VAR:v vars:l           {: l.add(0, v); RESULT = l; :}
-        ;
-
-outs ::= VAR:v vars:l           {: l.add(0, v); RESULT = l; :}
-        ;
-
-vars ::= vars:l COMMA VAR:v     {: l.add(v); RESULT = l; :}
-        |                       {: RESULT = new ArrayList<String>(); :}
-        ;
+box     ::= inr:ir outr:or vars:in ARROW vars:out   {: RESULT = new Box(ir, or, in, out);   :}
+            ;
+inr     ::= INPUT range:n                           {: RESULT = n;                          :}
+            ;
+outr    ::= OUTPUT range:n                          {: RESULT = n;                          :}
+            ;
+range   ::= RANGE EQUALS NUMBER:n SEMICOLON         {: RESULT = n;                          :}
+            ;
+vars    ::= VARIABLE:v varlist:l                    {: l.add(0, v); RESULT = l;             :}
+            ;
+varlist ::= varlist:l COMMA VARIABLE:v              {: l.add(v); RESULT = l;                :}
+            |                                       {: RESULT = new ArrayList<String>();    :}
+            ;
