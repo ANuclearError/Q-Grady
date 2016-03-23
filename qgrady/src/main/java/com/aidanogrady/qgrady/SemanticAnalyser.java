@@ -184,41 +184,40 @@ public class SemanticAnalyser {
      * @throws SignallingException
      */
     public static void nonSignalling(Box box) throws SignallingException {
-        for (int i = 0; i < box.getInputs().size(); i++) {
-            nonSignalling(box, i);
+        for (int i = 0; i < box.getNoOfInputs(); i++) {
+            for (int j = 0; j < box.getNoOfOutputs(); j++) {
+                if(i == j) {
+                    nonSignalling(box, i);
+                }
+            }
         }
     }
 
-    private static void nonSignalling(Box box, int index) throws
-            SignallingException {
-        int inSize = box.getNoOfInputs();
-        int outSize = box.getNoOfOutputs();
-        int range = box.getInputRange();
-        int inRange = (int) Math.pow(range, inSize);
-        range = box.getOutputRange();
-        int outRange = (int) Math.pow(range, outSize);
-
-        for (int i = 0; i < inRange; i++) {
-            range = box.getInputRange();
-            int[] inBits = Box.intToArray(i, inSize, range);
-            for (int j = 0; j < outRange; j++) {
-                range = box.getOutputRange();
-                int[] outBits = Box.intToArray(i, outSize, range);
-                double[] sum = new double[range];
-                for (int k = 0; k < range; k++) {
-                    inBits[index] = k;
-                    for (int l = 0; l < range; l++) {
-                        outBits[index] = l;
-                        sum[k] += box.prob(inBits, outBits);
-                    }
-                }
-
-                for (int k = 1; k < sum.length; k++) {
-                    if(sum[0] != sum[k])
-                        throw new SignallingException("Signalling found");
-                }
+    private static void nonSignalling(Box box, int index)
+            throws SignallingException {
+        int inputRange = box.getInputRange();
+        int outputRange = box.getOutputRange();
+        int inMax = (int) Math.pow(inputRange, box.getNoOfInputs());
+        int outMax = (int) Math.pow(outputRange, box.getNoOfInputs());
+        for(int i = 0; i < inMax; i++) {
+            for(int j = 0; j < outMax; j++) {
+                int[] in = Box.intToArray(i, box.getNoOfInputs(), inputRange);
+                int[] out = Box.intToArray(j, box.getNoOfOutputs(), outputRange);
+                nonSignalling(box, in, out, index);
             }
+        }
 
+    }
+
+    private static void nonSignalling(Box box, int[] in, int[] out, int index)
+            throws SignallingException {
+        double[] sums = new double[box.getOutputRange()];
+        for (int i = 0; i < box.getOutputRange(); i++) {
+            out[index] = i;
+            for (int j = 0; j < box.getInputRange(); j++) {
+                in[index] = j;
+                sums[i] += box.prob(in, out);
+            }
         }
     }
 }

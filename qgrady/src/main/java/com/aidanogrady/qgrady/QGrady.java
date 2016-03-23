@@ -129,16 +129,13 @@ public class QGrady {
             SemanticAnalyser.nonSignalling(box);
             System.out.println("OK!");
             return box;
-        } catch (SignallingException e) {
-            System.out.println("Signalling found: ");
-        } catch (InvalidValueException |
-                InvalidRowException |
-                InvalidVariableException e) {
+        } catch (SignallingException | InvalidValueException |
+                InvalidRowException | InvalidVariableException e) {
             System.out.println(e.getMessage());
         } catch (FileNotFoundException e) {
             System.out.println("Cannot continue, file missing.");
         } catch (Exception e) {
-            System.out.println("Cannot continue, unknown error.");
+            System.out.println("Cannot continue, unknown error: " + e.getMessage());
         }
         return null;
     }
