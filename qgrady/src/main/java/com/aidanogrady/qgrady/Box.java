@@ -206,7 +206,7 @@ public class Box {
         for(int i = 0; i < probs.length; i++) {
             for(int j = 0; j < probs.length; j++) {
                 int[] in = Box.intToArray(i, inputs.size(), inputRange);
-                int[] out = Box.intToArray(j, inputs.size(), inputRange);
+                int[] out = Box.intToArray(j, outputs.size(), outputRange);
                 if(in[inputIndex] == input  && out[outputIndex] == output)
                     sum += prob(in, out);
             }
