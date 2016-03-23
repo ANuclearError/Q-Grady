@@ -1,5 +1,7 @@
 package com.aidanogrady.qgrady;
 
+import sun.plugin2.message.SetAppletSizeMessage;
+
 import java.io.*;
 import java.util.*;
 
@@ -244,7 +246,8 @@ public class FileGenerator {
                     List<String> actions = new ArrayList<>();
                     for(int l = 0; l < box.getOutputRange(); l++) {
                         outBits[i] = l;
-                        double prob = box.normalisedProb(inBits, outBits, i);
+                        int[] indices = {i};
+                        double prob = box.normalisedProb(inBits, outBits, indices );
                         if(prob > 0) {
                             List<String> acts = new ArrayList<>();
                             acts.add(PrismMacros.assign(ready, 0));
@@ -259,5 +262,41 @@ public class FileGenerator {
             }
             lines.add(PrismMacros.EMPTY_LINE);
         }
+    }
+
+    /**
+     * A modified power-set that removes the empty set and the full set.
+     * The powerset only has to contain the numbers 0 up to the size of the
+     * index.
+     *
+     * https://rosettacode.org/wiki/Power_set#Java
+     *
+     * @param size  the size of the power-set.
+     * @return
+     */
+    private List<List<Integer>> powerSet(int size) {
+        List<List<Integer>> ps = new ArrayList<>();
+        ps.add(new ArrayList<>());   // add the empty set
+
+        // for every item in the original list
+        for (int i = 0; i < size; i++) {
+            List<List<Integer>> newPs = new ArrayList<>();
+
+            for (List<Integer> subset : ps) {
+                // copy all of the current powerset's subsets
+                newPs.add(subset);
+
+                // plus the subsets appended with the current item
+                List<Integer> newSubset = new ArrayList<>(subset);
+                newSubset.add(i);
+                newPs.add(newSubset);
+            }
+
+            // powerset is now powerset of list.subList(0, list.indexOf(item)+1)
+            ps = newPs;
+        }
+        ps.remove(0);
+        ps.remove(ps.size() - 1);
+        return ps;
     }
 }

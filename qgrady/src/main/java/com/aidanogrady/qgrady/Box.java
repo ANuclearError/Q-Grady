@@ -223,13 +223,13 @@ public class Box {
      * input and output.
      * @param input  the known input values
      * @param output  the known output to be normalised over.
-     * @param indexes  the indexes to normalise.
+     * @param indices  the indexes to normalise.
      * @return probability
      */
-    public double normalisedProb(int[] input, int[] output, int[] indexes) {
+    public double normalisedProb(int[] input, int[] output, int[] indices) {
         int[] outputCopy = Arrays.copyOf(output, output.length);
         double sum = 0;
-        for (int i = 0; i < indexes.length; i++) {
+        for (int i = 0; i < indices.length; i++) {
             for(int j = 0; j < outputRange; j++) {
                 outputCopy[i] = j;
                 sum += prob(input, outputCopy);
