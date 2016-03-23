@@ -24,24 +24,26 @@ parser code  {:
 :};
 
 
-terminal            ARROW, COMMA, EQUALS, INPUT, OUTPUT, RANGE, SEMICOLON;
+terminal            ARROW, COMMA, EQUALS, INPUT, LBRACKET, OUTPUT, RANGE, RBRACKET, SEMICOLON;
 terminal Integer    NUMBER;
 terminal String     VARIABLE;
 
-non terminal                box;
+non terminal                box, probs;
 non terminal Integer        inr, outr, range;
 non terminal List<String>   varlist, vars;
 
-box     ::= inr:ir outr:or vars:in ARROW vars:out   {: RESULT = new Box(ir, or, in, out);   :}
+box     ::= inr:ir outr:or vars:in ARROW vars:out probs {: RESULT = new Box(ir, or, in, out);   :}
             ;
-inr     ::= INPUT range:n                           {: RESULT = n;                          :}
+inr     ::= INPUT range:n                               {: RESULT = n;                          :}
             ;
-outr    ::= OUTPUT range:n                          {: RESULT = n;                          :}
+outr    ::= OUTPUT range:n                              {: RESULT = n;                          :}
             ;
-range   ::= RANGE EQUALS NUMBER:n SEMICOLON         {: RESULT = n;                          :}
+range   ::= RANGE EQUALS NUMBER:n SEMICOLON             {: RESULT = n;                          :}
             ;
-vars    ::= VARIABLE:v varlist:l                    {: l.add(0, v); RESULT = l;             :}
+vars    ::= VARIABLE:v varlist:l                        {: l.add(0, v); RESULT = l;             :}
             ;
-varlist ::= varlist:l COMMA VARIABLE:v              {: l.add(v); RESULT = l;                :}
-            |                                       {: RESULT = new ArrayList<String>();    :}
+varlist ::= varlist:l COMMA VARIABLE:v                  {: l.add(v); RESULT = l;                :}
+            |                                           {: RESULT = new ArrayList<String>();    :}
+            ;
+probs   ::= LBRACKET RBRACKET                           {: :}
             ;

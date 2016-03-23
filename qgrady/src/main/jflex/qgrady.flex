@@ -61,6 +61,8 @@ String      = [a-zA-Z$_] [a-zA-Z0-9$_]*
     ","         { return symbol(sym.COMMA);     }
     "="         { return symbol(sym.EQUALS);    }
     "input"     { return symbol(sym.INPUT);     }
+    "["         { return symbol(sym.LBRACKET);  }
+    "]"         { return symbol(sym.RBRACKET);  }
     "output"    { return symbol(sym.OUTPUT);    }
     "range"     { return symbol(sym.RANGE);     }
     ";"         { return symbol(sym.SEMICOLON); }
