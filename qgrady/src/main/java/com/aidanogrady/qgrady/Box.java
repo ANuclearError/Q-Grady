@@ -221,18 +221,21 @@ public class Box {
     /**
      * Returns the normalized probability distribution based on the given
      * input and output.
-     * @param input - the known input values
-     * @param outputIndex - the known output index
-     * @param output - the known output to be normalised over.
+     * @param input  the known input values
+     * @param output  the known output to be normalised over.
+     * @param indexes  the indexes to normalise.
      * @return probability
      */
-    public double normalisedProb(int[] input, int[] output, int outputIndex) {
+    public double normalisedProb(int[] input, int[] output, int[] indexes) {
         int[] outputCopy = Arrays.copyOf(output, output.length);
         double sum = 0;
-        for(int i = 0; i < outputRange; i++) {
-            outputCopy[outputIndex] = i;
-            sum += prob(input, outputCopy);
+        for (int i = 0; i < indexes.length; i++) {
+            for(int j = 0; j < outputRange; j++) {
+                outputCopy[i] = j;
+                sum += prob(input, outputCopy);
+            }
         }
+
         return prob(input, output) / sum;
     }
 }
