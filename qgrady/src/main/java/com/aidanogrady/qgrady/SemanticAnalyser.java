@@ -166,7 +166,7 @@ public class SemanticAnalyser {
             for(int j=0; j < box[i].length; j++) {
                 sum += box[i][j];
             }
-            if(sum != 1.0) {
+            if(sum < 0.99999 || sum > 1.0) {
                 String msg = i + ": Expected sum of 1.0, got " + sum;
                 throw new InvalidRowException(msg);
             }
