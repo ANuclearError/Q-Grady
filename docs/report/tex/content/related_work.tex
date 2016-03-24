@@ -17,7 +17,7 @@ non-locality was inspired by the CHSH inequality by Causer et al.
 Consider a device with two ends, held by Alice and Bob. Each provides an
 input (\(x\) and \(y)\), and observe the output produced by the box (\(a\) and
 \(b)\). Based on some probability distribution \(P(a,b | x,y)\) where \(a, b, x,
-y \in {0, 1}\) (\cite[Definition~1]{nlb_lamontagne}). 
+y \in {0, 1}\). 
 
 This device will immediately produce an output when given an input, preventing
 any communication as a result of a delayed input. These devices are
@@ -72,8 +72,7 @@ These restrictions allow for a represented of a reduced probability on the
 outputs as well, \(P(a | x)\), which is useful information to have when
 working with non-local boxes.
 
-The non-signalling restriction can be represented by the given formulae
-(\cite[Section~II.A]{PhysRevA.71.022101}):
+The non-signalling restriction can be represented by the given formulae:
 \[\sum_{b} P(a, b | x, y) = \sum_{b} P(a, b | x, y') = P(a | x) 
 \quad \forall a, x, y, y'\]
 \[\sum_{a} P(a, b | x, y) = \sum_{a} P(a, b | x', y) = P(b | y) 
@@ -97,7 +96,7 @@ An example using the PR-box where \(a = 0, x = 1, y = 0, y' = 1\):
 
 \section{PRISM} % (fold)
 \label{sec:prism}
-PRISM (\cite{KNP11}) is a probabilistic model checking tool. It allows for
+PRISM is a probabilistic model checking tool. It allows for
 the modelling of systems which exhibit some random nature to them. Examples
 include quantum cryptography or wireless networking protocols. Models as such
 discrete-time Markov Chains can be created using the PRISM language, and
