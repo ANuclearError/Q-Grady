@@ -1,7 +1,5 @@
 package com.aidanogrady.qgrady;
 
-import sun.plugin2.message.SetAppletSizeMessage;
-
 import java.io.*;
 import java.util.*;
 

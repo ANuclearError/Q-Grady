@@ -71,7 +71,7 @@ parser code {:
  * The first line of terminals are those that do not have a value, the second
  * line are those that do.
  */
-terminal            ARROW, COMMA, INRANGE, LBRACKET, OUTRANGE, RBRACKET, SEMICOLON;
+terminal            ARROW, COMMA, EQUALS, INPUT, LBRACKET, OUTPUT, RANGE, RBRACKET, SEMICOLON;
 terminal Integer    INT;
 terminal Double     NUM;
 terminal String     VAR;
@@ -80,23 +80,38 @@ terminal String     VAR;
  * Non terminals:
  */
 non terminal                        box;
-non terminal Integer                inr, outr;
+non terminal Integer                inr, outr, range;
 non terminal List<List<Double>>     list;
 non terminal List<Double>           dist, row;
-non terminal List<String>           ins, outs, vars;
+non terminal List<String>           vars, varlist;
 
 /*
  * The grammar rules
  */
-box ::= inr:ir outr:or ins:i ARROW outs:o LBRACKET list:l RBRACKET  {: RESULT = new Box(Box.convertList(l), i, o, ir, or); :}
+box ::= inr:ir outr:or vars:i ARROW vars:o LBRACKET list:l RBRACKET  {: RESULT = new Box(Box.convertList(l), i, o, ir, or); :}
+        ;
+/**
+ * Rules for handling the input and output ranges.
+ */
+inr   ::= INPUT range:i                 {: RESULT = i; :}
+        ;
+outr  ::= OUTPUT range:i                {: RESULT = i; :}
+        ;
+range ::= RANGE EQUALS INT:i SEMICOLON  {: RESULT = i; :}
         ;
 
-inr  ::= INRANGE INT:i SEMICOLON    {: RESULT = i; :}
+/**
+ * Rules for handling the list of variables.
+ */
+vars  ::= VAR:v varlist:l           {: l.add(0, v); RESULT = l; :}
+        ;
+varlist ::= varlist:l COMMA VAR:v   {: l.add(v); RESULT = l; :}
+        |                           {: RESULT = new ArrayList<String>(); :}
         ;
 
-outr  ::= OUTRANGE INT:i SEMICOLON  {: RESULT = i; :}
-        ;
-
+/**
+ * Rules for handling the probability distribution.
+ */
 list ::= list:l row:r           {: l.add(r); RESULT = l; :}
         |                       {: RESULT = new ArrayList<List<Double>>(); :}
         ;
@@ -108,12 +123,3 @@ dist ::= dist:d COMMA NUM:n     {: d.add(n); RESULT = d; :}
         |                       {: RESULT = new ArrayList<Double>(); :}
         ;
 
-ins  ::= VAR:v vars:l           {: l.add(0, v); RESULT = l; :}
-        ;
-
-outs ::= VAR:v vars:l           {: l.add(0, v); RESULT = l; :}
-        ;
-
-vars ::= vars:l COMMA VAR:v     {: l.add(v); RESULT = l; :}
-        |                       {: RESULT = new ArrayList<String>(); :}
-        ;

@@ -45,7 +45,7 @@ LineTerm    = \r|\n|\r\n
 Space       = {LineTerm} | [ \t\f]
 Digit       = [0-9]
 Integer     = {Digit}+
-Decimal     = ([0-9]*\.)?[0-9]+
+Decimal     = ([0-9]*\.)?[0-9]+ | {Integer}
 String      = [a-zA-Z$_] [a-zA-Z0-9$_]*
 
 %%
@@ -60,9 +60,11 @@ String      = [a-zA-Z$_] [a-zA-Z0-9$_]*
 
     "->"                { return symbol(sym.ARROW);         }
     ","                 { return symbol(sym.COMMA);         }
-    "input range ="     { return symbol(sym.INRANGE);       }
+    "="                 { return symbol(sym.EQUALS);        }
+    "input"             { return symbol(sym.INPUT);         }
     "["                 { return symbol(sym.LBRACKET);      }
-    "output range ="    { return symbol(sym.OUTRANGE);      }
+    "output"            { return symbol(sym.OUTPUT);        }
+    "range"             { return symbol(sym.RANGE);         }
     "]"                 { return symbol(sym.RBRACKET);      }
     ";"                 { return symbol(sym.SEMICOLON);     }
 
