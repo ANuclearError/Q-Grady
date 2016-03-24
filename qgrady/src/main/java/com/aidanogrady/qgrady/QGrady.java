@@ -247,7 +247,6 @@ public class QGrady {
      * @param args - program args.
      */
     public static void main(String[] args) throws ParseException {
-        System.out.println(0 % 3);
         QGrady qGrady = new QGrady();
         qGrady.start(args);
     }
