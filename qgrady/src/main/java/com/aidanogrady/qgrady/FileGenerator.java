@@ -254,7 +254,8 @@ public class FileGenerator {
                         }
                     }
                     action = PrismMacros.listToString(actions, '+');
-                    lines.add(PrismMacros.command(sync, guard, action));
+                    if(!action.isEmpty())
+                        lines.add(PrismMacros.command(sync, guard, action));
                 }
             }
             lines.add(PrismMacros.EMPTY_LINE);
