@@ -9,29 +9,32 @@
 
 \section{Non-Local Boxes} % (fold)
 \label{sec:non_local_boxes}
-Non-local boxes are theoretical objects where multiple parties share some
+Non-local boxes (NLBs) are theoretical objects where multiple parties share some
 correlation. The study of non-local boxes was introduced by physicists Sandu
-Popescu and Daniel Rohrlich as part of their research non quantum non-locality.
-
-Non-local boxes were introduced as a correlation that achieved the algebraic
-maximum of 4 in the CHSH inequality by Clauser et al in addition to maintaining
-non-signalling while doing so.
+Popescu and Daniel Rohrlich as part of their research on quantum non-locality.
 
 Consider a device with two ends, held by Alice and Bob. Each provides an
 input (\(x\) and \(y)\), and observe the output produced by the box (\(a\) and
 \(b)\). The box is defined by the probability distribution \(P(a,b | x,y)\) 
-where \(a, b, x, y \in {0, 1}\). 
+where \(a, b, x, y \in {0, 1}\) \cite{nlb_lamontagne}. 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.66\textwidth]{img/nlb}
-  \caption{A non local box}
+  \caption{A non local box \cite[Section~I]{2006quant.ph..9166D}}
 \end{figure}
 
 This device will immediately produce an output when given an input, preventing
 any communication as a result of a delayed input. These devices are
 non-signalling, ensuring that Alice cannot get any information about Bob's input
 from her output, forbidding faster than light communication.
+
+Popescu and Rohrlich introduced the concept of a non-local box a correlation 
+that could achieve the algebraic maximum violation of 4 in the CHSH inequality
+while also non-signalling \cite{ref1}, the CHSH inequality introduced by Clauser
+et al being a constraint in quantum theory \cite{PhysRevLett.23.880}. This work
+led to the further study of other non-local boxes as well, with expanded scope
+in terms of the inputs and outputs of these boxes.
 % subsubsection pr_box (end)
 
 \subsection{Non-signalling} % (fold)
@@ -43,17 +46,23 @@ vice-versa. This requirement imposes restrictions on the probability
 distribution, since the probability of an output should depend solely on its
 respective input. 
 
-The non-signalling restriction can be represented by the given formulae:
-\[\sum_{b} P(a, b | x, y) = \sum_{b} P(a, b | x, y') = P(a | x) 
-\quad \forall a, x, y, y'\]
-\[\sum_{a} P(a, b | x, y) = \sum_{a} P(a, b | x', y) = P(b | y) 
-\quad \forall b, y, x, x'\]
+The non-signalling restriction can be represented by the given formulae
+\cite[Section~II.A]{PhysRevA.71.022101}:
+\begin{equation} \label{eq:non-signal_1}
+\sum_{b} P(a, b | x, y) = \sum_{b} P(a, b | x, y') = P(a | x) 
+\quad \forall a, x, y, y'
+\end{equation}
+
+\begin{equation} \label{eq:non-signal_2}
+\sum_{a} P(a, b | x, y) = \sum_{a} P(a, b | x', y) = P(b | y) 
+\quad \forall b, x, x', y
+\end{equation}
 
 These restrictions allow for a definition of a reduced probability on the
 outputs as well, \(P(a | x)\), which is useful information to have when
-working with non-local boxes, especially as it pertains to creating models of
-these boxes in PRISM, where the reduced probability is essential in the PRISM
-model.
+working with non-local boxes. For example, the modelling of NLBs in PRISM relies
+heavily on having a definition of reduced probabilities, meaning that the lack
+of such information would impede on the creation of such models.
 % subsection non_signalling (end)
 
 \subsection{Example NLBs} % (fold)
@@ -129,7 +138,7 @@ papers related to quantum non-locality.
 
 \section{PRISM} % (fold)
 \label{sec:prism}
-PRISM is a probabilistic model checking tool. It allows for
+PRISM \cite{KNP11} is a probabilistic model checking tool. It allows for
 the modelling of systems which exhibit some random nature to them. Examples
 include quantum cryptography or wireless networking protocols. Models as such
 discrete-time Markov Chains can be created using the PRISM language, and
