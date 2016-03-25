@@ -135,17 +135,104 @@ papers related to quantum non-locality.
 % section non_local_boxes (end)
 
 % ==============================================================================
-
+\newpage
 \section{PRISM} % (fold)
 \label{sec:prism}
 PRISM \cite{KNP11} is a probabilistic model checking tool. It allows for
 the modelling of systems which exhibit some random nature to them. Examples
 include quantum cryptography or wireless networking protocols. Models as such
 discrete-time Markov Chains can be created using the PRISM language, and
-experiments can be ran using these models.
+experiments can be ran using these models. Section \ref{sub:nlbs_in_prism}
+provides an example of a non-local box in PRISM, breaking down the modules and
+providing commentary on how it works.
 
-PRISM can be used for modelling non-local boxes (see here), although it's
-weaknesses in doing so are the inspiration for this project.
+PRISM uses a state based language, and includes tools for performing various
+forms of analysis on a given model. A typical PRISM file will be made up of
+multiple modules and variables, that interact with each other in various ways. A
+module can read the values of other variables to update its own variables, thus
+changing the state of the model. In addition, these modules can perform
+synchronized actions with each other as well, meaning that multiple variables
+can update in different modules simultaneously.
+
+\subsection{NLBs in PRISM} % (fold)
+\label{sub:nlbs_in_prism}
+PRISM can be used for modelling non-local boxes, although it's weaknesses in 
+doing so are the inspiration for this project. The PR-box described in
+Section \ref{ssub:pr_box} will be used as the example model, which will be
+broken down for easier understanding.
+
+The box is represented using a discrete-time Markov Chain, meaning that the 
+model will transition from one state to the next based only on the current
+state, with no memory of the steps preceding.
+
+\subsubsection{Input} % (fold)
+\label{ssub:input}
+\lstinputlisting[numbers=left, firstnumber= 1, firstline=3, lastline=9,
+basicstyle=\ttfamily\footnotesize, caption={An input module.}, captionpos=b]
+{files/pr.prism} 
+
+Each input of the box is given its own module in the model. These modules
+contain the variable that represents it's input, initialised at -1 to indicate
+that it's value is yet to be determined. Line 3 includes a guard indicating that
+its actions can only be taken if \texttt{x} is equal to -1. In this case, it has
+a 50/50 chance of being 0 or 1, effectively a coin toss.
+
+Lines 5 and 6 provide a way to synchronize depending on the value of \texttt{x},
+this is how the output module of the model will be alerted of the input's value,
+and can then determine the appropriate output. As you can see, this does not
+change the value of \texttt{x}, which will remain the same no matter what.
+% subsubsection input (end)
+
+\subsubsection{Output Declaration} % (fold)
+\label{ssub:output_declaration}
+\lstinputlisting[numbers=left, firstnumber= 1, firstline=19, lastline=27,
+basicstyle=\ttfamily\footnotesize, caption={Output module variables and 
+synchronize flags.}, captionpos=b]{files/pr.prism} 
+
+The output module includes all outputs produced by the box, with the addition of
+a \texttt{ready} variable that acts as a block as part of the module. This has
+the purpose of ensuring that when the module synchronizes with an input, the
+respective output must be determined next before continuing. 
+
+The output variables have similar synchronized actions that can allow parties 
+interested in using the value of the output in determining the next state to
+transition to.
+% subsubsection output_declaration (end)
+
+\subsubsection{Output Reduced Probabilities} % (fold)
+\label{ssub:output_reduced_probabilities}
+\lstinputlisting[numbers=left, firstnumber= 1, firstline=29, lastline=32,
+basicstyle=\ttfamily\footnotesize, caption={Reduced probability of outputs.},
+captionpos=b, breaklines=true]
+{files/pr.prism} 
+
+Moving onto the reduced probabilities. This is one reason why non-signalling
+must be cared about. Its ability to provide a definition of the reduced
+probabilities means that we can them as part of the model. In this instance,
+each variable has a reduced probability of 50\% to be either 0 or 1. 
+
+Note that the module must be ready in order to perform this action, synchronized
+with the input actions acting as a flag alerting that this assignment can take
+place.
+% subsubsection output_reduced_probabilities (end)
+
+\subsubsection{Output Normalised Probabilities} % (fold)
+\label{ssub:output_normalised_probabilities}
+\lstinputlisting[numbers=left, firstnumber= 1, firstline=34, lastline=41,
+basicstyle=\ttfamily\footnotesize, caption={Reduced probability of outputs.},
+captionpos=b, breaklines=true]
+{files/pr.prism} 
+
+Finally, the normalised probabilities are considered. These actions take
+advantage of knowing the existing values of the other input and output to
+normalise the probabilities of the remaining output. For example, line 8 shows
+that \texttt{y} equal to 1 and \texttt{b} equal to 1 shows that \texttt{a} can
+only be 0 since the action is synchronizing with \texttt{x0}. The probabilities
+in \ref{tab:pr} must have the now impossible outcomes ignored so that the
+normalised probabilities can be determined for use in the model.
+% subsubsection output_normalised_probabilities (end)
+
+% subsection nlbs_in_prism (end)
 % section prism (end)
 % chapter related_work (end)
 
