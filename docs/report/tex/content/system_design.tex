@@ -47,7 +47,19 @@ The full BNF of the language in Appendix \ref{sec:q_grady_syntax}.
 The box is a conditional probability distribution that satisfies non-signalling.
 Each row is a list of the probabilities of each outcome based on the given
 input. For Listing \ref{pr_qgrady_example}, line 5 would represent 
-\(P(ab | 00)\).
+\(P(ab | 00)\). In order for the box to make sense, the following criteria must
+be met (formal semantics are available in Appendix \ref{sec:q_grady_semantics}):
+\begin{itemize}
+    \item The number of rows in the matrix must equal the input range to the
+    power of the number of inputs.
+    \item The number of columns must equal the output range to the power of the
+    number of outputs.
+    \item Each item in the matrix be between 0 and 1.
+    \item Each row must sum to 1.
+    \item There must be no duplicate variables, and variables cannot be a PRISM
+    language keyword.
+\end{itemize}
+
 % subsection semantics (end)
 % section q_grady_language (end)
 
@@ -64,9 +76,33 @@ together to create the full software.
     \item The file generator, producing the the PRISM file.
 \end{itemize}
 
+\subsection{Application} % (fold)
+\label{sub:application}
+
+% subsection application (end)
+
+\subsection{Box Class} % (fold)
+\label{sub:box_class}
+
+% subsection box_class (end)
+
+\subsection{Syntax Checker} % (fold)
+\label{sub:syntax_checker}
+
+% subsection syntax_checker (end)
+
+\subsection{Semantics Analyser} % (fold)
+\label{sub:semantics_analyser}
+
+% subsection semantics_analyser (end)
+
+\subsection{File Generator} % (fold)
+\label{sub:file_generator}
+
 The system in linear in its nature, going through the syntax, semantics and
 generator one after the other as a conveyor belt, using the Box class to store
-the information being operated upon.
+the information being operated upon, before finally writing the PRISM model's
+file.
 
 \begin{figure}[H]
     \centering
@@ -102,5 +138,7 @@ the information being operated upon.
     \end{tikzpicture}
     \caption{Flowchart of compiler process} \label{fig:compiler_flowchart}
 \end{figure}% section q_grady_compiler (end)
+
+% subsection file_generator (end)
 \newpage
 \end{document}
