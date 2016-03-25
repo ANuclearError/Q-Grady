@@ -1,0 +1,18 @@
+<box>   ::= <ranges> <vars> <dist>
+
+<ranges>        ::= <input_range> <output_range>
+<input_range>   ::= "input" <range>
+<output_range>  ::= "output" <range>
+<range>         ::= "range =" <int> ";"
+
+<vars>          ::= <input_vars> "->" <output_vars>
+<input_vars>    ::= <var_list>
+<output_vars>   ::= <var_list>
+<var_list>      ::= <var> | <var> "," <var_list>
+
+<dist>  ::= <row> | <row> <dist>
+<row>   ::= <prob> ";" | <prob> "," <row>
+
+<int>   ::= Any natural number.
+<prob>  ::= Any positive number.
+<var>   ::= Any string identifier.
