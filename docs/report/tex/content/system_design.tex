@@ -16,24 +16,57 @@ Listing \ref{pr_qgrady_example} provides the Q'Grady file for a standard PR-box.
 caption={The PR Q'Grady file.}, captionpos=b, label=pr_qgrady_example]
 {files/pr.qgrady} 
 
-Examples of previous prototypes are found in the Detailed Design chapter.
 When the general style for the language was decided upon, the next step was to
 formalise the language, providing a grammar and the semantics of the language,
 in order to provide a specification that was easy to understand and work with.
 
 \subsection{Syntax} % (fold)
 \label{sub:syntax}
+The syntax of the language started with simply the probability matrix seen in
+lines 4-9 of Listing \ref{pr_qgrady_example} starting from the `['. Each row of
+probabilities is separated by a semi-colon while each probability is separated
+by a comma instead. It is important to note that for a probability, it must be
+the form of a decimal number, and cannot be an integer, so `0' would not be
+valid when `0.0' is.
+
+The opposite is true for the range values, which denote how many possible values
+the inputs and outputs can have, starting from 0. This allows for the compiler
+to ensure that the probability matrix has enough values to cover all instances.
+Thus, it is essential that an integer be used here rather than a decimal number.
+
+Line 4 provides the variables that make up the box, with the arrow denoting that
+the left hand is the input and the right hand side is the output. This was seen
+as an intuitive syntax, while also allowing the square brackets of the matrix to
+also act as the curly braces seen in C like syntaxes.
+
+The full BNF of the language in Appendix \ref{sec:q_grady_syntax}.
 % subsection syntax (end)
 
 \subsection{Semantics} % (fold)
 \label{sec:semantics}
-
+The box is a conditional probability distribution that satisfies non-signalling.
+Each row is a list of the probabilities of each outcome based on the given
+input. For Listing \ref{pr_qgrady_example}, line 5 would represent 
+\(P(ab | 00)\).
 % subsection semantics (end)
 % section q_grady_language (end)
 
 \section{Q'Grady Compiler} % (fold)
 \label{sec:q_grady_compiler}
+The Q'Grady compiler can be divided into five different parts that work
+together to create the full software.
+\begin{itemize}
+    \item The application, going through and controlling the various stages.
+    \item A Java class, Box, representing the box, acting as an intermediary
+    between the Q'Grady and PRISM files.
+    \item The syntax checker, achieved through the use of Cup and JFlex.
+    \item The semantics analyser, ensuring that the semantics are met.
+    \item The file generator, producing the the PRISM file.
+\end{itemize}
 
+The system in linear in its nature, going through the syntax, semantics and
+generator one after the other as a conveyor belt, using the Box class to store
+the information being operated upon.
 % section q_grady_compiler (end)
 \newpage
 \end{document}
