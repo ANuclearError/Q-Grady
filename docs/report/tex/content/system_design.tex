@@ -6,22 +6,23 @@
 % chapter system_design (end)
 \section{Q'Grady Language} % (fold)
 \label{sec:q_grady_language}
-The Q'Grady language is designed to describe the set-up of non-local boxes. This
-is achieved through defining the probability distribution of that set-up. The
-intent was to focus on providing a clear syntax to represent the distribution so
-that the probabilities could be easily identified. My original designs did not
-achieve this aim, my attempts to divide the distribution and separate each row 
-only became unclear. Examples of previous prototypes are found in the Detailed
-Design chapter.
+The Q'Grady language is designed to describe the set-up of non-local boxes.
+This is achieved through defining the probability distribution of that set-up.
+The intent was to focus on providing a clear syntax to represent the distribution
+so that the probabilities could be easily identified.
+Listing \ref{pr_qgrady_example} provides the Q'Grady file for a standard PR-box.
 
-The following is a Q'Grady file representing the PR box:
-\begin{center}
-[0.5, 0, 0, 0.5; 0.5, 0, 0, 0.5; 0.5, 0, 0, 0.5; 0, 0.5, 0.5, 0;]
-\end{center}
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={The PR Q'Grady file.}, captionpos=b, label=pr_qgrady_example]
+{files/pr.qgrady} 
+
+Examples of previous prototypes are found in the Detailed Design chapter.
+When the general style for the language was decided upon, the next step was to
+formalise the language, providing a grammar and the semantics of the language,
+in order to provide a specification that was easy to understand and work with.
 
 \subsection{Syntax} % (fold)
 \label{sub:syntax}
-
 % subsection syntax (end)
 
 \subsection{Semantics} % (fold)
