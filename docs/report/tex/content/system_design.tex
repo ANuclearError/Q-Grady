@@ -9,12 +9,16 @@
 The Q'Grady language is designed to describe the set-up of non-local boxes.
 This is achieved through defining the probability distribution of that set-up.
 The intent was to focus on providing a clear syntax to represent the distribution
-so that the probabilities could be easily identified.
+so that the probabilities could be easily identified. Original attempts at the
+language were not up to the same standards in terms of clarity and simplicity in
+the language. Appendix B goes into detail about the rejected prototypes and
+further design of the system.
+
 Listing \ref{pr_qgrady_example} provides the Q'Grady file for a standard PR-box.
 
 \lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={The PR Q'Grady file.}, captionpos=b, label=pr_qgrady_example]
-{files/pr.qgrady} 
+caption={The PR Q'Grady file.}, captionpos=b, label=pr_qgrady_example,
+frame=single]{files/pr.qgrady} 
 
 When the general style for the language was decided upon, the next step was to
 formalise the language, providing a grammar and the semantics of the language,
@@ -23,7 +27,7 @@ in order to provide a specification that was easy to understand and work with.
 \subsection{Syntax} % (fold)
 \label{sub:syntax}
 The syntax of the language started with simply the probability matrix seen in
-lines 4-9 of Listing \ref{pr_qgrady_example} starting from the `['. Each row of
+lines 4-9 of Listing \ref{pr_qgrady_example} starting from `['. Each row of
 probabilities is separated by a semi-colon while each probability is separated
 by a comma instead. It is important to note that for a probability, it must be
 the form of a decimal number, and cannot be an integer, so `0' would not be

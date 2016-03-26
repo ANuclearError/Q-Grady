@@ -168,8 +168,8 @@ state, with no memory of the steps preceding.
 \subsubsection{Input} % (fold)
 \label{ssub:input}
 \lstinputlisting[numbers=left, firstnumber= 1, firstline=3, lastline=9,
-basicstyle=\ttfamily\footnotesize, caption={An input module.}, captionpos=b]
-{files/pr.prism} 
+basicstyle=\ttfamily\footnotesize, caption={An input module.}, captionpos=b,
+frame=single]{files/pr.prism} 
 
 Each input of the box is given its own module in the model. These modules
 contain the variable that represents it's input, initialised at -1 to indicate
@@ -187,7 +187,7 @@ change the value of \texttt{x}, which will remain the same no matter what.
 \label{ssub:output_declaration}
 \lstinputlisting[numbers=left, firstnumber= 1, firstline=19, lastline=27,
 basicstyle=\ttfamily\footnotesize, caption={Output module variables and 
-synchronize flags.}, captionpos=b]{files/pr.prism} 
+synchronize flags.}, captionpos=b, frame=single]{files/pr.prism} 
 
 The output module includes all outputs produced by the box, with the addition of
 a \texttt{ready} variable that acts as a block as part of the module. This has
@@ -203,7 +203,7 @@ transition to.
 \label{ssub:output_reduced_probabilities}
 \lstinputlisting[numbers=left, firstnumber= 1, firstline=29, lastline=32,
 basicstyle=\ttfamily\footnotesize, caption={Reduced probability of outputs.},
-captionpos=b, breaklines=true]
+captionpos=b, breaklines=true, frame=single]
 {files/pr.prism} 
 
 Moving onto the reduced probabilities. This is one reason why non-signalling
@@ -220,7 +220,7 @@ place.
 \label{ssub:output_normalised_probabilities}
 \lstinputlisting[numbers=left, firstnumber= 1, firstline=34, lastline=41,
 basicstyle=\ttfamily\footnotesize, caption={Reduced probability of outputs.},
-captionpos=b, breaklines=true]
+captionpos=b, breaklines=true, frame=single]
 {files/pr.prism} 
 
 Finally, the normalised probabilities are considered. These actions take

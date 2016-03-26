@@ -83,33 +83,83 @@ features of the compiler were accurate and doing what was intended.
 
 % ==============================================================================
 
-\section{Compiler} % (fold)
-\label{sec:compiler}
+\section{Implementation} % (fold)
+\label{sec:implementation}
+\subsection{The Box Class} % (fold)
+\label{sub:the_box_class}
+The first problem to tackle as part of the compiler was an obvious one: how to
+store the box set-up as a Java object to be used throughout the compilation
+process. This included the storage of the probability distribution, the inputs
+and outputs required, and all the methods required for calculating the other
+probabilities.
 
-\subsection{Syntax Checking} % (fold)
-\label{sub:syntax_checking}
-Content.
-% subsection syntax_checking (end)
+\subsubsection{Storing the Distribution} % (fold)
+\label{ssub:storing_the_distribution}
+The first method of storing the distribution was used when the Q'Grady language
+had no way of showing the number of inputs/outputs or their ranges, it had to be
+assumed based on the size of the matrix. Thus, the initial storage was a
+\texttt{Map} of \texttt{Instance}s to the probability of that \texttt{Instance}.
 
-\subsection{Semantic Analysis} % (fold)
-\label{sub:semantic_analysis}
-Content.
+The \texttt{Instance} consisted of two arrays that were the input and output
+values of the this possible outcome. As the language was extended to incorporate
+the new features, this method was replaced with the more simple solution of
+simply storing the matrix parsed by the compiler as a two-dimensional array
+instead.
+% subsubsection storing_the_distribution (end)
 
-\subsubsection{Non-Signalling} % (fold)
-\label{ssub:non_signalling}
-Content.
-% subsubsection non_signalling (end)
-% subsection semantic_analysis (end)
+\subsubsection{Reduced Probability} % (fold)
+\label{ssub:reduced_probability}
+As touched upon in Section \ref{sub:non_signalling}, the reduced probability is
+the probability of a single output value given a single input value, requiring
+a way to ignore the other values.
 
-\subsection{Code Generation} % (fold)
-\label{sub:code_generation}
-Content.
-% subsection code_generation (end)
-% section compiler (end)
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={Reduced Probability method.}, captionpos=b, label=reduced_method,
+frame=single, language=Java, breaklines=true]{files/reduced.java} 
+
+The method \texttt{public double prob(int inputIndex, int input,
+int outputIndex, int output)} is used to achieve this in the \texttt{Box} class.
+It starts by systematically going through every possible input and output, and
+accumulating the probabilities of all that match the given input and output
+based on the index and value provided. It then divided that sum by
+\(inputRange ^ (inputs.size() - 1)\) to provide the reduced probability. This
+method means that it is flexible for set-ups beyond that of the basic boxes such
+as the PR box.
+% subsubsection reduced_probability (end)
+
+\subsubsection{Normalised Probability} % (fold)
+\label{ssub:normalised_probability}
+The normalised probability saw difficulties in implementing the handling of more
+than two variables. It is very simple to handle the case were all but one output
+is known (and the same for handling a single output like in the reduced
+probabilities). Indeed, attempts to change the normalising method to handle the
+use case where the file generator is handling the stages where the second
+output's probabilities are being normalised after deciding the first output is
+decided.
+
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={Normalised Probability method.}, captionpos=b, label=normalised_method,
+frame=single, language=Java]{files/normalised.java} 
+
+% subsubsection normalised_probability (end)
+
+\subsubsection{Helper Methods} % (fold)
+\label{ssub:helper_methods}
+Two static helper methods were required to allow for integer to array
+conversion, flexible to handle any base that acted as the range for inputs and
+outputs. These were already necessary for the file generation and other parts
+of the system, meaning their inclusion was not a major problem, and was in fact
+straight forward.
+% subsubsection helper_methods (end)
+% subsection the_box_class (end)
+
+\subsection{The Compiler} % (fold)
+\label{sub:the_compiler}
+
+% subsection the_compiler (end)
+% section implementation (end)
+% ==============================================================================
+% ==============================================================================
 % chapter detailed_design_and_implementation (end)
-
-% ==============================================================================
-% ==============================================================================
-
 \newpage
 \end{document}
