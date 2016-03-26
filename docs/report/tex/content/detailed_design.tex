@@ -125,6 +125,10 @@ based on the index and value provided. It then divided that sum by
 \(inputRange ^ (inputs.size() - 1)\) to provide the reduced probability. This
 method means that it is flexible for set-ups beyond that of the basic boxes such
 as the PR box.
+
+When the \texttt{Instance} class was used as part of the box, this method was
+extremely more complicated, although that may have been due to poor design of
+the algorithm rather than an inherent flaw of that storage method itself.
 % subsubsection reduced_probability (end)
 
 \subsubsection{Normalised Probability} % (fold)
@@ -150,6 +154,9 @@ conversion, flexible to handle any base that acted as the range for inputs and
 outputs. These were already necessary for the file generation and other parts
 of the system, meaning their inclusion was not a major problem, and was in fact
 straight forward.
+
+Getters were also provided for all the ranges and variable lists, due to their
+necessity in the file generation and semantics checking for the compiler.
 % subsubsection helper_methods (end)
 % subsection the_box_class (end)
 
