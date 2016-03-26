@@ -162,7 +162,24 @@ necessity in the file generation and semantics checking for the compiler.
 
 \subsection{The Compiler} % (fold)
 \label{sub:the_compiler}
+When the \texttt{Box} class was decided upon, the next stage in the
+implementation was the parsing of Q'Grady files to be stored as a \texttt{Box}
+object.
 
+This was achieved through the Cup and JFlex libraries. The two libraries would
+create Java classes that would use the given specifications to create a parser
+and lexer that could be used in the compiler.
+
+I started with the parser generator using Cup. The Cup file was a modification
+of the Q'Grady grammar, based on examples in Cup's documentation 
+\cite{cup_example}, that handled lists in a specific way that I decided to
+emulate to avoid complications. The lexer was created using JFlex, which
+allowed for the pairing of regular expressions with symbols based on CUP's
+processing of the file.
+
+However, the error handling of the generated file's is not excellent. The system
+does not provide the best information about why the source file failed to parse,
+not altering the user to missing semi-colons for example.
 % subsection the_compiler (end)
 % section implementation (end)
 % ==============================================================================
