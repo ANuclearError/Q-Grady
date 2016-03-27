@@ -47,7 +47,7 @@ classes that could be inserted into the Q'Grady compiler.
 
 \subsection{JFlex} % (fold)
 \label{sub:jflex}
-JFlex (\url{http://jflex.de})is a scanner generatorfor Java. It generated an
+JFlex (\url{http://jflex.de})is a scanner generator for Java. It generated an
 additional Java class for the compiler, matching tokens from the scanned input
 to regular expressions outlined in the .flex file.
 % subsection jflex (end)
@@ -132,10 +132,12 @@ assumed based on the size of the matrix. Thus, the initial storage was a
 \texttt{Map} of \texttt{Instance}s to the probability of that \texttt{Instance}.
 
 The \texttt{Instance} consisted of two arrays that were the input and output
-values of the this possible outcome. As the language was extended to incorporate
+values of a possible outcome. As the language was extended to incorporate
 the new features, this method was replaced with the more simple solution of
 simply storing the matrix parsed by the compiler as a two-dimensional array
-instead.
+instead. The Instance class felt rather clumsy to work with, and simply using
+the two-dimensional array with conversion methods instead was seen as a better
+alternative.
 
 The variables of the box's input and output are stored as two \texttt{List}s,
 with the \texttt{SemanticAnalyser} ensuring there are no issues with these
@@ -230,7 +232,7 @@ frame=single, breaklines=true]{files/qgrady.flex}
 
 % subsubsection jflex (end)
 
-However, the error handling of the generated file's is not excellent. The system
+However, the error handling of the generated files is not excellent. The system
 does not provide the best information about why the source file failed to parse,
 not altering the user to missing semi-colons for example. In addition, reading
 the code of the generated Java classes proved to be an unwise decision, due to
@@ -276,7 +278,7 @@ and ensures all values are between 0 and 1 inclusively.
 \label{ssub:validaterowamount}
 The \texttt{ValidateRowAmount} method looks at the length of the probability
 array, the number of rows it has. The method compares this to the expected
-value of \(range ^ inputs\), where range is the range of values an input can be
+value of \(range ^{inputs}\), where range is the range of values an input can be
 and inputs is the number of input variables declared. For example, the PR box
 should have 4 rows, since there are 2 input variables with a range of 2.
 % subsubsection validaterowamount (end)
@@ -286,7 +288,7 @@ should have 4 rows, since there are 2 input variables with a range of 2.
 \texttt{ValidateRowLengths} is essentially the same as 
 \texttt{ValidateRowAmount} except it uses the output data rather than the input
 data. It goes through each row of the array and does a comparison between each
-of the row lengths and the expected value of \(range ^ outputs\).
+of the row lengths and the expected value of \(range ^{outputs}\).
 % subsubsection validaterowlengths (end)
 
 \subsubsection{ValidateRowSums} % (fold)
@@ -299,7 +301,7 @@ resulting PRISM model to work.
 
 When implementing this particular check, there was the realization that since
 the language uses decimal numbers rather than fractions, it did not handle
-fractions like \(1\\3\) nicely. Tweaking of PRISM models found that five
+fractions like \(\frac{1}{3}\) nicely. Tweaking of PRISM models found that five
 decimal places was the sweet spot where this issue was handled, so the check
 had a tolerance for this inserted into it during the future states of
 development.
