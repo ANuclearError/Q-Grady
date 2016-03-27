@@ -354,7 +354,50 @@ improve the \texttt{SemanticAnalyser} class.
 
 \subsection{File Generation} % (fold)
 \label{sub:file_generation}
+\subsubsection{PrismMacros} % (fold)
+\label{ssub:prismmacros}
+Early implementations of the file generation part of the compiler was done with
+the use of a single class \texttt{FileGenerator} (see \ref{ssub:filegenerator})
+that contained numerous \texttt{String} fields repeatedly used throughout the
+class. It became apparent later on that the best source of action was to create
+the \texttt{PrismMacro} class, which similarly to \texttt{SemanticAnalyser},
+contained multiple public static methods that would produce PRISM language
+statements and commands based on what it is fed.
 
+Each method starts with a template string, which has temporary sub-strings
+inside that are ready to be replaced. The placeholders are private fields in the
+class itself, due to their repeated sightings in these methods. 
+\ref{lst:prismmacros} shows an example of how these methods work.
+
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={The `command' PrismMacro method}, captionpos=b, frame=single,
+label={lst:prismmacros}, breaklines=true]{files/prismmacros.txt}
+
+The class allowed for much easier handling of recurring statements in the
+produced file, such as the declaration of variables and modules, the assigning
+of probabilities to actions, and grouping lists of actions into a single
+statement. The fact that all parts of the \texttt{FileGenerator} class used
+these methods meant that changes to the layout of the PRISM file became much
+easier to deal with.
+
+The \texttt{command} method was the most utilised method in this class. As its
+name implies, the method returns a string containing a PRISM statement. This
+method takes in this statement's guard, actions and its synchronise label to
+produce strings that can easily be added to the new file.
+
+The \texttt{varDec} method has similar benefits. Initially, when the language
+only allowed for the values 0 and 1, all this method needed was the name of the
+variable being declared. However, the future additions of the feature to
+decide the range of inputs and outputs, and the need for a \texttt{ready}
+variable in the model, necessitated the extension of this method to take the
+range and initial value of the variable into account as well, making it a much
+more flexible method to use.
+% subsubsection prismmacros (end)
+
+\subsubsection{FileGenerator} % (fold)
+\label{ssub:filegenerator}
+
+% subsubsection filegenerator (end)
 % subsection file_generation (end)
 % section implementation (end)
 % ==============================================================================
