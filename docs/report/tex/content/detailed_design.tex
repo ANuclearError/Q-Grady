@@ -148,7 +148,7 @@ the probability of a single output value given a single input value, requiring
 a way to ignore the other values.
 
 \lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={Reduced Probability method.}, captionpos=b, label=reduced_method,
+caption={Reduced Probability method.}, captionpos=b, label={lst:reduced_method},
 frame=single, language=Java, breaklines=true]{files/reduced.java} 
 
 The method \texttt{public double prob(int inputIndex, int input,
@@ -442,8 +442,46 @@ label={lst:outputsyncs}, breaklines=true]{files/outputsyncs.txt}
 As \ref{lst:outputsyncs} shows, the additional guard for \texttt{ready} is
 added to a \texttt{guards} array, which is converted to a string separated by
 the `\&' character to allow for the proper syntax of PRISM being met.
-
 % subsubsection output_syncs (end)
+
+\subsubsection{Reduced Probability} % (fold)
+\label{ssub:reduced_probability}
+The reduced probability functionality required going through every possible
+input for every possible output. The synchronise label would be the input and
+its value, matching the labels found in Listing \ref{lst:inputmodule}. The
+implemented guard ensures that \texttt{ready} is equal to one and the output
+is set to -1, meaning that it is unassigned. The action part of this command is
+generated through going thorugh each possible value the output can be, and its
+reduced probability (see Listings \ref{lst:reducedprob} and 
+\ref{lst:reduced_method}).
+% subsubsection reduced_probability (end)
+
+\subsubsection{Normalised Probability} % (fold)
+\label{ssub:normalised_probability}
+The previous parts of the file generation saw little changes from the initial
+attempts, aside from the addition of the \texttt{PrismMacro} class and the
+\texttt{ready} variable. The normalised probabilities, on the other hand, were
+the most difficult part of the file generation to accomplish. Regrettably, the
+final method was not as functional as required. Due to the limitations of
+retrieving the normalised probabilities outlined in Section 
+\ref{sub:normalised_probability}, the generated lines for more than two output
+variables do not match the specification. A lack of time prevented the
+possibility of fixing this issue.
+
+This method became extremely complex as a result. It attempts to cover every
+possible path that can be followed up until this stage. Given a box such as the
+PR box, the box will have the input values and the other output value already
+decided at this stage. This is how it can normalise the final probabilities.
+The file generator must handle all these cases (which is does for the simple
+boxes), but naturally, this leads to less than desirable time complexities
+that do not have any obvious way of improving.
+
+In lines 216 and 228 of the \texttt{FileGenerator} class,  there is an addition
+and removal to the guard that is required to avoid weird behaviour that was
+found in the generation in dealing with the basic boxes. It is certainly clear
+that in future improvements to the Q'Grady compiler, a refactoring (or complete
+replacement) of this method would be a top priority.
+% subsubsection normalised_probability (end)
 
 % subsection filegenerator (end)
 % section file_generation (end)
