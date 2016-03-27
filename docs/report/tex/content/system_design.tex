@@ -89,7 +89,9 @@ it will cease the compilation process and exit the system.
 \label{sub:application}
 The \texttt{Application} class handles the control flow of the compiler,
 containing the main method and going through each of the steps outlined in Fig.
-\ref{fig:compiler_flowchart}.
+\ref{fig:compiler_flowchart}. The class itself is responsible for the source
+file location and verification, before passing it through to the parsing and
+future steps.
 % subsection application (end)
 
 \subsection{Box Class} % (fold)

@@ -1,0 +1,19 @@
+for (int a = 0; a < 2; a++) {
+    for (int x = 0; x < 2; x++) {
+        for (int y = 0; y < 2; y++) {
+            for (int y_ = 0; y_ < 2; y_++) {
+                double sumB = 0;
+                double sumB_ = 0;
+                for (int b = 0; b < 2; b++) {
+                    int[] in = {x, y};
+                    int[] out = {a, b};
+                    sumB += box.prob(in, out);
+                    in = new int[] {x, y_};
+                    sumB_ += box.prob(in, out);
+                }
+                if (sumB != sumB_)
+                    throw new SignallingException("Signalling found.");
+            }
+        }
+    }
+}

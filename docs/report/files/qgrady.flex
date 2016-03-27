@@ -1,0 +1,9 @@
+"->"        { return symbol(sym.ARROW);         }
+","         { return symbol(sym.COMMA);         }
+"="         { return symbol(sym.EQUALS);        }
+"input"     { return symbol(sym.INPUT);         }
+"["         { return symbol(sym.LBRACKET);      }
+"output"    { return symbol(sym.OUTPUT);        }
+"range"     { return symbol(sym.RANGE);         }
+"]"         { return symbol(sym.RBRACKET);      }
+";"         { return symbol(sym.SEMICOLON);     }

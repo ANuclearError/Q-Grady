@@ -85,6 +85,37 @@ features of the compiler were accurate and doing what was intended.
 
 \section{Implementation} % (fold)
 \label{sec:implementation}
+
+\subsection{The Q'Grady Application} % (fold)
+\label{sub:the_q_grady_application}
+Before I designed the Q'Grady languages itself, I had laid out the general
+control flow of the application. The \texttt{Q'Grady} class is the main point of
+entry of the compiler, which goes through each of the stages laid out in Section
+\ref{sub:application}.
+
+The system starts by using the Apache Commons CLI library to analyse the
+program arguments provided by the user, to determine the course of actions. If
+the user wants help or other information, it will display the desired
+information to the user. Similar to compilers like GCC, the Q'Grady compiler
+does have a priority in terms of options, as follows.
+\begin{enumerate}
+    \item The `Help' command.
+    \item The `Version' command.
+    \item Actual compilation.
+\end{enumerate}
+
+In the compilation stage, the source file will be passed to the parser generated
+by CUP (see \ref{ssub:cup}) which produces a \texttt{Box} object. The
+application then goes through all of the \texttt{SemanticAnalyser}'s methods to
+ensure the validity of the box before passing the box to the file generator to
+write the PRISM model. 
+
+Caught exceptions will display the appropriate message to the user, and then
+exit the system. This is because the exceptions will most likely indicate that
+changes must be made to the original source file to ensure the application can
+progress.
+% subsection the_q_grady_application (end)
+
 \subsection{The Box Class} % (fold)
 \label{sub:the_box_class}
 The first problem to tackle as part of the compiler was an obvious one: how to
@@ -105,6 +136,10 @@ values of the this possible outcome. As the language was extended to incorporate
 the new features, this method was replaced with the more simple solution of
 simply storing the matrix parsed by the compiler as a two-dimensional array
 instead.
+
+The variables of the box's input and output are stored as two \texttt{List}s,
+with the \texttt{SemanticAnalyser} ensuring there are no issues with these
+lists (see Section \ref{ssub:validateVariables}).
 % subsubsection storing_the_distribution (end)
 
 \subsubsection{Reduced Probability} % (fold)
@@ -160,8 +195,8 @@ necessity in the file generation and semantics checking for the compiler.
 % subsubsection helper_methods (end)
 % subsection the_box_class (end)
 
-\subsection{The Compiler} % (fold)
-\label{sub:the_compiler}
+\subsection{Syntax Checking} % (fold)
+\label{sub:syntax_checking}
 When the \texttt{Box} class was decided upon, the next stage in the
 implementation was the parsing of Q'Grady files to be stored as a \texttt{Box}
 object.
@@ -170,17 +205,155 @@ This was achieved through the Cup and JFlex libraries. The two libraries would
 create Java classes that would use the given specifications to create a parser
 and lexer that could be used in the compiler.
 
-I started with the parser generator using Cup. The Cup file was a modification
+\subsubsection{CUP} % (fold)
+\label{ssub:cup}
+I started with the parser generator using Cup. The Cup file used a modification
 of the Q'Grady grammar, based on examples in Cup's documentation 
-\cite{cup_example}, that handled lists in a specific way that I decided to
-emulate to avoid complications. The lexer was created using JFlex, which
-allowed for the pairing of regular expressions with symbols based on CUP's
-processing of the file.
+\cite{cup_example}. The lists required for variables and probabilities to be
+handled in a specific way that I decided to use the MiniJava example from CUP
+as a standard to work with, knowing that it was going to work. The error
+handling did not change from the CUP examples either, due to an uncertainty
+about how to best handle it.
+% subsubsection cup (end)
+
+\subsubsection{JFlex} % (fold)
+\label{ssub:jflex}
+The lexer was created using JFlex, which allowed for the pairing of regular
+expressions with symbols based on CUP's processing of the CUP file, which would
+extract all the terminal symbols, and provide a symbols class that could be
+used. Listings \ref{lst:qgrady_flex} provides a snippet of the JFlex file, which
+demonstrates how characters are matched to terminal symbols in the CUP file.
+
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={qgrady.flex}, captionpos=b, label={lst:qgrady_flex},
+frame=single, breaklines=true]{files/qgrady.flex} 
+
+% subsubsection jflex (end)
 
 However, the error handling of the generated file's is not excellent. The system
 does not provide the best information about why the source file failed to parse,
-not altering the user to missing semi-colons for example.
-% subsection the_compiler (end)
+not altering the user to missing semi-colons for example. In addition, reading
+the code of the generated Java classes proved to be an unwise decision, due to
+the inevitable spaghetti code that arises from such a process (a fate that I
+would soon realise myself).
+
+On the other hand, I did find the two libraries straight forward to work with
+after learning the provided examples. The availability of Maven plugins also
+helped greatly during the development process, since it allowed for changes to
+the CUP/JFlex files to be handled as part of the compilation of all Java
+classes, making the process much easier.
+% subsection syntax_checking (end)
+
+\subsection{Semantics Analysing} % (fold)
+\label{sub:semantics_analysing}
+I decided that the \texttt{SemanticsAnalyser} class would be a series of static
+methods, each taking a \texttt{Box} or its probability array as a parameter,
+since I felt that a constructed object was not necessary for functionality. The
+methods ranged from straight forward (\texttt{validateValues}) to the much more
+complex (\texttt{nonSignalling}).
+
+\subsubsection{ValidateVariables} % (fold)
+\label{ssub:validateVariables}
+The \texttt{ValidateVariables} method goes through every variable in the input
+and output lists, ensuring that the given criteria is met. This was a simple
+check to add, with the most challenging part being finding all the keywords of
+the PRISM language, which was found in part of the online manual
+\cite{prism_keywords}.
+\begin{itemize}
+    \item PRISM keywords does not contain variable.
+    \item Variable does not appear multiple times in a list.
+    \item Variable does not appear in both lists.
+\end{itemize}
+% subsubsection validateVariables (end)
+
+\subsubsection{ValidateValues} % (fold)
+\label{ssub:validatevalues}
+The \texttt{ValidateValues} method simply goes through the probabilities array
+and ensures all values are between 0 and 1 inclusively.
+% subsubsection validatevalues (end)
+
+\subsubsection{ValidateRowAmount} % (fold)
+\label{ssub:validaterowamount}
+The \texttt{ValidateRowAmount} method looks at the length of the probability
+array, the number of rows it has. The method compares this to the expected
+value of \(range ^ inputs\), where range is the range of values an input can be
+and inputs is the number of input variables declared. For example, the PR box
+should have 4 rows, since there are 2 input variables with a range of 2.
+% subsubsection validaterowamount (end)
+
+\subsubsection{ValidateRowLengths} % (fold)
+\label{ssub:validaterowlengths}
+\texttt{ValidateRowLengths} is essentially the same as 
+\texttt{ValidateRowAmount} except it uses the output data rather than the input
+data. It goes through each row of the array and does a comparison between each
+of the row lengths and the expected value of \(range ^ outputs\).
+% subsubsection validaterowlengths (end)
+
+\subsubsection{ValidateRowSums} % (fold)
+\label{ssub:validaterowsums}
+The nature of the probability array means that every row is the probability of
+output given that row's specific input. For example, \texttt{probs[0]} of the
+PR box would be the input 00 (based on the \texttt{intToBitArray} method of the
+\texttt{Box} class). Each row's probabilities must sum up to 1 in order for the
+resulting PRISM model to work.
+
+When implementing this particular check, there was the realization that since
+the language uses decimal numbers rather than fractions, it did not handle
+fractions like \(1\\3\) nicely. Tweaking of PRISM models found that five
+decimal places was the sweet spot where this issue was handled, so the check
+had a tolerance for this inserted into it during the future states of
+development.
+% subsubsection validaterowsums (end)
+\newpage
+\subsubsection{Non-signalling} % (fold)
+\label{ssub:non_signalling}
+The \texttt{nonSignalling} method is the most important method of the
+\texttt{SemanticAnalyser} class. It is vital to ensure that the non-signalling
+check is maintained in the set-up being modelled. Refer back to Section
+\ref{sub:non_signalling} for its definition.
+
+The earliest non-signalling check was specific to PR box-like models, with two
+inputs and outputs each dealing with binary digits. This resulted in an
+undesired nested loop that did not look nice at all.
+
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={The first non-signalling check}, captionpos=b, frame=single,
+label={lst:nonsignalling1}, breaklines=true]{files/nonsignalling1.txt}
+
+During development I made the initial mistake of only adding the check on one
+side, without the other possible signalling possibilities being examined. This
+lead to a useless check that had to be redesigned in the first place.
+
+A new non-signalling check was added, but it was still not performing to the
+desired level. There were issues in cases where there were more than two
+variables that had to be examined.
+
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={The final non-signalling check}, captionpos=b, frame=single,
+label={lst:nonsignalling2}, breaklines=true]{files/nonsignalling2.txt}
+
+The final non-signalling check saw it split into two methods for ease of use.
+The top method is going through all the exhaustive comparisons, due to a lack of
+time to find a more efficient way of handling the repeat checks that were to
+happen with the current algorithm. 
+
+The check has use the same index for inputs and outputs, meaning that set-ups
+where the number of inputs and outputs differ may result in potential
+complications. There was unfortunately not enough time to investigate this
+further. The non-signalling equations paired an input with an output, so it was
+seen as an unavoidable situation to deal with.
+
+Aside from this potential issue, I do believe that this was the best way to
+approach the non-signalling check that I could accomplish in the time of this
+project, although I would expect more efficient algorithms could be made to
+improve the \texttt{SemanticAnalyser} class.
+% subsubsection non_signalling (end)
+% subsection semantics_analysing (end)
+
+\subsection{File Generation} % (fold)
+\label{sub:file_generation}
+
+% subsection file_generation (end)
 % section implementation (end)
 % ==============================================================================
 % ==============================================================================

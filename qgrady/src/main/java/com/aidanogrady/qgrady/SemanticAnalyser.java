@@ -184,40 +184,37 @@ public class SemanticAnalyser {
      * @throws SignallingException
      */
     public static void nonSignalling(Box box) throws SignallingException {
-        for (int i = 0; i < box.getNoOfInputs(); i++) {
-            for (int j = 0; j < box.getNoOfOutputs(); j++) {
-                if(i == j) {
-                    nonSignalling(box, i);
+        int inputRange = box.getInputRange();
+        int outputRange = box.getOutputRange();
+        int inputSize = box.getNoOfInputs();
+        int outputSize = box.getNoOfOutputs();
+        int inMax = (int) Math.pow(inputRange, inputSize);
+        int outMax = (int) Math.pow(outputRange, outputSize);
+
+        for (int i = 0; i < Math.min(inputSize, outputSize); i++) {
+            for(int j = 0; j < inMax; j++) {
+                for(int k = 0; k < outMax; k++) {
+                    int[] in = Box.intToArray(j, inputSize, inputRange);
+                    int[] out = Box.intToArray(k, outputSize, outputRange);
+                    nonSignalling(box, in, out, i);
                 }
             }
         }
     }
 
-    private static void nonSignalling(Box box, int index)
-            throws SignallingException {
-        int inputRange = box.getInputRange();
-        int outputRange = box.getOutputRange();
-        int inMax = (int) Math.pow(inputRange, box.getNoOfInputs());
-        int outMax = (int) Math.pow(outputRange, box.getNoOfInputs());
-        for(int i = 0; i < inMax; i++) {
-            for(int j = 0; j < outMax; j++) {
-                int[] in = Box.intToArray(i, box.getNoOfInputs(), inputRange);
-                int[] out = Box.intToArray(j, box.getNoOfOutputs(), outputRange);
-                nonSignalling(box, in, out, index);
-            }
-        }
-
-    }
-
     private static void nonSignalling(Box box, int[] in, int[] out, int index)
             throws SignallingException {
-        double[] sums = new double[box.getOutputRange()];
-        for (int i = 0; i < box.getOutputRange(); i++) {
-            out[index] = i;
-            for (int j = 0; j < box.getInputRange(); j++) {
-                in[index] = j;
+        double[] sums = new double[box.getInputRange()];
+        for (int i = 0; i < box.getInputRange(); i++) {
+            in[index] = i;
+            for (int j = 0; j < box.getOutputRange(); j++) {
+                out[index] = j;
                 sums[i] += box.prob(in, out);
             }
+        }
+        for (int k = 1; k < sums.length; k++) {
+            if(sums[0] != sums[k])
+                throw new SignallingException("Signalling found");
         }
     }
 }
