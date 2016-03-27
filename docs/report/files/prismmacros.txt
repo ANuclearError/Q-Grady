@@ -1,0 +1,12 @@
+private static final String SYNC = "{SYNC}";
+
+private static final String GUARD = "{GUARD}";
+
+private static final String ACTION = "{ACTION}";
+
+public static String command(String sync, String guard, String action) {
+    String command = "\t[{SYNC}] {GUARD} -> {ACTION};";
+    return command.replaceAll(SYNC, sync)
+            .replaceAll(GUARD, guard)
+            .replaceAll(ACTION, action);
+}
