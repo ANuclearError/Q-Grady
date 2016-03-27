@@ -44,6 +44,12 @@ public class SemanticAnalyser {
      */
     public static void validateVariables(Box box) throws
             InvalidVariableException {
+
+        if(box.getNoOfInputs() != box.getNoOfOutputs()) {
+            String msg = "Unequal inputs and outputs will cause failure!";
+            throw new InvalidVariableException(msg);
+        }
+
         // Handle all inputs.
         List<String> strings = box.getInputs();
         for(String string : strings) {

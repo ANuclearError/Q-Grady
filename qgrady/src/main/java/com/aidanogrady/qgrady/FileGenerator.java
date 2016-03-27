@@ -173,7 +173,9 @@ public class FileGenerator {
 
         for(int i = 0; i < box.getNoOfOutputs(); i++) { // Handle each output
             for(int j = 0; j < box.getInputRange(); j++) { // Handle each input possibility
-                String sync = inputs.get(i) + j;
+                String sync = "";
+                if(i < box.getNoOfInputs())
+                    sync = inputs.get(i) + j;
 
                 List<String> probs = new ArrayList<>();
                 for(int k = 0; k < box.getOutputRange(); k++) { // P(k | j);
