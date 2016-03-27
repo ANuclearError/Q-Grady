@@ -40,8 +40,8 @@ in terms of the inputs and outputs of these boxes.
 \subsection{Non-signalling} % (fold)
 \label{sub:non_signalling}
 As mentioned in Section \ref{sec:non_local_boxes}, an important part of the
-non-local box is that it is non signalling. Non-signalling means that in the
-described experiment, Alice can not be made aware of Bob's choice of input or
+non-local box is that it is non-signalling. Non-signalling means that in the
+described experiment, Alice cannot be made aware of Bob's choice of input or
 vice-versa. This requirement imposes restrictions on the probability
 distribution, since the probability of an output should depend solely on its
 respective input. 
@@ -148,9 +148,9 @@ providing commentary on how it works.
 
 PRISM uses a state based language, and includes tools for performing various
 forms of analysis on a given model. A typical PRISM file will be made up of
-multiple modules and variables, that interact with each other in various ways. A
-module can read the values of other variables to update its own variables, thus
-changing the state of the model. In addition, these modules can perform
+multiple modules and variables, which interact with each other in various ways.
+A module can read the values of other variables to update its own variables,
+thus changing the state of the model. In addition, these modules can perform
 synchronized actions with each other as well, meaning that multiple variables
 can update in different modules simultaneously.
 
@@ -172,7 +172,7 @@ basicstyle=\ttfamily\footnotesize, caption={An input module.}, captionpos=b,
 frame=single]{files/pr.prism} 
 
 Each input of the box is given its own module in the model. These modules
-contain the variable that represents it's input, initialised at -1 to indicate
+contain the variable that represents its input, initialised at -1 to indicate
 that it's value is yet to be determined. Line 3 includes a guard indicating that
 its actions can only be taken if \texttt{x} is equal to -1. In this case, it has
 a 50/50 chance of being 0 or 1, effectively a coin toss.
