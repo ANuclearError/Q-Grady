@@ -1,8 +1,8 @@
 \documentclass[report.tex]{subfiles}
 \begin{document}
 
-\chapter{Detailed Design and Implementation} % (fold)
-\label{cha:detailed_design_and_implementation}
+\chapter{Implementation} % (fold)
+\label{cha:implementation}
 
 % ==============================================================================
 % ==============================================================================
@@ -83,11 +83,8 @@ features of the compiler were accurate and doing what was intended.
 
 % ==============================================================================
 
-\section{Implementation} % (fold)
-\label{sec:implementation}
-
-\subsection{The Q'Grady Application} % (fold)
-\label{sub:the_q_grady_application}
+\section{The Q'Grady Application} % (fold)
+\label{sec:the_q_grady_application}
 Before I designed the Q'Grady languages itself, I had laid out the general
 control flow of the application. The \texttt{Q'Grady} class is the main point of
 entry of the compiler, which goes through each of the stages laid out in Section
@@ -105,7 +102,7 @@ does have a priority in terms of options, as follows.
 \end{enumerate}
 
 In the compilation stage, the source file will be passed to the parser generated
-by CUP (see \ref{ssub:cup}) which produces a \texttt{Box} object. The
+by CUP (see \ref{sub:cup_impl}) which produces a \texttt{Box} object. The
 application then goes through all of the \texttt{SemanticAnalyser}'s methods to
 ensure the validity of the box before passing the box to the file generator to
 write the PRISM model. 
@@ -114,18 +111,18 @@ Caught exceptions will display the appropriate message to the user, and then
 exit the system. This is because the exceptions will most likely indicate that
 changes must be made to the original source file to ensure the application can
 progress.
-% subsection the_q_grady_application (end)
+% section the_q_grady_application (end)
 
-\subsection{The Box Class} % (fold)
-\label{sub:the_box_class}
+\section{The Box Class} % (fold)
+\label{sec:the_box_class}
 The first problem to tackle as part of the compiler was an obvious one: how to
 store the box set-up as a Java object to be used throughout the compilation
 process. This included the storage of the probability distribution, the inputs
 and outputs required, and all the methods required for calculating the other
 probabilities.
 
-\subsubsection{Storing the Distribution} % (fold)
-\label{ssub:storing_the_distribution}
+\subsection{Storing the Distribution} % (fold)
+\label{sub:storing_the_distribution}
 The first method of storing the distribution was used when the Q'Grady language
 had no way of showing the number of inputs/outputs or their ranges, it had to be
 assumed based on the size of the matrix. Thus, the initial storage was a
@@ -142,10 +139,10 @@ alternative.
 The variables of the box's input and output are stored as two \texttt{List}s,
 with the \texttt{SemanticAnalyser} ensuring there are no issues with these
 lists (see Section \ref{ssub:validateVariables}).
-% subsubsection storing_the_distribution (end)
+% subsection storing_the_distribution (end)
 
-\subsubsection{Reduced Probability} % (fold)
-\label{ssub:reduced_probability}
+\subsection{Reduced Probability} % (fold)
+\label{sub:reduced_probability}
 As touched upon in Section \ref{sub:non_signalling}, the reduced probability is
 the probability of a single output value given a single input value, requiring
 a way to ignore the other values.
@@ -166,10 +163,10 @@ as the PR box.
 When the \texttt{Instance} class was used as part of the box, this method was
 extremely more complicated, although that may have been due to poor design of
 the algorithm rather than an inherent flaw of that storage method itself.
-% subsubsection reduced_probability (end)
+% subsection reduced_probability (end)
 
-\subsubsection{Normalised Probability} % (fold)
-\label{ssub:normalised_probability}
+\subsection{Normalised Probability} % (fold)
+\label{sub:normalised_probability}
 The normalised probability saw difficulties in implementing the handling of more
 than two variables. It is very simple to handle the case were all but one output
 is known (and the same for handling a single output like in the reduced
@@ -182,10 +179,10 @@ decided.
 caption={Normalised Probability method.}, captionpos=b, label=normalised_method,
 frame=single, language=Java]{files/normalised.java} 
 
-% subsubsection normalised_probability (end)
+% subsection normalised_probability (end)
 
-\subsubsection{Helper Methods} % (fold)
-\label{ssub:helper_methods}
+\subsection{Helper Methods} % (fold)
+\label{sub:helper_methods}
 Two static helper methods were required to allow for integer to array
 conversion, flexible to handle any base that acted as the range for inputs and
 outputs. These were already necessary for the file generation and other parts
@@ -194,11 +191,11 @@ straight forward.
 
 Getters were also provided for all the ranges and variable lists, due to their
 necessity in the file generation and semantics checking for the compiler.
-% subsubsection helper_methods (end)
-% subsection the_box_class (end)
+% subsection helper_methods (end)
+% section the_box_class (end)
 
-\subsection{Syntax Checking} % (fold)
-\label{sub:syntax_checking}
+\section{Syntax Checking} % (fold)
+\label{sec:syntax_checking}
 When the \texttt{Box} class was decided upon, the next stage in the
 implementation was the parsing of Q'Grady files to be stored as a \texttt{Box}
 object.
@@ -207,8 +204,8 @@ This was achieved through the Cup and JFlex libraries. The two libraries would
 create Java classes that would use the given specifications to create a parser
 and lexer that could be used in the compiler.
 
-\subsubsection{CUP} % (fold)
-\label{ssub:cup}
+\subsection{CUP Implementation} % (fold)
+\label{sub:cup_impl}
 I started with the parser generator using Cup. The Cup file used a modification
 of the Q'Grady grammar, based on examples in Cup's documentation 
 \cite{cup_example}. The lists required for variables and probabilities to be
@@ -216,10 +213,10 @@ handled in a specific way that I decided to use the MiniJava example from CUP
 as a standard to work with, knowing that it was going to work. The error
 handling did not change from the CUP examples either, due to an uncertainty
 about how to best handle it.
-% subsubsection cup (end)
+% subsection cup_impl (end)
 
-\subsubsection{JFlex} % (fold)
-\label{ssub:jflex}
+\subsection{JFlex Implementation} % (fold)
+\label{sub:jflex_impl}
 The lexer was created using JFlex, which allowed for the pairing of regular
 expressions with symbols based on CUP's processing of the CUP file, which would
 extract all the terminal symbols, and provide a symbols class that could be
@@ -230,7 +227,7 @@ demonstrates how characters are matched to terminal symbols in the CUP file.
 caption={qgrady.flex}, captionpos=b, label={lst:qgrady_flex},
 frame=single, breaklines=true]{files/qgrady.flex} 
 
-% subsubsection jflex (end)
+% subsection jflex_impl (end)
 
 However, the error handling of the generated files is not excellent. The system
 does not provide the best information about why the source file failed to parse,
@@ -244,10 +241,10 @@ after learning the provided examples. The availability of Maven plugins also
 helped greatly during the development process, since it allowed for changes to
 the CUP/JFlex files to be handled as part of the compilation of all Java
 classes, making the process much easier.
-% subsection syntax_checking (end)
+% section syntax_checking (end)
 
-\subsection{Semantics Analysing} % (fold)
-\label{sub:semantics_analysing}
+\section{Semantics Analysing} % (fold)
+\label{sec:semantics_analysing}
 I decided that the \texttt{SemanticsAnalyser} class would be a series of static
 methods, each taking a \texttt{Box} or its probability array as a parameter,
 since I felt that a constructed object was not necessary for functionality. The
@@ -306,9 +303,9 @@ decimal places was the sweet spot where this issue was handled, so the check
 had a tolerance for this inserted into it during the future states of
 development.
 % subsubsection validaterowsums (end)
-\newpage
-\subsubsection{Non-signalling} % (fold)
-\label{ssub:non_signalling}
+
+\subsection{Non-signalling} % (fold)
+\label{sub:non_signalling_impl}
 The \texttt{nonSignalling} method is the most important method of the
 \texttt{SemanticAnalyser} class. It is vital to ensure that the non-signalling
 check is maintained in the set-up being modelled. Refer back to Section
@@ -349,15 +346,15 @@ Aside from this potential issue, I do believe that this was the best way to
 approach the non-signalling check that I could accomplish in the time of this
 project, although I would expect more efficient algorithms could be made to
 improve the \texttt{SemanticAnalyser} class.
-% subsubsection non_signalling (end)
-% subsection semantics_analysing (end)
+% subsection non_signalling_impl (end)
+% section semantics_analysing (end)
 
-\subsection{File Generation} % (fold)
-\label{sub:file_generation}
-\subsubsection{PrismMacros} % (fold)
-\label{ssub:prismmacros}
+\section{File Generation} % (fold)
+\label{sec:file_generation}
+\subsection{PrismMacros} % (fold)
+\label{sub:prismmacros}
 Early implementations of the file generation part of the compiler was done with
-the use of a single class \texttt{FileGenerator} (see \ref{ssub:filegenerator})
+the use of a single class \texttt{FileGenerator} (see \ref{sub:filegenerator})
 that contained numerous \texttt{String} fields repeatedly used throughout the
 class. It became apparent later on that the best source of action was to create
 the \texttt{PrismMacro} class, which similarly to \texttt{SemanticAnalyser},
@@ -392,16 +389,66 @@ decide the range of inputs and outputs, and the need for a \texttt{ready}
 variable in the model, necessitated the extension of this method to take the
 range and initial value of the variable into account as well, making it a much
 more flexible method to use.
-% subsubsection prismmacros (end)
+% subsection prismmacros (end)
 
-\subsubsection{FileGenerator} % (fold)
-\label{ssub:filegenerator}
+\subsection{FileGenerator} % (fold)
+\label{sub:filegenerator}
+The \texttt{FileGenerator} class works through continuously updating an
+\texttt{ArrayList} of strings that are eventually read to the destination file.
+Its methods are split up to handle the inputs and outputs, with the outputs
+requiring further break down to handle the increased complexity compared to the
+inputs.
 
-% subsubsection filegenerator (end)
-% subsection file_generation (end)
-% section implementation (end)
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={Generating input modules}, captionpos=b, frame=single,
+label={lst:inputmodules}, breaklines=true]{files/inputfile.txt}
+
+Each input is given it's own module, with the declaration, uniform distribution
+of assignment, and the sync actions that project the value of the variable for
+the output module's use.
+
+The output is handled differently since it requires one module for all outputs
+rather than each having its own module. This results in that implementation
+being handled slightly differently, where the implementation (and thus the
+generated file) has a specific structure.
+\begin{itemize}
+    \item Generate output declarations.
+    \item Generate output syncs.
+    \item Generate reduced probabilities actions.
+    \item Generate normalised probabilities actions.
+\end{itemize}
+
+\subsubsection{Output Declaration} % (fold)
+\label{ssub:output_dec_impl}
+The output declarations are handled in a similar way as shown on line  1 of
+\ref{lst:inputmodules}, except using the output range rather than the input
+range naturally.
+
+The output module's \texttt{ready} variable is also declared at this stage,
+the system the output module uses to indicate that it is ready to synchronise
+on an input module's action to assign the appropriate output.
+% subsubsection output_dec_impl (end)
+
+\subsubsection{Output Syncs} % (fold)
+\label{ssub:output_syncs}
+The output synchronized actions do have an addition factor to take into
+consideration. These syncs have the addition guard that \texttt{ready} be
+currently set to 0 before this action can occur.
+
+\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
+caption={\texttt{FileGenerator.java outputsyncs()}}, captionpos=b, frame=single,
+label={lst:outputsyncs}, breaklines=true]{files/outputsyncs.txt}
+
+As \ref{lst:outputsyncs} shows, the additional guard for \texttt{ready} is
+added to a \texttt{guards} array, which is converted to a string separated by
+the `\&' character to allow for the proper syntax of PRISM being met.
+
+% subsubsection output_syncs (end)
+
+% subsection filegenerator (end)
+% section file_generation (end)
 % ==============================================================================
 % ==============================================================================
-% chapter detailed_design_and_implementation (end)
+% chapter implementation (end)
 \newpage
 \end{document}
