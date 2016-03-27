@@ -1,0 +1,15 @@
+lines.add(PrismMacros.varDec(input, box.getInputRange() - 1, -1));
+
+String sync = "";
+
+String guard = PrismMacros.isEqual(input, -1);
+String action = PrismMacros.equalDist(input, box.getInputRange());
+lines.add(PrismMacros.command(sync, guard, action));
+lines.add(PrismMacros.EMPTY_LINE);
+
+for(int i = 0; i < box.getInputRange(); i++) {
+    sync = input + i;
+    guard = PrismMacros.isEqual(input, i);
+    action = PrismMacros.assign(input, i);
+    lines.add(PrismMacros.command(sync, guard, action));
+}
