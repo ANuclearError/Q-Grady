@@ -205,11 +205,13 @@ public class SemanticAnalyser {
         int inMax = (int) Math.pow(inputRange, inputSize - 1);
         int outMax = (int) Math.pow(outputRange, outputSize - 1);
 
-        for(int i = 0; i < inMax; i++) {
-            for(int j = 0; j < outMax; j++) {
-                int[] in = Box.intToArray(i, inputSize - 1, inputRange);
-                int[] out = Box.intToArray(j, outputSize - 1, outputRange);
-                nonSignalling(box, in, out, i);
+        for(int i = 0; i < Math.min(inputSize, outputSize); i++) {
+            for (int j = 0; j < inMax; j++) {
+                for (int k = 0; k < outMax; k++) {
+                    int[] in = Box.intToArray(i, inputSize - 1, inputRange);
+                    int[] out = Box.intToArray(j, outputSize - 1, outputRange);
+                    nonSignalling(box, in, out, i);
+                }
             }
         }
     }
