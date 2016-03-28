@@ -9,9 +9,24 @@
 In relation to the verification of the language and compiler, there are the
 following considerations:
 \begin{itemize}
+    \item Does the compiler recognize bad syntax?
     \item Does the compiler recognize invalid set-ups?
     \item Are the generated models correct?
 \end{itemize}
+
+These were the primary criteria that were considered for determining the
+usefulness of the system. During the later stages of development, it became
+clear that the complexity was not going to reach the levels of what was wanted
+from my supervisor and myself, with ideas of multiple boxes interacting with
+each being the type of high level goals aimed for. My priorities then became
+more realistic in ensuring the quality of the boxes that can be produced.
+
+\subsection{Syntax Checking} % (fold)
+\label{sub:syntax_checking}
+It was important to ensure that the CUP and JFlex files required for the system
+were correct, matching the BNF I had created for the language. Testing was
+achieved through the creation of bad files to see if the compiler rejected them.
+% subsection syntax_checking (end)
 
 \subsection{Recognizing Invalid Set-up} % (fold)
 \label{sub:recognizing_invalid_set_up}

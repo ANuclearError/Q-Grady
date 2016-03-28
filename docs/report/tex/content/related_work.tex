@@ -135,7 +135,7 @@ papers related to quantum non-locality.
 % section related_nlbs (end)
 
 % ==============================================================================
-\newpage
+
 \section{PRISM} % (fold)
 \label{sec:prism}
 PRISM \cite{KNP11} is a probabilistic model checking tool. It allows for
@@ -180,7 +180,8 @@ a 50/50 chance of being 0 or 1, effectively a coin toss.
 Lines 5 and 6 provide a way to synchronize depending on the value of \texttt{x},
 this is how the output module of the model will be alerted of the input's value,
 and can then determine the appropriate output. As you can see, this does not
-change the value of \texttt{x}, which will remain the same no matter what.
+change the value of \texttt{x}, which will remain the same no matter what,
+avoiding the potential for unwanted side effects.
 % subsubsection input (end)
 
 \subsubsection{Output Declaration} % (fold)
