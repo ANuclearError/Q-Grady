@@ -107,11 +107,13 @@ public class SemanticAnalyserTest {
         List<String> inputs = Arrays.asList("x", "y");
         List<String> outputs = new ArrayList<>();
         outputs.add("a");
+        outputs.add("b");
+        outputs.add("c");
         Box box = new Box(pr, inputs, outputs, 2, 2);
         try {
             SemanticAnalyser.validateVariables(box);
         } catch (InvalidVariableException e) {
-            assertEquals(e.getMessage(), "Unequal inputs and outputs will cause failure!");
+            assertEquals(e.getMessage(), "More than two outputs!");
         }
 
     }
@@ -222,10 +224,10 @@ public class SemanticAnalyserTest {
     @Test
     public void validateSignalling() {
         double[][] signalling = {
-                {0.4, 0, 0, 0.6},
-                {0.4, 0, 0, 0.6},
-                {0.4, 0, 0, 0.6},
-                {0, 0.4, 0.6, 0}
+                {0.5, 0.5, 0, 0},
+                {0, 0, 0.5, 0.5},
+                {0.5, 0.5, 0, 0},
+                {0, 0, 0.5, 0,5}
         };
         List<String> inputs = new ArrayList<>();
         List<String> outputs = new ArrayList<>();
@@ -236,8 +238,9 @@ public class SemanticAnalyserTest {
         Box box = new Box(signalling, inputs, outputs, 2, 2);
         try {
             SemanticAnalyser.nonSignalling(box);
+            fail();
         } catch (SignallingException e) {
-            assertEquals(e.getMessage(), "Signalling found.");
+            assertEquals(e.getMessage(), "Signalling found");
         }
     }
 
