@@ -332,9 +332,16 @@ caption={The final non-signalling check}, captionpos=b, frame=single,
 label={lst:nonsignalling2}, breaklines=true]{files/nonsignalling2.txt}
 
 The final non-signalling check saw it split into two methods for ease of use.
-The top method is going through all the exhaustive comparisons, due to a lack of
-time to find a more efficient way of handling the repeat checks that were to
-happen with the current algorithm. 
+The top algorithm would go through all the inputs and outputs that remain
+constant through the non-signalling check (this would be b and y in Equation
+\ref{eq:non-signal_1}), while the second method handles the summation and
+changing of the output, based on the given index being looked at.
+
+The second algorithm inserts a new value into both of the given arrays, which
+are the ones updated as shown in the equation. The final check on the sums
+array ensures that all the summations are equal. This means that the cases where
+the input has a wide range does not have a large impact on performance as
+previous attempts at non-signalling did.
 
 The check has use the same index for inputs and outputs, meaning that set-ups
 where the number of inputs and outputs differ may result in potential

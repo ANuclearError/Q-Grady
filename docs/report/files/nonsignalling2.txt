@@ -3,27 +3,27 @@ public static void nonSignalling(Box box) throws SignallingException {
     int outputRange = box.getOutputRange();
     int inputSize = box.getNoOfInputs();
     int outputSize = box.getNoOfOutputs();
-    int inMax = (int) Math.pow(inputRange, inputSize);
-    int outMax = (int) Math.pow(outputRange, outputSize);
-
-    for (int i = 0; i < Math.min(inputSize, outputSize); i++) {
-        for(int j = 0; j < inMax; j++) {
-            for(int k = 0; k < outMax; k++) {
-                int[] in = Box.intToArray(j, inputSize, inputRange);
-                int[] out = Box.intToArray(k, outputSize, outputRange);
-                nonSignalling(box, in, out, i);
-            }
+    int inMax = (int) Math.pow(inputRange, inputSize - 1);
+    int outMax = (int) Math.pow(outputRange, outputSize - 1);
+    for(int i = 0; i < inMax; i++) {
+        for(int j = 0; j < outMax; j++) {
+            int[] in = Box.intToArray(i, inputSize - 1, inputRange);
+            int[] out = Box.intToArray(j, outputSize - 1, outputRange);
+            nonSignalling(box, in, out, i);
         }
     }
 }
 
-private static void nonSignalling(Box box, int[] in, int[] out, int index) throws SignallingException {
+private static void nonSignalling(Box box, int[] in, int[] out, int index)
+        throws SignallingException {
     double[] sums = new double[box.getInputRange()];
+    int[] input = addBitToArray(in, index);
+    int[] output = addBitToArray(out, index);
     for (int i = 0; i < box.getInputRange(); i++) {
-        in[index] = i;
+        input[index] = i;
         for (int j = 0; j < box.getOutputRange(); j++) {
-            out[index] = j;
-            sums[i] += box.prob(in, out);
+            output[index] = j;
+            sums[i] += box.prob(input, output);
         }
     }
     for (int k = 1; k < sums.length; k++) {
