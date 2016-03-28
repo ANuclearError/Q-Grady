@@ -22,41 +22,41 @@ A PR box distribution is created, with a Box object created with the inputs
 `x' \& `y' and the outputs `a' \& `b', each with ranges of 2.
 % subsubsection test_preparation (end)
 
-\subsubsection{Test \texttt{convertList}} % (fold)
-\label{ssub:test_list_conversion}
+\subsubsection{convertListTest} % (fold)
+\label{ssub:convertListTest}
 Tests the conversion of \texttt{List<List<Double>} to \texttt{double[][]}. This
 is needed to convert the parsed distribution into the distribution stored in the
 class itself,  so the values must not change.
-% subsubsection test_list_conversion (end)
+% subsubsection convertListTest (end)
 
-\subsubsection{Test Input \& Output} % (fold)
+\subsubsection{testInputs \& testOutputs} % (fold)
 \label{ssub:test_input_output}
 The \texttt{Box} object has various fields relating to the variable names and
 ranges, as well as the amount of variables in the set-up that must be tested to
 ensure there are none lost in the construction.
 % subsubsection test_input_output (end)
 
-\subsubsection{Probability Test} % (fold)
-\label{ssub:probability_test}
+\subsubsection{probTest} % (fold)
+\label{ssub:probTest}
 Test \texttt{getProb()} method. The method involves converting the given arrays
 into their integer equivalent to obtain the correct indices. The test compares
 the expected result with the actual result to determine whether the conversion
 is correct and if the data is stored in that intended index.
-% subsubsection probability_test (end)
+% subsubsection probTest (end)
 
-\subsubsection{Testing Reduced Probability} % (fold)
-\label{ssub:testing_reduced_probability}
+\subsubsection{probTestTwo} % (fold)
+\label{ssub:probTestTwo}
 Test the accuracy of reduced probability calculations. Two indices and their
 values are given to the reduced probability method, and the given result is
 compared to the expected result.
-% subsubsection testing_reduced_probability (end)
+% subsubsection probTestTwo (end)
 
-\subsubsection{Testing Normalised Probability} % (fold)
-\label{ssub:testing_normalised_probability}
+\subsubsection{probTestThree} % (fold)
+\label{ssub:probTestThree}
 Test the accuracy of normalised probability calculations. Two indices and their
 values are given to the normalised probability method, and the given result is
 compared to the expected result.
-% subsubsection testing_normalised_probability (end)
+% subsubsection probTestThree (end)
 % subsection testing_box_class (end)
 
 \subsection{SemanticAnalysis} % (fold)
@@ -131,23 +131,54 @@ PR box.
 Tests that a signalling distribution is caught by the non-signalling check.
 % subsubsection validatesignalling (end)
 
-\subsection{allIsWellTest} % (fold)
-\label{sub:alliswelltest}
+\subsubsection{allIsWellTest} % (fold)
+\label{ssub:alliswelltest}
 A test that uses the PR box and goes through all semantic checks to ensure that
 the box passes all tests.
-% subsection alliswelltest (end)
+% subsubsection alliswelltest (end)
 
 \subsection{Summary} % (fold)
 \label{sub:semantics_summary}
 \begin{table}[H]
     \centering
-    \begin{tabular}{l | l | l}
-    Test & Expected & Result \\
+    \begin{tabular}{l | p{6cm} | l}
+    Test & Expected & Result \\    
     \hline
+    convertListTest & List is successfully converted with values intact
+    & as expected \\
+    testInputs \& testOutputs & no exceptions are thrown & as expected \\
+    probTest & the returned value matches expected value & as expected \\
+    probTestTwo & returned results match expected values & as expected \\
+    probTestThree & returned results match expected values
+    & as expected \\
+    \end{tabular}
+    \caption{Results}
+  \label{tab:box}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l | p{6cm} | l}
+    Test & Expected & Result \\    
+    \hline
+    validateVariablesTest & Expected exceptions are caught successfully 
+    & as expected \\
+    validateUnequalVariablesTest & Expected exception is caught 
+    & as expected \\
+    validateRowAmountsTest & Expected exception is caught & as expected \\
+    validateHigherValuesTest & Expected exception is caught & as expected \\
+    validateLowerValuesTest & Expected exception is caught & as expected \\
+    validateGreaterRowLengthTest & Expected exception is caught & as expected \\
+    validateSmallerRowLengthTest & Expected exception is caught & as expected \\
+    validateGreaterRowSumsTest & Expected exception is caught & as expected \\
+    validateSmallerRowSumTest & Expected exception is caught & as expected \\
+    validateNonsignalling & No exception is thrown to denote box is fine & as expected \\
+    validateSignalling & Exception caught as expected signalling & as expected \\
+    allIsWellTest & No exceptions are thrown & as expected \\
     \end{tabular}
     \caption{Results}
   \label{tab:semantics_summary}
 \end{table}
+
 % subsection summary (end)
 % section junit_test_cases (end)
 % subsubsection summary (end)
