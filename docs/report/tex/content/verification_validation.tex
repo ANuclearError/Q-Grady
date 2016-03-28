@@ -3,6 +3,12 @@
 
 \chapter{Verification and Validation} % (fold)
 \label{cha:verification_and_validation}
+This chapter outlines the procedures used for the verification and validation of
+the language and compiler. Through a mixture of JUnit tests and PRISM testing,
+a measure of how fit for purpose Q'Grady is. The verification will outline how
+functionally correct the system is, while the validation will outline how it
+satisfies the requirements of the system.
+
 % chapter verification_and_validation (end)
 \section{Verification} % (fold)
 \label{sec:verification}
@@ -21,11 +27,15 @@ from my supervisor and myself, with ideas of multiple boxes interacting with
 each being the type of high level goals aimed for. My priorities then became
 more realistic in ensuring the quality of the boxes that can be produced.
 
+A more detailed look at the test cases used can be found in Appendix
+\ref{cha:detailed_test_strategy_and_test_cases}.
+
 \subsection{Syntax Checking} % (fold)
 \label{sub:syntax_checking}
 It was important to ensure that the CUP and JFlex files required for the system
 were correct, matching the BNF I had created for the language. Testing was
 achieved through the creation of bad files to see if the compiler rejected them.
+Various mistakes were required, such as the simple missing semi-colon.
 % subsection syntax_checking (end)
 
 \subsection{Recognizing Invalid Set-up} % (fold)
