@@ -52,6 +52,37 @@ addition, it would be ideal to provide a full list of issues of an invalid
 set-up rather than halting on the first issue encountered.
 % subsection non_functional (end)
 % section requirements (end)
+
+\section{Development Approach} % (fold)
+\label{sec:development_approach}
+The approach to this project started with the breaking down into three main
+sections.
+\begin{enumerate}
+    \item Background study of non-local boxes and PRISM, with the aim to be able
+    to make the models of boxes manually.
+    \item Defining the Q'Grady language.
+    \item Designing and implementing the Q'Grady compiler.
+\end{enumerate}
+
+The original intent was for this to be a linear progression from one stage to
+the other. The first semester period of university saw the primary focus on that
+first stage. However, the end point I thought I had reached turned out to not
+be completely accurate, which was not discovered until much later on.
+
+The next step would be designing the language itself, outlining the syntax
+and semantics of the language before moving onto compiling. I had started with
+the bare minimum language instead before starting compiling, with extra features
+added to both concurrently.
+
+The development of the compiler again saw original intention for a linear,
+incremental cycle. I planned to start with the syntax, then semantics and
+finally generation. Again, this changed to a more concurrent approach based on
+language features. I do this in hindsight, started from this angle would have
+been best for development.
+
+Git was used as version control, with a private repository stored on GitHub for
+issue tracking.
+% section development_approach (end)
 % chapter problem_description_and_specification (end)
 \newpage
 \end{document}
