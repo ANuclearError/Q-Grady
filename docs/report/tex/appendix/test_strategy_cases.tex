@@ -10,7 +10,164 @@ specifically look at the file generation stage.
 
 \section{JUnit Test Cases} % (fold)
 \label{sec:junit_test_cases}
+The JUnit Test Cases can be split into two groups, the \texttt{Box} tests and
+the \texttt{SemanticAnalyser} tests. These two classes were the focus of JUnit
+testing due to their calculations being the important part of the code.
 
+\subsection{Box Class} % (fold)
+\label{sub:box_class}
+\subsubsection{Test Preparation} % (fold)
+\label{ssub:test_preparation}
+A PR box distribution is created, with a Box object created with the inputs
+`x' & `y' and the outputs `a' & `b', each with ranges of 2.
+% subsubsection test_preparation (end)
+
+\subsubsection{Test List Conversion} % (fold)
+\label{ssub:test_list_conversion}
+\begin{itemize}
+    \item Description
+    \begin{itemize}
+        \item Test conversion of \texttt{List<List<Double>} to
+        \texttt{double[][]}
+    \end{itemize}
+    \item Prerequisites
+    \begin{itemize}
+        \item List is not null.
+    \end{itemize}
+    \item Expected Result
+    \begin{itemize}
+        \item The array matches the list.
+    \end{itemize}
+    \item Actual Result
+    \begin{itemize}
+        \item Result as expected.
+    \end{itemize}
+\end{itemize}
+% subsubsection test_list_conversion (end)
+
+\subsubsection{Test Get Prob} % (fold)
+\label{ssub:test_get_prob}
+\begin{itemize}
+    \item Description
+    \begin{itemize}
+        \item Test \texttt{getProb()} method.
+    \end{itemize}
+    \item Prerequisites
+    \begin{itemize}
+        \item Box and prob are not null.
+    \end{itemize}
+    \item Expected Result
+    \begin{itemize}
+        \item The array matches the given array in constructor.
+    \end{itemize}
+    \item Actual Result
+    \begin{itemize}
+        \item Result as expected.
+    \end{itemize}
+\end{itemize}
+% subsubsection test_get_prob (end)
+
+\subsubsection{Test Input & Output} % (fold)
+\label{ssub:test_input_output}
+\begin{itemize}
+    \item Description
+    \begin{itemize}
+        \item Ensures the Box's stored information is accurate.
+    \end{itemize}
+    \item Prerequisites
+    \begin{itemize}
+        \item Box and its fields are not null.
+    \end{itemize}
+    \item Expected Result
+    \begin{itemize}
+        \item The arrays of variables are equal, their sizes are equal and their
+        ranges are equal to those given in the constructor.
+    \end{itemize}
+    \item Actual Result
+    \begin{itemize}
+        \item Result as expected.
+    \end{itemize}
+\end{itemize}
+% subsubsection test_input_output (end)
+
+\subsection{Probability Test} % (fold)
+\label{sub:probability_test}
+\begin{itemize}
+    \item Description
+    \begin{itemize}
+        \item Test the accuracy of the \texttt{getProb()} method, that the right
+        indices are looked at.
+    \end{itemize}
+    \item Prerequisites
+    \begin{itemize}
+        \item Box and fields are not null.
+    \end{itemize}
+    \item Expected Result
+    \begin{itemize}
+        \item The probability got from array matches expected value.
+    \end{itemize}
+    \item Actual Result
+    \begin{itemize}
+        \item Result as expected.
+    \end{itemize}
+\end{itemize}
+% subsection probability_test (end)
+
+\subsubsection{Testing Reduced Probability} % (fold)
+\label{ssub:testing_reduced_probability}
+\begin{itemize}
+    \item Description
+    \begin{itemize}
+        \item Test the accuracy of reduced probability calculations. Two
+        indices and their values are given to the reduced probability method,
+        and the given result is compared to the expected result.
+    \end{itemize}
+    \item Prerequisites
+    \begin{itemize}
+        \item Box and fields are not null.
+    \end{itemize}
+    \item Expected Result
+    \begin{itemize}
+        \item The probability returned matches expected value.
+    \end{itemize}
+    \item Actual Result
+    \begin{itemize}
+        \item Result as expected.
+    \end{itemize}
+\end{itemize}
+
+% subsubsection testing_reduced_probability (end)
+
+\subsubsection{Testing Normalised Probability} % (fold)
+\label{ssub:testing_normalised_probability}
+\begin{itemize}
+    \item Description
+    \begin{itemize}
+        \item Test the accuracy of normalised probability calculations. Two
+        indices and their values are given to the normalised probability method,
+        and the given result is compared to the expected result.
+    \end{itemize}
+    \item Prerequisites
+    \begin{itemize}
+        \item Box and fields are not null.
+    \end{itemize}
+    \item Expected Result
+    \begin{itemize}
+        \item The probability returned matches expected value.
+    \end{itemize}
+    \item Actual Result
+    \begin{itemize}
+        \item The method only works for when there is only one output still
+        unknown.
+    \end{itemize}
+\end{itemize}
+% subsubsection testing_normalised_probability (end)
+% subsection box_class (end)
+
+\subsection{SemanticAnalysis} % (fold)
+\label{sub:semanticanalysis}
+
+% subsection semanticanalysis (end)
 % section junit_test_cases (end)
 
 \section{PRISM Test Cases} % (fold)
