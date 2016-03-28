@@ -136,6 +136,19 @@ Tests that a signalling distribution is caught by the non-signalling check.
 A test that uses the PR box and goes through all semantic checks to ensure that
 the box passes all tests.
 % subsection alliswelltest (end)
+
+\subsection{Summary} % (fold)
+\label{sub:semantics_summary}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l | l | l}
+    Test & Expected & Result \\
+    \hline
+    \end{tabular}
+    \caption{Results}
+  \label{tab:semantics_summary}
+\end{table}
+% subsection summary (end)
 % section junit_test_cases (end)
 % subsubsection summary (end)
 
@@ -143,6 +156,108 @@ the box passes all tests.
 \label{sec:prism_test_cases}
 The following are Q'Grady files that are included in the submitted software.
 There is a mixture of successful and unsuccessful set-ups.
+
+These are files that are expected to produce valid PRISM models. For these
+cases, a table will be provided showing the possible outcomes, the conditional
+probability for that outcome, and the probability of the input and output (this
+is for comparing with PRISM's steady state probabilities).
+
+\subsection{pr.qgrady} % (fold)
+\label{sub:pr_qgrady}
+The PR box has two binary inputs (`x' and `y') and outputs (`a' and `b').
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c | c | c | c}
+    Input & Output & \(P(a, b | x, y)\) & PRISM Prob \\
+    \hline
+    0, 0 & 0, 0 & 0.5 & 0.125 \\
+    0, 0 & 1, 1 & 0.5 & 0.125 \\
+    0, 1 & 0, 0 & 0.5 & 0.125 \\
+    0, 1 & 1, 1 & 0.5 & 0.125 \\
+    1, 0 & 0, 0 & 0.5 & 0.125 \\
+    1, 0 & 1, 1 & 0.5 & 0.125 \\
+    1, 1 & 0, 1 & 0.5 & 0.125 \\
+    1, 1 & 1, 0 & 0.5 & 0.125 \\
+  \end{tabular}
+  \caption{Probability Distribution}
+  \label{tab:pr_qgrady}
+\end{table}
+% subsection pr_qgrady (end)
+
+\subsection{ternary.qgrady} % (fold)
+\label{sub:ternary_qgrady}
+This box has the output be ternary digits rather than binary like in the PR box.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c | c | c | c}
+    Input & Output & \(P(a, b | x, y)\) & PRISM Prob \\
+    \hline
+    0, 0 & 0, 0 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    0, 0 & 1, 1 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    0, 0 & 2, 2 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    0, 1 & 0, 0 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    0, 1 & 1, 1 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    0, 1 & 2, 2 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    1, 0 & 0, 0 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    1, 0 & 1, 2 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    1, 0 & 2, 2 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    1, 1 & 0, 1 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    1, 1 & 1, 2 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+    1, 1 & 2, 0 & \(\frac{1}{3}\) & \(\frac{1}{12}\) \\
+  \end{tabular}
+  \caption{Probability Distribution}
+  \label{tab:ternary_qgrady}
+\end{table}
+% subsection ternary_qgrady (end)
+
+\subsection{threeinputs.qgrady} % (fold)
+\label{sub:threeinputs_qgrady}
+This box has three inputs that can influence the box, with two outputs. This
+means the normalised probabilities still works, with the non-signalling check
+seemingly held since all rows are the same.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c | c | c | c}
+    Input & Output & \(P(a, b | x, y)\) & PRISM Prob \\
+    \hline
+    0, 0, 0 & 0, 1 & 0.8 & 0.1 \\
+    0, 0, 0 & 1, 0 & 0.2 & 0.125 \\
+    0, 0, 1 & 0, 1 & 0.8 & 0.1 \\
+    0, 0, 1 & 1, 0 & 0.2 & 0.125 \\
+    0, 1, 0 & 0, 1 & 0.8 & 0.1 \\  
+    0, 1, 0 & 1, 0 & 0.2 & 0.125 \\
+    0, 1, 1 & 0, 1 & 0.8 & 0.1 \\  
+    0, 1, 1 & 1, 0 & 0.2 & 0.125 \\
+    1, 0, 0 & 0, 1 & 0.8 & 0.1 \\
+    1, 0, 0 & 1, 0 & 0.2 & 0.125 \\
+    1, 0, 1 & 0, 1 & 0.8 & 0.1 \\
+    1, 0, 1 & 1, 0 & 0.2 & 0.125 \\
+    1, 1, 0 & 0, 1 & 0.8 & 0.1 \\  
+    1, 1, 0 & 1, 0 & 0.2 & 0.125 \\
+    1, 1, 1 & 0, 1 & 0.8 & 0.1 \\  
+    1, 1, 1 & 1, 0 & 0.2 & 0.125 \\
+  \end{tabular}
+  \caption{Probability Distribution}
+  \label{tab:threeinputs_qgrady}
+\end{table}
+% subsection threeinputs_qgrady (end)
+
+\subsection{Summary} % (fold)
+\label{sub:prism_summary}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c | c | c}
+    File & Compiles & Matches Prob \\
+    \hline
+    pr.qgrady & Yes & Yes \\
+    ternary.qgrady & Yes & Yes \\
+    threeinputs.qgrady & Yes & Yes \\
+  \end{tabular}
+  \caption{Results}
+  \label{tab:prism_results}
+\end{table}
+
+% subsection summary (end)
 % section prism_test_cases (end)
 % chapter detailed_test_strategy_and_test_cases (end)
 \newpage
