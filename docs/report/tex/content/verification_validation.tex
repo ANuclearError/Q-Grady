@@ -4,6 +4,31 @@
 \chapter{Verification and Validation} % (fold)
 \label{cha:verification_and_validation}
 % chapter verification_and_validation (end)
+\section{Verification} % (fold)
+\label{sec:verification}
+In relation to the verification of the language and compiler, there are the
+following considerations:
+\begin{itemize}
+    \item Does the compiler recognize invalid set-ups?
+    \item Can the compiler produce valid PRISM models?
+    \item Do the generated models match the original distribution?
+\end{itemize}
 
+\subsection{Recognizing Invalid Set-up} % (fold)
+\label{sub:recognizing_invalid_set_up}
+
+% subsection recognizing_invalid_set_up (end)
+
+In the PRISM software, there is the feature `Compute Steady State Probabilities'
+that can be used to determine whether the generated models match the Q'Grady
+file. By dividing each probability in the distribution by the total number of
+rows that create the distribution, we can compare that to the steady state
+probabilities to determine whether or not the 
+% section verification (end)
+
+\section{Validation} % (fold)
+\label{sec:validation}
+
+% section validation (end)
 \newpage
 \end{document}

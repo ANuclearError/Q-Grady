@@ -2,10 +2,12 @@ import com.aidanogrady.qgrady.Box;
 import com.aidanogrady.qgrady.SemanticAnalyser;
 import com.aidanogrady.qgrady.exceptions.InvalidRowException;
 import com.aidanogrady.qgrady.exceptions.InvalidValueException;
+import com.aidanogrady.qgrady.exceptions.InvalidVariableException;
 import com.aidanogrady.qgrady.exceptions.SignallingException;
 import org.junit.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -77,6 +79,58 @@ public class SemanticAnalyserTest {
     }
 
     @Test
+    public void validateVariablesTest() {
+        List<String> inputs = Arrays.asList("x", "y");
+        List<String> outputs = Arrays.asList("x", "b");
+        Box box = new Box(pr, inputs, outputs, 2, 2);
+        try {
+            SemanticAnalyser.validateVariables(box);
+        } catch (InvalidVariableException e) {
+            assertEquals(e.getMessage(), "Variable x is both input and output.");
+        }
+        outputs.set(0, "b");
+        try {
+            SemanticAnalyser.validateVariables(box);
+        } catch (InvalidVariableException e) {
+            assertEquals(e.getMessage(), "Variable b is used multiple times.");
+        }
+        inputs.set(0, "dtmc");
+        try {
+            SemanticAnalyser.validateVariables(box);
+        } catch (InvalidVariableException e) {
+            assertEquals(e.getMessage(), "Variable dtmc is a Prism keyword.");
+        }
+    }
+
+    @Test
+    public void validateUnequalVariablesTest() {
+        List<String> inputs = Arrays.asList("x", "y");
+        List<String> outputs = new ArrayList<>();
+        outputs.add("a");
+        Box box = new Box(pr, inputs, outputs, 2, 2);
+        try {
+            SemanticAnalyser.validateVariables(box);
+        } catch (InvalidVariableException e) {
+            assertEquals(e.getMessage(), "Unequal inputs and outputs will cause failure!");
+        }
+
+    }
+
+    @Test
+    public void validateRowAmountsTest() {
+        List<String> inputs = Arrays.asList("x", "y");
+        List<String> outputs = Arrays.asList("x", "b");
+        Box box = new Box(pr, inputs, outputs, 3, 3);
+        try {
+            SemanticAnalyser.validateRowAmount(box);
+        } catch (InvalidRowException e) {
+            assertEquals(e.getMessage(), "Set up has 2 inputs with range 3. Expected matrix to have 9 rows, got 4.");
+        }
+
+
+    }
+
+    @Test
     public void validateHigherValuesTest() {
         try {
             SemanticAnalyser.validateValues(highVal);
@@ -108,7 +162,7 @@ public class SemanticAnalyserTest {
 
             SemanticAnalyser.validateRowLengths(box);
         } catch (InvalidRowException e) {
-            assertEquals(e.getMessage(), "Error in row 1: Expected: 4 values, got: 5");
+            assertEquals(e.getMessage(), "Error in row 1: Expected 4 values, got 5");
         }
     }
 
@@ -126,7 +180,7 @@ public class SemanticAnalyserTest {
 
             SemanticAnalyser.validateRowLengths(box);
         } catch (InvalidRowException e) {
-            assertEquals(e.getMessage(), "Error in row 1: Expected: 4 values, got: 3");
+            assertEquals(e.getMessage(), "Error in row 1: Expected 4 values, got 3");
         }
     }
 
@@ -198,9 +252,12 @@ public class SemanticAnalyserTest {
             outputs.add("b");
             Box box = new Box(pr, inputs, outputs, 2, 2);
 
+            SemanticAnalyser.validateVariables(box);
             SemanticAnalyser.validateValues(pr);
+            SemanticAnalyser.validateRowAmount(box);
             SemanticAnalyser.validateRowLengths(box);
             SemanticAnalyser.validateRowSums(pr);
+            SemanticAnalyser.nonSignalling(box);
         } catch(Exception e) {
             fail();
         }

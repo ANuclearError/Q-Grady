@@ -134,7 +134,6 @@ public class SemanticAnalyser {
         }
     }
 
-
     /**
      * Determines whether there are any rows in the distribution with the
      * wrong length.
@@ -155,7 +154,8 @@ public class SemanticAnalyser {
         for(int i = 1; i < matrix.length; i++) {
             int row = matrix[i].length;
             if (row != ex) {
-                String msg = i + ": Expected " + ex + " values, got: " + row;
+                String msg = "Error in row " + i + ": Expected " + ex;
+                msg += " values, got " + row;
                 throw new InvalidRowException(msg);
             }
         }
@@ -181,7 +181,7 @@ public class SemanticAnalyser {
                 sum += box[i][j];
             }
             if(sum < 0.99999 || sum > 1.0) {
-                String msg = i + ": Expected sum of 1.0, got " + sum;
+                String msg = "Error in row " + i + ": Expected sum of 1.0, got " + sum;
                 throw new InvalidRowException(msg);
             }
             sum = 0;
@@ -257,7 +257,7 @@ public class SemanticAnalyser {
      * @param index  the index to add the new array.
      * @return  newArray
      */
-    public static int[] addBitToArray(int[] array, int index) {
+    private static int[] addBitToArray(int[] array, int index) {
         int[] newArray = new int[array.length + 1];
         newArray[index] = 0;
         System.arraycopy(array, 0, newArray, 0, index);
