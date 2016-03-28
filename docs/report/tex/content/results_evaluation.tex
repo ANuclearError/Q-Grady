@@ -94,9 +94,18 @@ future changes to the system, this would be the priority. Attempts were made to
 rectify this situation, but it was not possible to do so. This does limit the
 usefulness of the system sadly, and would take some time to fix.
 
+I do have some ideas on how to fix this, first by changing the normalised
+probability method to take an array of indices to deal with rather than just
+the single index. However, the file generation would need to be severely altered
+to deal with that, which is not ideal.
+
 However, other set-ups with two inputs and outputs will still work as intended,
 even if they go beyond the binary digits as their range. I do believe the
 non-signalling property is correctly designed for handling larger set-ups too.
+There were no situations that set-ups with more than two inputs and outputs were
+unexpectedly flagged for signalling, although I do wish that I was able to
+better present the source of the signalling, rather than simply showing the
+user that signalling was found.
 % section evaluation (end)
 % chapter results_and_evaluation (end)
 
