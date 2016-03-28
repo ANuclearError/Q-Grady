@@ -82,6 +82,8 @@ public class QGrady {
                 Box box = parse(source);
                 if(box != null)
                     codeGeneration(box, dest);
+                else
+                    System.out.println("Exiting system. Goodbye!");
             }
         } catch(ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
@@ -247,10 +249,7 @@ public class QGrady {
      * @param args - program args.
      */
     public static void main(String[] args) throws ParseException {
-        long start = System.currentTimeMillis();
         QGrady qGrady = new QGrady();
         qGrady.start(args);
-        long end = System.currentTimeMillis();
-        System.out.println(end - start);
     }
 }

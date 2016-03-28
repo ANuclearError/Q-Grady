@@ -113,7 +113,7 @@ public class SemanticAnalyserTest {
         try {
             SemanticAnalyser.validateVariables(box);
         } catch (InvalidVariableException e) {
-            assertEquals(e.getMessage(), "More than two outputs!");
+            assertEquals(e.getMessage(), "Unequal number of inputs and outputs!");
         }
 
     }
