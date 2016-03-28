@@ -246,17 +246,24 @@ seemingly held since all rows are the same.
 \label{sub:prism_summary}
 \begin{table}[H]
   \centering
-  \begin{tabular}{c | c | c}
-    File & Compiles & Matches Prob \\
+  \begin{tabular}{c | c | c | c}
+    File & Compiles & Matches Prob & Time (ms)\\
     \hline
-    pr.qgrady & Yes & Yes \\
-    ternary.qgrady & Yes & Yes \\
-    threeinputs.qgrady & Yes & Yes \\
+    pr.qgrady & Yes & Yes & 26.6 \\
+    ternary.qgrady & Yes & Yes & 29.8 \\
+    threeinputs.qgrady & Yes & Yes 30\\
   \end{tabular}
   \caption{Results}
   \label{tab:prism_results}
 \end{table}
 
+As you can see, all three files compiled correctly, with the steady state 
+probabilities of PRISM matching the probability distribution expected as well.
+From looking at these results, it suggests that the impact of more inputs or
+outputs, or the extension of the variables' ranges will not have a major
+impact on performing. If time permitted, I would like to go more in-depth at
+looking at this, but since the actual compile time was not a priority, it was
+not seen as an essential thing to study.
 % subsection summary (end)
 % section prism_test_cases (end)
 % chapter detailed_test_strategy_and_test_cases (end)

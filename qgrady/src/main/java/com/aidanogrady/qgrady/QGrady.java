@@ -247,7 +247,10 @@ public class QGrady {
      * @param args - program args.
      */
     public static void main(String[] args) throws ParseException {
+        long start = System.currentTimeMillis();
         QGrady qGrady = new QGrady();
         qGrady.start(args);
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
     }
 }
