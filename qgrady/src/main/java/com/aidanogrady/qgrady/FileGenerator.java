@@ -36,6 +36,9 @@ public class FileGenerator {
      */
     private List<String> outputs;
 
+    /**
+     * The ready variable for use in the outputs' module.
+     */
     private String ready = "ready";
 
     /**
@@ -77,16 +80,16 @@ public class FileGenerator {
         inputs = box.getInputs();
         outputs = box.getOutputs();
         lines.add(PrismMacros.MODEL_TYPE);
-        lines.add(PrismMacros.EMPTY_LINE);
+        lines.add("");
         inputs();
         lines.add(PrismMacros.MODULE + " OUTPUT");
         outputs();
         lines.add(PrismMacros.END_MODULE);
-        lines.add(PrismMacros.EMPTY_LINE);
+        lines.add("");
     }
 
     /**
-     * Returns a list of strings that form the input parts of the generated
+     * Adds a list of strings that form the input parts of the generated
      * file.
      */
     private void inputs() {
@@ -101,7 +104,7 @@ public class FileGenerator {
             String guard = PrismMacros.isEqual(input, -1);
             String action = PrismMacros.equalDist(input, box.getInputRange());
             lines.add(PrismMacros.command(sync, guard, action));
-            lines.add(PrismMacros.EMPTY_LINE);
+            lines.add("");
 
             for(int i = 0; i < box.getInputRange(); i++) {
                 sync = input + i;
@@ -110,9 +113,9 @@ public class FileGenerator {
                 lines.add(PrismMacros.command(sync, guard, action));
             }
 
-            lines.add(PrismMacros.EMPTY_LINE);
+            lines.add("");
             lines.add(PrismMacros.END_MODULE);
-            lines.add(PrismMacros.EMPTY_LINE);
+            lines.add("");
         }
     }
 
@@ -125,11 +128,11 @@ public class FileGenerator {
         for(String output : outputs) {
             lines.add(PrismMacros.varDec(output, box.getOutputRange() - 1, -1));
         }
-        lines.add(PrismMacros.EMPTY_LINE);
+        lines.add("");
         outputSyncs();
-        lines.add(PrismMacros.EMPTY_LINE);
+        lines.add("");
         reduced();
-        lines.add(PrismMacros.EMPTY_LINE);
+        lines.add("");
         normalised();
     }
 
@@ -193,13 +196,17 @@ public class FileGenerator {
         }
     }
 
+    /**
+     * Handles the generation of the lines that provide the normalised
+     * probability transitions.
+     */
     private void normalised() {
         int in = (int) Math.pow(box.getInputRange(), inputs.size());
         int out = (int) Math.pow(box.getOutputRange(), outputs.size());
         for(int i = 0; i < outputs.size(); i++) {
             String sync;
             String guard;
-            String action;
+            String action = "";
             for(int j = 0; j < in; j++) {
                 int size = inputs.size();
                 int[] inBits = Box.intToArray(j, size, box.getInputRange());
@@ -215,6 +222,7 @@ public class FileGenerator {
                     }
                 }
 
+                // Add all the outputs already decided to the guard.
                 guards.add("");
                 for(int k = 0; k < out / 2; k++) {
                     size = outputs.size() - 1;
@@ -233,6 +241,7 @@ public class FileGenerator {
                     }
                     guard = PrismMacros.listToString(guards, '&');
 
+                    // Insert new value being looked at.
                     int[] outBits = new int[outputs.size()];
                     for (int l = 0; l < bits.length; l++) {
                         if(l >= i) {
@@ -243,11 +252,12 @@ public class FileGenerator {
                     }
                     outBits[i] = 0;
 
+                    // Generates the action side of the normalised probs.
                     List<String> actions = new ArrayList<>();
-                    for(int l = 0; l < box.getOutputRange(); l++) {
+                    for(int l = 0; l < box.getOutputRange(); l++) { // each val
                         outBits[i] = l;
                         double prob = box.normalisedProb(inBits, outBits, i);
-                        if(prob > 0) {
+                        if(prob > 0) { // Ignore transitions that can't happen.
                             List<String> acts = new ArrayList<>();
                             acts.add(PrismMacros.assign(ready, 0));
                             acts.add(PrismMacros.assign(outputs.get(i), l));
@@ -260,7 +270,7 @@ public class FileGenerator {
                         lines.add(PrismMacros.command(sync, guard, action));
                 }
             }
-            lines.add(PrismMacros.EMPTY_LINE);
+            lines.add("");
         }
     }
 }

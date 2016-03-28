@@ -59,7 +59,7 @@ public class Box {
 
     /**
      * Returns the probabilities of this box.
-     * @return
+     * @return probs
      */
     public double[][] getProbs() {
         return probs;

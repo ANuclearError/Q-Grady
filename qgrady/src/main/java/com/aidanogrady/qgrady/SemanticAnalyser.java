@@ -113,6 +113,14 @@ public class SemanticAnalyser {
         }
     }
 
+    /**
+     * Determines where there are the correct number of rows as expected in the
+     * probability distribution based on the intended range of the input values
+     * and the number of inputs in the set-up.
+     *
+     * @param box  the box being checked.
+     * @throws InvalidRowException
+     */
     public static void validateRowAmount(Box box) throws InvalidRowException {
         int inputs = box.getNoOfInputs();
         int range = box.getInputRange();
