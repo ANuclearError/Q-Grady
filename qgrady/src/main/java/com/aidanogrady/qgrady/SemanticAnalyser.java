@@ -45,8 +45,8 @@ public class SemanticAnalyser {
     public static void validateVariables(Box box) throws
             InvalidVariableException {
 
-        if(box.getNoOfInputs() != box.getNoOfOutputs()) {
-            String msg = "Unequal inputs and outputs will cause failure!";
+        if(box.getNoOfOutputs() > 2) {
+            String msg = "More than two outputs!";
             throw new InvalidVariableException(msg);
         }
 
