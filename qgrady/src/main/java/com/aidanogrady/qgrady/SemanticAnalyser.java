@@ -194,33 +194,66 @@ public class SemanticAnalyser {
         int outputRange = box.getOutputRange();
         int inputSize = box.getNoOfInputs();
         int outputSize = box.getNoOfOutputs();
-        int inMax = (int) Math.pow(inputRange, inputSize);
-        int outMax = (int) Math.pow(outputRange, outputSize);
+        int inMax = (int) Math.pow(inputRange, inputSize - 1);
+        int outMax = (int) Math.pow(outputRange, outputSize - 1);
 
-        for (int i = 0; i < Math.min(inputSize, outputSize); i++) {
-            for(int j = 0; j < inMax; j++) {
-                for(int k = 0; k < outMax; k++) {
-                    int[] in = Box.intToArray(j, inputSize, inputRange);
-                    int[] out = Box.intToArray(k, outputSize, outputRange);
-                    nonSignalling(box, in, out, i);
-                }
+        for(int i = 0; i < inMax; i++) {
+            for(int j = 0; j < outMax; j++) {
+                int[] in = Box.intToArray(i, inputSize - 1, inputRange);
+                int[] out = Box.intToArray(j, outputSize - 1, outputRange);
+                nonSignalling(box, in, out, i);
             }
         }
     }
 
+    /**
+     * Handles the non-signalling condition for a specific combination.
+     *
+     * Late changes to the algorithm meant that repeated checks were no longe
+     * carried out.
+     * @param box  The box being analysed.
+     * @param in  The fixed inputs of this check.
+     * @param out  The fixed outputs of this check.
+     * @param index  The index that is being checked for signalling.
+     * @throws SignallingException
+     */
     private static void nonSignalling(Box box, int[] in, int[] out, int index)
             throws SignallingException {
         double[] sums = new double[box.getInputRange()];
+
+        // Need to convert the arrays for handling the extra bit that is
+        // actually being checked for signalling.
+        int[] input = addBitToArray(in, index);
+        int[] output = addBitToArray(out, index);
         for (int i = 0; i < box.getInputRange(); i++) {
-            in[index] = i;
+            input[index] = i;
             for (int j = 0; j < box.getOutputRange(); j++) {
-                out[index] = j;
-                sums[i] += box.prob(in, out);
+                output[index] = j;
+                sums[i] += box.prob(input, output);
             }
         }
+
+        // These should all be the same value.
         for (int k = 1; k < sums.length; k++) {
             if(sums[0] != sums[k])
                 throw new SignallingException("Signalling found");
         }
+    }
+
+    /**
+     * Adds a new bit to the bit array, initialised to 0. In the old method of
+     * checking non-signalling. The system went exhaustively through all
+     * possible combinations before going through the equation for
+     * non-signalling. This methods eliminates that need.
+     * @param array  the array being transformed
+     * @param index  the index to add the new array.
+     * @return  newArray
+     */
+    public static int[] addBitToArray(int[] array, int index) {
+        int[] newArray = new int[array.length + 1];
+        newArray[index] = 0;
+        System.arraycopy(array, 0, newArray, 0, index);
+        System.arraycopy(array, index, newArray, index + 1, array.length - index);
+        return newArray;
     }
 }
