@@ -108,7 +108,7 @@ public class BoxTest {
     public void probTestThree() {
         int[] in = {0, 0};
         int[] out = {1, 1};
-        int index = 1;
+        int[] index = {1};
         assertEquals(1.0, box.normalisedProb(in, out, index), 0);
         out = new int[] {0, 1};
         assertEquals(0.0, box.normalisedProb(in, out, index), 0);

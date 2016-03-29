@@ -201,76 +201,156 @@ public class FileGenerator {
      * probability transitions.
      */
     private void normalised() {
-        int in = (int) Math.pow(box.getInputRange(), inputs.size());
-        int out = (int) Math.pow(box.getOutputRange(), outputs.size());
-        for(int i = 0; i < outputs.size(); i++) {
-            String sync;
-            String guard;
-            String action = "";
-            for(int j = 0; j < in; j++) {
-                int size = inputs.size();
-                int[] inBits = Box.intToArray(j, size, box.getInputRange());
-                sync = inputs.get(i) + inBits[i];
-                List<String> guards = new ArrayList<>();
-                guards.add(PrismMacros.isEqual(ready, 1));
-                guards.add(PrismMacros.isEqual(outputs.get(i), -1));
-
-                // Add the inputs to guard.
-                for (int k = 0; k < inputs.size(); k++) {
-                    if(k != i) {
-                        guards.add(PrismMacros.isEqual(inputs.get(k), inBits[k]));
-                    }
-                }
-
-                // Add all the outputs already decided to the guard.
-                guards.add("");
-                for(int k = 0; k < out / 2; k++) {
-                    size = outputs.size() - 1;
-                    int[] bits = Box.intToArray(k, size, box.getOutputRange());
-                    for(int l = 0; l < outputs.size(); l++) {
-                        if(l != i) {
-                            int bit;
-                            if(l > i) {
-                                bit = bits[l - 1];
-                            } else {
-                                bit = bits[l];
-                            }
-                            guards.remove(guards.size() - 1);
-                            guards.add(PrismMacros.isEqual(outputs.get(l), bit));
-                        }
-                    }
-                    guard = PrismMacros.listToString(guards, '&');
-
-                    // Insert new value being looked at.
-                    int[] outBits = new int[outputs.size()];
-                    for (int l = 0; l < bits.length; l++) {
-                        if(l >= i) {
-                            outBits[l + 1] = bits[l];
-                        } else {
-                            outBits[l] = bits[l];
-                        }
-                    }
-                    outBits[i] = 0;
-
-                    // Generates the action side of the normalised probs.
-                    List<String> actions = new ArrayList<>();
-                    for(int l = 0; l < box.getOutputRange(); l++) { // each val
-                        outBits[i] = l;
-                        double prob = box.normalisedProb(inBits, outBits, i);
-                        if(prob > 0) { // Ignore transitions that can't happen.
-                            List<String> acts = new ArrayList<>();
-                            acts.add(PrismMacros.assign(ready, 0));
-                            acts.add(PrismMacros.assign(outputs.get(i), l));
-                            String act = PrismMacros.listToString(acts, '&');
-                            actions.add(PrismMacros.prob(prob, act));
-                        }
-                    }
-                    action = PrismMacros.listToString(actions, '+');
-                    if(!action.isEmpty())
-                        lines.add(PrismMacros.command(sync, guard, action));
-                }
+        List<List<Integer>> lists = getAllLists(box.getNoOfOutputs());
+        for (List<Integer> list : lists) {
+            for (int i = 0; i < box.getInputRange(); i++) {
+                normalised(list, i);
             }
             lines.add("");
         }
+//        normalised(lists.get(8), 1);
     }
+
+    private void normalised(List<Integer> indices, int val) {
+        String sync = inputs.get(indices.get(0)) + val;
+
+        int iMax = (int) Math.pow(
+                box.getInputRange(),
+                box.getNoOfInputs() - indices.size()
+        );
+        int oMax = (int) Math.pow(
+                box.getOutputRange(),
+                box.getNoOfOutputs() - indices.size()
+        );
+
+        for (int i = 0; i < iMax; i++) {
+            for (int j = 0; j < oMax; j++) {
+                List<String> guards = new ArrayList<>();
+                guards.addAll(inputGuards(indices, i));
+                guards.add(PrismMacros.isEqual(ready, 1));
+                guards.addAll(outputGuards(indices, j));
+                String guard = PrismMacros.listToString(guards, '&');
+
+                int size = box.getNoOfInputs() - indices.size();
+                int[] in = Box.intToArray(i, size, box.getInputRange());
+                size = box.getNoOfOutputs() - indices.size();
+                int[] out = Box.intToArray(j, size, box.getOutputRange());
+                List<String> commands = commands(indices, in, out, val);
+
+                String command = PrismMacros.listToString(commands, '+');
+                lines.add(PrismMacros.command(sync, guard, command));
+            }
+        }
+    }
+
+    /**
+     * Returns a list of guards required for the normalised probabilities that
+     * require the input values.
+     *
+     * @param indices  the indices being normalised
+     * @param val  the value of this iteration
+     * @return  guards
+     */
+    private List<String> inputGuards(List<Integer> indices, int val) {
+        List<String> guards = new ArrayList<>();
+        int size = box.getNoOfInputs() - indices.size();
+        int[] bits = Box.intToArray(val, size, box.getInputRange());
+
+        // Ensure that all possible guards are accounted for.
+        int step = 0;
+        for (int i= 0; i < box.getNoOfInputs(); i++) {
+            if (!indices.contains(i)) {
+                guards.add(PrismMacros.isEqual(inputs.get(i), bits[step]));
+                step++;
+            }
+        }
+        return guards;
+    }
+
+    /**
+     * Returns a list of guards required for the normalised probabilities that
+     * require the outputs values.
+     *
+     * @param indices  the indices being normalised
+     * @param val  the value of this iteration
+     * @return  guards
+     */
+    private List<String> outputGuards(List<Integer> indices, int val) {
+        List<String> guards = new ArrayList<>();
+        int size = box.getNoOfOutputs() - indices.size();
+        int[] bits = Box.intToArray(val, size, box.getOutputRange());
+        int step = 0;
+        for (int i = 0; i < box.getNoOfOutputs(); i++) {
+            if(indices.contains(i))
+                guards.add(PrismMacros.isEqual(outputs.get(i), -1));
+            else {
+                guards.add(PrismMacros.isEqual(outputs.get(i), bits[step]));
+                step++;
+            }
+        }
+        return guards;
+    }
+
+    private List<String> commands(List<Integer> indices, int[] in, int[] out, int val) {
+        int index = indices.get(0);
+
+        int[] indArray = new int[indices.size()];
+        for (int i = 0; i < indArray.length; i++) {
+            indArray[i] = indices.get(i);
+        }
+
+        List<String> commands = new ArrayList<>();
+        int[] input = getArray(indices, in, box.getNoOfInputs());
+        int[] output = getArray(indices, out, box.getNoOfOutputs());
+        input[index] = val;
+
+
+        for (int i = 0; i < box.getOutputRange(); i++) {
+            output[index] = i;
+            double prob = box.normalisedProb(input, output, indArray);
+            if(prob > 0) { // Ignore transitions that can't happen.
+                List<String> acts = new ArrayList<>();
+                acts.add(PrismMacros.assign(ready, 0));
+                acts.add(PrismMacros.assign(outputs.get(index), i));
+                String act = PrismMacros.listToString(acts, '&');
+                commands.add(PrismMacros.prob(prob, act));
+            }
+        }
+        return commands;
+    }
+
+    private int[] getArray(List<Integer> indices, int[] array, int size) {
+        int[] input = new int[size];
+        int step = 0;
+        for (int i = 0; i < size; i++) {
+            if (!indices.contains(i)) {
+                input[i] = array[step];
+                step++;
+            }
+        }
+        return input;
+    }
+
+   private List<List<Integer>> getAllLists(int range) {
+       List<List<Integer>> lists = new ArrayList<>();
+       for (int i = 1; i < range; i++) {
+           int max = (int) Math.pow(range, i);
+           for (int j = 0; j < max; j++) {
+
+               int[] array = Box.intToArray(j, i, range);
+               List<Integer> list = new ArrayList<>();
+               for (int a : array)
+                   list.add(a);
+               // Must ensure that elements such as [0, 0] aren't added.
+               boolean add = true;
+               for (int k = 0; k < range; k++) {
+                   if (Collections.frequency(list, k) > 1)
+                       add = false;
+               }
+               if (add)
+                   lists.add(list);
+           }
+       }
+       return lists;
+   }
 }
