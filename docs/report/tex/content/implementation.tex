@@ -107,8 +107,8 @@ does have a priority in terms of options, as follows.
 In the compilation stage, the source file will be passed to the parser generated
 by CUP (see \ref{sub:cup_impl}) which produces a \texttt{Box} object. The
 application then goes through all of the \texttt{SemanticAnalyser}'s methods to
-ensure the validity of the box before passing the box to the file generator to
-write the PRISM model. 
+ensure the validity of the box before passing the box to a new
+\texttt{FileGenerator} object to write the PRISM model. 
 
 Caught exceptions will display the appropriate message to the user, and then
 exit the system. This is because the exceptions will most likely indicate that
@@ -137,7 +137,8 @@ the new features, this method was replaced with the more simple solution of
 simply storing the matrix parsed by the compiler as a two-dimensional array
 instead. The Instance class felt rather clumsy to work with, and simply using
 the two-dimensional array with conversion methods instead was seen as a better
-alternative.
+alternative. The reduced probability method for example, was a lot more
+confusing working with the maps.
 
 The variables of the box's input and output are stored as two \texttt{List}s,
 with the \texttt{SemanticAnalyser} ensuring there are no issues with these
@@ -150,22 +151,37 @@ As touched upon in Section \ref{sub:non_signalling}, the reduced probability is
 the probability of a single output value given a single input value, requiring
 a way to ignore the other values.
 
-\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={Reduced Probability method.}, captionpos=b, label={lst:reduced_method},
-frame=single, language=Java, breaklines=true]{files/reduced.java} 
+\lstinputlisting[
+    numbers = left,
+    basicstyle = \ttfamily\footnotesize,
+    frame = single,
+    language = Java,
+    breaklines = true,
+    caption = {\texttt{Box} reduced probability},
+    label={lst:reduced_method}
+]{files/reduced.java} 
 
-The method \texttt{public double prob(int inputIndex, int input,
-int outputIndex, int output)} is used to achieve this in the \texttt{Box} class.
+The method shown in Listing \ref{lst:reduced_method} is used to obtain the
+reduced probabilities from the \texttt{Box} class, taking in the index of
+two variables and their values.
+
 It starts by systematically going through every possible input and output, and
 accumulating the probabilities of all that match the given input and output
-based on the index and value provided. It then divided that sum by
-\(inputRange ^ (inputs.size() - 1)\) to provide the reduced probability. This
-method means that it is flexible for set-ups beyond that of the basic boxes such
-as the PR box.
+based on the index and value provided. For example, the call \(prob(0, 0, 0, 0\)
+would retrieve all probabilities in the matrix where \(x = 0\) and \(a = 0\)
+for the \texttt{pr.qgrady} file in Listing \ref{lst:pr_qgrady_example}
+
+It then divided that sum by \(inputRange ^{(inputs.size() - 1)}\) to provide the
+reduced probability. This method means that it is flexible for set-ups beyond
+that of the basic boxes such as the PR box. This division is required to ensure
+that the values remain accurate, otherwise it is most likely that sum over the
+range of values of the output will not equal 1 like it should.
 
 When the \texttt{Instance} class was used as part of the box, this method was
 extremely more complicated, although that may have been due to poor design of
-the algorithm rather than an inherent flaw of that storage method itself.
+the algorithm rather than an inherent flaw of that storage method itself. It
+involved conversions from \texttt{Map}s to \texttt{Set}s that was too confusing
+to really understand what was happening.
 % subsection reduced_probability (end)
 
 \subsection{Normalised Probability} % (fold)
@@ -178,9 +194,14 @@ use case where the file generator is handling the stages where the second
 output's probabilities are being normalised after deciding the first output is
 decided.
 
-\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={Normalised Probability method.}, captionpos=b, label=normalised_method,
-frame=single, language=Java]{files/normalised.java} 
+\lstinputlisting[
+    numbers = left,
+    basicstyle = \ttfamily\footnotesize,
+    frame = single,
+    language = Java,
+    caption = {Normalised Probability method.}, 
+    label={lst:normalised_method}
+]{files/normalised.java} 
 
 % subsection normalised_probability (end)
 
