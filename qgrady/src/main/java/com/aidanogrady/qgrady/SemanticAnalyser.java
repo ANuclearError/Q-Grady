@@ -255,6 +255,7 @@ public class SemanticAnalyser {
      * checking non-signalling. The system went exhaustively through all
      * possible combinations before going through the equation for
      * non-signalling. This methods eliminates that need.
+     *
      * @param array  the array being transformed
      * @param index  the index to add the new array.
      * @return  newArray

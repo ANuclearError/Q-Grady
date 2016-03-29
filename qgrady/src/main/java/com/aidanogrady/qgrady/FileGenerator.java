@@ -208,8 +208,6 @@ public class FileGenerator {
             }
             lines.add("");
         }
-//        System.out.println();
-//        normalised(lists.get(6), 0);
     }
 
     private void normalised(List<Integer> indices, int val) {
