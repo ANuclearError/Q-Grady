@@ -227,11 +227,7 @@ public class Box {
      * @return probability
      */
     public double normalisedProb(int[] input, int[] output, int[] indices) {
-        System.out.print("In" + Arrays.toString(input));
-        System.out.print("\t");
-        System.out.println("Out" + Arrays.toString(output));
         double sum = 0;
-        System.out.println();
         int[] inputCopy = Arrays.copyOf(input, input.length);
         if (indices.length > 1) {
             for (int i = 1; i < indices.length; i++) {
