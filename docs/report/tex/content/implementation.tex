@@ -189,21 +189,80 @@ to really understand what was happening.
 The normalised probability saw difficulties in implementing the handling of more
 than two variables. It is very simple to handle the case were all but one output
 is known (and the same for handling a single output like in the reduced
-probabilities). Indeed, attempts to change the normalising method to handle the
-use case where the file generator is handling the stages where the second
-output's probabilities are being normalised after deciding the first output is
-decided.
+probabilities). Listing \ref{lst:first_normalised} shows the first method of
+handling normalised probabilities.
+
+\subsubsection{First Attempt} % (fold)
+\label{ssub:first_attempt}
+\lstinputlisting[
+    numbers = left,
+    basicstyle = \ttfamily\footnotesize,
+    frame = single,
+    language = Java,
+    linerange={1-10},
+    breaklines = true,
+    caption = {Normalised Probability method.}, 
+    label={lst:first_normalised}
+]{files/normalised.java} 
+% subsection normalised_probability (end)
+
+The \texttt{index} parameter handled how the normalisation proceeded by
+continuously changing the value of the targeted output, before dividing the
+desired outcome over this sum to normalise the probabilities. If an output of
+\(P(0, 0) = 0.5\) and \(P(0, 0) = 0\), then \(normalisedP(0, 0) = 1\).
+% subsubsection first_attempt (end)
+
+\subsubsection{Second Attempt} % (fold)
+\label{ssub:second_attempt}
+In order to allow for boxes with more than two outputs, this method had to be
+vastly transformed in order to do so. The immediate solution was to convert the
+\texttt{index} parameter into an array of indices that can be iterated over to
+make the calculation work.
 
 \lstinputlisting[
     numbers = left,
     basicstyle = \ttfamily\footnotesize,
     frame = single,
     language = Java,
+    linerange={34-44},
+    breaklines = true,
     caption = {Normalised Probability method.}, 
-    label={lst:normalised_method}
+    label={lst:second_normalised}
+]{files/normalised.java} 
+% subsubsection second_attempt (end)
+
+In the case \texttt{indices.length == 1}, this method would still work, but was
+still not working correctly with more than two outputs. The issue here was that
+while the outputs being required was updating, it was not able to look at all
+the inputs it required. If the given indices were \texttt{[0, 1]}, then
+\texttt{input[1]} required updating before the system could work. This lead to
+the creation of the final version of this method, which seems to cover all the
+use cases that I was able to try in the short time I had.
+
+\subsubsection{The Final Attempt} % (fold)
+\label{ssub:the_final_attempt}
+Since Listing \ref{lst:second_normalised} was still working for when there was
+a single index, I decided to check the length of the \texttt{indices} array and
+still use that solution if the length was 1. In other cases, the following
+solution was used instead.
+
+\lstinputlisting[
+    numbers = left,
+    basicstyle = \ttfamily\footnotesize,
+    frame = single,
+    language = Java,
+    linerange={34-44},
+    breaklines = true,
+    caption = {Normalised Probability method.}, 
+    label={lst:final_normalisation}
 ]{files/normalised.java} 
 
-% subsection normalised_probability (end)
+Listing \ref{lst:final_normalisation} proved to solve the issue of
+normalisation probabilities. The loops would ensure that all the possible
+inputs and outputs required for this instance would be taken into account.
+The division at the end was ensured that the normalised probabilities would be
+reasonable values, and such they would sum to 1 as required.
+% subsubsection the_final_attempt (end)
 
 \subsection{Helper Methods} % (fold)
 \label{sub:helper_methods}

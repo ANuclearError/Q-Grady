@@ -12,8 +12,8 @@ The intent was to focus on providing a clear syntax to represent the
 distribution so that the probabilities could be easily identified. 
 
 Original attempts at the language were not up to the same standards in terms of
-clarity and simplicity in the language. Listing \ref{pr_qgrady_example} a basic
-example of a Q'Grady file.
+clarity and simplicity in the language. Listing \ref{lst:pr_qgrady_example}
+a basic example of a Q'Grady file.
 
 \lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
 caption={The PR Q'Grady file.}, label={lst:pr_qgrady_example},
@@ -26,7 +26,7 @@ in order to provide a specification that was easy to understand and work with.
 \subsection{Syntax} % (fold)
 \label{sub:syntax}
 The syntax of the language started with simply the probability matrix seen in
-lines 4-9 of Listing \ref{pr_qgrady_example} starting from `['. Each row of
+lines 4-9 of Listing \ref{lst:pr_qgrady_example} starting from `['. Each row of
 probabilities is separated by a semi-colon while each probability is separated
 by a comma instead. It is important to note that for a probability, it must be
 the form of a decimal number, and cannot be an integer, so `0' would not be
@@ -53,7 +53,7 @@ similarities extended BNF has.
 \label{sub:semantics}
 The box is a conditional probability distribution that satisfies non-signalling.
 Each row is a list of the probabilities of each outcome based on the given
-input. For Listing \ref{pr_qgrady_example}, line 5 would represent 
+input. For Listing \ref{lst:pr_qgrady_example}, line 5 would represent 
 \(P(ab | 00)\). In order for the box to make sense, the following criteria must
 be met (formal semantics are available in Appendix \ref{sec:q_grady_semantics}):
 \begin{itemize}
