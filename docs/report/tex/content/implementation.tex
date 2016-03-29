@@ -152,11 +152,8 @@ the probability of a single output value given a single input value, requiring
 a way to ignore the other values.
 
 \lstinputlisting[
-    numbers = left,
-    basicstyle = \ttfamily\footnotesize,
-    frame = single,
+    style = snippet,
     language = Java,
-    breaklines = true,
     caption = {\texttt{Box} reduced probability},
     label={lst:reduced_method}
 ]{files/reduced.java} 
@@ -195,12 +192,9 @@ handling normalised probabilities.
 \subsubsection{First Attempt} % (fold)
 \label{ssub:first_attempt}
 \lstinputlisting[
-    numbers = left,
-    basicstyle = \ttfamily\footnotesize,
-    frame = single,
+    style = snippet,
     language = Java,
     linerange={1-10},
-    breaklines = true,
     caption = {Normalised Probability method.}, 
     label={lst:first_normalised}
 ]{files/normalised.java} 
@@ -220,12 +214,9 @@ vastly transformed in order to do so. The immediate solution was to convert the
 make the calculation work.
 
 \lstinputlisting[
-    numbers = left,
-    basicstyle = \ttfamily\footnotesize,
-    frame = single,
+    style = snippet,
     language = Java,
     linerange={34-44},
-    breaklines = true,
     caption = {Normalised Probability method.}, 
     label={lst:second_normalised}
 ]{files/normalised.java} 
@@ -294,8 +285,8 @@ of the Q'Grady grammar, based on examples in Cup's documentation
 \cite{cup_example}. The lists required for variables and probabilities to be
 handled in a specific way that I decided to use the MiniJava example from CUP
 as a standard to work with, knowing that it was going to work. The error
-handling did not change from the CUP examples either, due to an uncertainty
-about how to best handle it.
+handling did not change from the CUP examples either, due to uncertainty about
+how to best handle it.
 % subsection cup_impl (end)
 
 \subsection{JFlex Implementation} % (fold)
@@ -306,9 +297,11 @@ extract all the terminal symbols, and provide a symbols class that could be
 used. Listings \ref{lst:qgrady_flex} provides a snippet of the JFlex file, which
 demonstrates how characters are matched to terminal symbols in the CUP file.
 
-\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={qgrady.flex}, captionpos=b, label={lst:qgrady_flex},
-frame=single, breaklines=true]{files/qgrady.flex} 
+\lstinputlisting[
+    style = snippet,
+    caption = {qgrady.flex},
+    label = {lst:qgrady_flex},
+]{files/qgrady.flex} 
 
 % subsection jflex_impl (end)
 
@@ -398,9 +391,12 @@ The earliest non-signalling check was specific to PR box-like models, with two
 inputs and outputs each dealing with binary digits. This resulted in an
 undesired nested loop that did not look nice at all.
 
-\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={The first non-signalling check}, captionpos=b, frame=single,
-label={lst:nonsignalling1}, breaklines=true]{files/nonsignalling1.txt}
+\lstinputlisting[
+    style = snippet,
+    language = Java,
+    caption = {The first non-signalling check},
+    label = {lst:nonsignalling1}
+]{files/nonsignalling1.txt}
 
 During development I made the initial mistake of only adding the check on one
 side, without the other possible signalling possibilities being examined. This
@@ -410,9 +406,12 @@ A new non-signalling check was added, but it was still not performing to the
 desired level. There were issues in cases where there were more than two
 variables that had to be examined.
 
-\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={The final non-signalling check}, captionpos=b, frame=single,
-label={lst:nonsignalling2}, breaklines=true]{files/nonsignalling2.txt}
+\lstinputlisting[  
+    style = snippet,
+    language = Java,
+    caption = {The final non-signalling check},
+    label = {lst:nonsignalling2}
+]{files/nonsignalling2.txt}
 
 The final non-signalling check saw it split into two methods for ease of use.
 The top algorithm would go through all the inputs and outputs that remain
@@ -456,9 +455,12 @@ inside that are ready to be replaced. The placeholders are private fields in the
 class itself, due to their repeated sightings in these methods. 
 \ref{lst:prismmacros} shows an example of how these methods work.
 
-\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={The `command' PrismMacro method}, captionpos=b, frame=single,
-label={lst:prismmacros}, breaklines=true]{files/prismmacros.txt}
+\lstinputlisting[
+    style = snippet,
+    language = Java,
+    caption = {The `command' PrismMacro method},
+    label = {lst:prismmacros}
+]{files/prismmacros.txt}
 
 The class allowed for much easier handling of recurring statements in the
 produced file, such as the declaration of variables and modules, the assigning
@@ -489,9 +491,12 @@ Its methods are split up to handle the inputs and outputs, with the outputs
 requiring further break down to handle the increased complexity compared to the
 inputs.
 
-\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={Generating input modules}, captionpos=b, frame=single,
-label={lst:inputmodules}, breaklines=true]{files/inputfile.txt}
+\lstinputlisting[
+    style = snippet,
+    language = Java,
+    caption={Generating input modules},
+    label={lst:inputmodules}
+]{files/inputfile.txt}
 
 Each input is given it's own module, with the declaration, uniform distribution
 of assignment, and the sync actions that project the value of the variable for
@@ -525,9 +530,12 @@ The output synchronized actions do have an addition factor to take into
 consideration. These syncs have the addition guard that \texttt{ready} be
 currently set to 0 before this action can occur.
 
-\lstinputlisting[numbers=left, basicstyle=\ttfamily\footnotesize,
-caption={\texttt{FileGenerator.java outputsyncs()}}, captionpos=b, frame=single,
-label={lst:outputsyncs}, breaklines=true]{files/outputsyncs.txt}
+\lstinputlisting[
+    style = snippet,
+    language = Java,
+    caption={\texttt{FileGenerator.java outputsyncs()}},
+    label={lst:outputsyncs}
+]{files/outputsyncs.txt}
 
 As \ref{lst:outputsyncs} shows, the additional guard for \texttt{ready} is
 added to a \texttt{guards} array, which is converted to a string separated by
