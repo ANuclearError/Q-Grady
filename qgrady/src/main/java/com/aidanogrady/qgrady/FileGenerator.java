@@ -124,7 +124,7 @@ public class FileGenerator {
      * Handles the generation of the output part of the Prism model.
      */
     private void outputs() {
-        lines.add(PrismMacros.varDec(ready, 1, 1));
+        lines.add(PrismMacros.varDec(ready, true));
         for(String output : outputs) {
             lines.add(PrismMacros.varDec(output, box.getOutputRange() - 1, -1));
         }
@@ -146,13 +146,13 @@ public class FileGenerator {
                 String sync = outputs.get(i) + j;
 
                 String[] guards = new String[2];
-                guards[0] = PrismMacros.isEqual(ready, 0);
+                guards[0] = PrismMacros.isEqual(ready, false);
                 guards[1] = PrismMacros.isEqual(outputs.get(i), j);
                 List<String> list = Arrays.asList(guards);
                 String guard = PrismMacros.listToString(list, '&');
 
                 String[] actions = new String[2];
-                actions[0] = PrismMacros.assign(ready, 1);
+                actions[0] = PrismMacros.assign(ready, true);
                 actions[1] = PrismMacros.assign(outputs.get(i), j);
                 list = Arrays.asList(actions);
                 String action = PrismMacros.listToString(list, '&');
@@ -168,14 +168,15 @@ public class FileGenerator {
     private void reduced() {
         // The guard is the same in all cases, so generate it first.
         List<String> guards = new ArrayList<>();
-        guards.add(PrismMacros.isEqual(ready, 1));
+        guards.add(PrismMacros.isEqual(ready, true));
         for (String output : outputs) {
             guards.add(PrismMacros.isEqual(output, -1));
         }
         String guard = PrismMacros.listToString(guards, '&');
 
-        for(int i = 0; i < box.getNoOfOutputs(); i++) { // Handle each output
-            for(int j = 0; j < box.getInputRange(); j++) { // Handle each input possibility
+        // Handle all inputs and outputs
+        for(int i = 0; i < box.getNoOfOutputs(); i++) {
+            for(int j = 0; j < box.getInputRange(); j++) {
                 String sync = "";
                 if(i < box.getNoOfInputs())
                     sync = inputs.get(i) + j;
@@ -183,7 +184,7 @@ public class FileGenerator {
                 List<String> probs = new ArrayList<>();
                 for(int k = 0; k < box.getOutputRange(); k++) { // P(k | j);
                     List<String> actions = new ArrayList<>();
-                    actions.add(PrismMacros.assign(ready, 0));
+                    actions.add(PrismMacros.assign(ready, false));
                     actions.add(PrismMacros.assign(outputs.get(i), k));
                     String action = PrismMacros.listToString(actions, '&');
                     double prob = box.prob(i, j, i, k);
@@ -226,7 +227,7 @@ public class FileGenerator {
             for (int j = 0; j < oMax; j++) {
                 List<String> guards = new ArrayList<>();
                 guards.addAll(inputGuards(indices, i));
-                guards.add(PrismMacros.isEqual(ready, 1));
+                guards.add(PrismMacros.isEqual(ready, true));
                 guards.addAll(outputGuards(indices, j));
                 String guard = PrismMacros.listToString(guards, '&');
 
@@ -308,7 +309,7 @@ public class FileGenerator {
             double prob = box.normalisedProb(input, output, indArray);
             if(prob > 0) { // Ignore transitions that can't happen.
                 List<String> acts = new ArrayList<>();
-                acts.add(PrismMacros.assign(ready, 0));
+                acts.add(PrismMacros.assign(ready, false));
                 acts.add(PrismMacros.assign(outputs.get(index), i));
                 String act = PrismMacros.listToString(acts, '&');
                 commands.add(PrismMacros.prob(prob, act));

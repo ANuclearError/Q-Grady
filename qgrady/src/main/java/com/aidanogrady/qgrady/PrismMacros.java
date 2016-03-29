@@ -73,6 +73,20 @@ public class PrismMacros {
     }
 
     /**
+     * Returns the PRISM statement of a variable declaration.
+     *
+     * @param variable  the variable being declared.
+     * @param init  the initial value of the variable.
+     * @return  PRISM variable declaration
+     */
+    public static String varDec(String variable, boolean init) {
+        String varDec = "\t<VAR> : bool init <INIT>;";
+        return varDec.replaceAll(INIT, Boolean.toString(init))
+                .replaceAll(VAR, variable);
+
+    }
+
+    /**
      * Returns a PRISM statement with the given insertions.
      *
      * @param sync  the label of the sync of this statement.
@@ -102,6 +116,20 @@ public class PrismMacros {
     }
 
     /**
+     * Returns a PRISM condition for whether the given variable is equal to the
+     * given value.
+     *
+     * @param variable  the variable being compared.
+     * @param value  the value being compared to
+     * @return PRISM condition.
+     */
+    public static String isEqual(String variable, boolean value) {
+        String isEqual = "(<VAR> = <VAL>)";
+        return isEqual.replaceAll(VAR, variable)
+                .replaceAll(VAL, Boolean.toString(value));
+    }
+
+    /**
      * Returns a PRISM condition for whether the given variable isn't equal to
      * the given value.
      *
@@ -113,6 +141,20 @@ public class PrismMacros {
         String isNotEqual = "(<VAR> = <VAL>)";
         return isNotEqual.replaceAll(VAR, variable)
                 .replaceAll(VAL, Integer.toString(value));
+    }
+
+    /**
+     * Returns a PRISM condition for whether the given variable isn't equal to
+     * the given value.
+     *
+     * @param variable  the variable being compared.
+     * @param value  the value being compared to
+     * @return PRISM condition.
+     */
+    public static String isNotEqual(String variable, boolean value) {
+        String isNotEqual = "(<VAR> = <VAL>)";
+        return isNotEqual.replaceAll(VAR, variable)
+                .replaceAll(VAL, Boolean.toString(value));
     }
 
     /**
@@ -139,6 +181,21 @@ public class PrismMacros {
         String assign = "(<VAR>' = <VAL>)";
         return assign.replaceAll(VAL, Integer.toString(value))
                 .replaceAll(VAR, variable);
+    }
+
+
+    /**
+     * Returns a command assigning the given value to the given variable.
+     *
+     * @param variable  the variable being assigned a value.
+     * @param value  the value being assigned
+     * @return  update
+     */
+    public static String assign(String variable, boolean value) {
+        String assign = "(<VAR>' = <VAL>)";
+        return assign.replaceAll(VAL, Boolean.toString(value))
+                .replaceAll(VAR, variable);
+
     }
 
     /**
