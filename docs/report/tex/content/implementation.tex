@@ -559,26 +559,31 @@ reduced probability (see Listings \ref{lst:reducedprob} and
 The previous parts of the file generation saw little changes from the initial
 attempts, aside from the addition of the \texttt{PrismMacro} class and the
 \texttt{ready} variable. The normalised probabilities, on the other hand, were
-the most difficult part of the file generation to accomplish. Regrettably, the
-final method was not as functional as required. Due to the limitations of
-retrieving the normalised probabilities outlined in Section 
-\ref{sub:normalised_probability}, the generated lines for more than two output
-variables do not match the specification. A lack of time prevented the
-possibility of fixing this issue.
+the most difficult part of the file generation to accomplish. 
 
-This method became extremely complex as a result. It attempts to cover every
-possible path that can be followed up until this stage. Given a box such as the
-PR box, the box will have the input values and the other output value already
-decided at this stage. This is how it can normalise the final probabilities.
-The file generator must handle all these cases (which is does for the simple
-boxes), but naturally, this leads to less than desirable time complexities
-that do not have any obvious way of improving.
+After a lot of last-minute changes to the methods, a redesign and implementation
+of \texttt{FileGenerator}'s normalised probabilities saw success in handling
+more than two inputs.
 
-In lines 216 and 228 of the \texttt{FileGenerator} class,  there is an addition
-and removal to the guard that is required to avoid weird behaviour that was
-found in the generation in dealing with the basic boxes. It is certainly clear
-that in future improvements to the Q'Grady compiler, a refactoring (or complete
-replacement) of this method would be a top priority.
+Since the inclusion of the \texttt{indices} array in the \texttt{Box} class'
+normalised probability method, this was now needed in the file generation stage
+of the compiler. The method \texttt{getAllLists} accomplishes this by taking
+the number of outputs the system has, and returns all possible pairs, triples
+and so on for the given number of outputs. The first value of this list would
+be the output that is being changed, while the remaining indices in the list
+would be the currently unknown output values. Using this and giving the
+first index a value would act as how new generation works.
+
+The normalised probability commands of the model were split into four methods:
+\begin{itemize}
+    \item \texttt{normalised} - The main method that combines the results.
+    \item \texttt{inputGuards} - Generates the input guards for this case.
+    \item \texttt{outputGuards} - Generates the input guards for this case.
+    \item \texttt{commands} - Generates the commands for this case.
+\end{itemize}
+\text{inputGuards} \& \texttt{outputGuards} would use the indices list and value
+to determine the values for all inputs and outputs, before creating a list of
+the conditions that would create the whole guard.
 % subsubsection normalised_probability (end)
 
 % subsection filegenerator (end)

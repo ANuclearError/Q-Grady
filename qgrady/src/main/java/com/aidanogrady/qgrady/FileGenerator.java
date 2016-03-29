@@ -213,7 +213,6 @@ public class FileGenerator {
 
     private void normalised(List<Integer> indices, int val) {
         String sync = inputs.get(indices.get(0)) + val;
-
         int iMax = (int) Math.pow(
                 box.getInputRange(),
                 box.getNoOfInputs() - indices.size()
@@ -222,7 +221,6 @@ public class FileGenerator {
                 box.getOutputRange(),
                 box.getNoOfOutputs() - indices.size()
         );
-
         for (int i = 0; i < iMax; i++) {
             for (int j = 0; j < oMax; j++) {
                 List<String> guards = new ArrayList<>();
