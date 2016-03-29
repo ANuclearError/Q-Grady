@@ -208,7 +208,8 @@ public class FileGenerator {
             }
             lines.add("");
         }
-//        normalised(lists.get(8), 1);
+//        System.out.println();
+//        normalised(lists.get(6), 0);
     }
 
     private void normalised(List<Integer> indices, int val) {
@@ -303,7 +304,6 @@ public class FileGenerator {
         int[] input = getArray(indices, in, box.getNoOfInputs());
         int[] output = getArray(indices, out, box.getNoOfOutputs());
         input[index] = val;
-
 
         for (int i = 0; i < box.getOutputRange(); i++) {
             output[index] = i;
