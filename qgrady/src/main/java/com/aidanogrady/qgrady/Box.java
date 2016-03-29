@@ -228,23 +228,24 @@ public class Box {
      */
     public double normalisedProb(int[] input, int[] output, int[] indices) {
         double sum = 0;
+        int size = indices.length;
         int[] inputCopy = Arrays.copyOf(input, input.length);
         if (indices.length > 1) {
             for (int i = 1; i < indices.length; i++) {
                 for (int j = 0; j < inputRange; j++) {
                     inputCopy[indices[i]] = j;
-                    int max = (int) Math.pow(outputRange, indices.length);
+                    int max = (int) Math.pow(outputRange, size);
                     int[] outputCopy = Arrays.copyOf(output, output.length);
                     for (int k = 0; k < max; k++) {
-                        int[] bits = Box.intToArray(k, indices.length, outputRange);
-                        for (int l = 0; l < indices.length; l++) {
+                        int[] bits = Box.intToArray(k, size, outputRange);
+                        for (int l = 0; l < size; l++) {
                             outputCopy[indices[l]] = bits[l];
                         }
                         sum += prob(inputCopy, outputCopy);
                     }
                 }
             }
-            return sum / Math.pow(outputRange, indices.length - 1);
+            return sum / Math.pow(outputRange, size - (outputs.size() - size));
          } else {
             int[] outputCopy = Arrays.copyOf(output, output.length);
             for (int index : indices) {

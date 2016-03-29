@@ -38,24 +38,27 @@ The Q'Grady compiler makes use of several libraries to assist in development.
 These have been outlined below, outlining their function and why they were used
 for the development of the compiler.
 
-\subsection{Cup} % (fold)
+\subsection{CUP} % (fold)
 \label{sub:cup}
-Cup (\url{http://www2.cs.tum.edu/projects/cup}) is a parser generator that was
+CUP (\url{http://www2.cs.tum.edu/projects/cup}) is a parser generator that was
 used to convert the Q'Grady grammar as specified in the .cup file into Java
-classes that could be inserted into the Q'Grady compiler.
+classes that could be inserted into the Q'Grady compiler. CUP was suggested by
+my supervisor, and looking at the documentation showed that it would be a
+strong choice.
 % subsection cup (end)
 
 \subsection{JFlex} % (fold)
 \label{sub:jflex}
 JFlex (\url{http://jflex.de})is a scanner generator for Java. It generated an
 additional Java class for the compiler, matching tokens from the scanned input
-to regular expressions outlined in the .flex file.
+to regular expressions outlined in the .flex file. JFlex is specifically
+designed for use with CUP, making it an easy choice to use.
 % subsection jflex (end)
 
 \subsection{Apache Maven} % (fold)
 \label{sub:apache_maven}
 Maven (\url{http://maven.apache.org}) was used primarily for handling dependency
-injection. Plugins for JFlex and Cup were used to make the use of the libraries
+injection. Plugins for JFlex and CUP were used to make the use of the libraries
 a lot easier, since they would handle executing the generation of classes while
 compiling my own Java classes. It also allowed me to automate JUnit testing
 during the compilation and packaging stages.

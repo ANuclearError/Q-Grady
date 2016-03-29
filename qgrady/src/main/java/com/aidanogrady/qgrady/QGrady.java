@@ -80,6 +80,14 @@ public class QGrady {
                 File source = validateInput(input);
                 File dest = validateOutput(output, input);
                 Box box = parse(source);
+                if (box != null) {
+                    int[] i = {0, 0, 0, 0};
+                    int[] o = {0, 0, 0, 0};
+                    int[] ind = {0, 1};
+                    System.out.println(box.normalisedProb(i, o, ind));
+                    ind = new int[] {0, 1, 2};
+                    System.out.println(box.normalisedProb(i, o, ind));
+                }
                 if(box != null)
                     codeGeneration(box, dest);
                 else
