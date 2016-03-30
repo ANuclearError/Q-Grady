@@ -4,11 +4,35 @@
 \label{cha:introduction}
 \section{Project Objectives} % (fold)
 \label{sec:project_objectives}
+Non-local boxes are theoretical objects where multiple parties share some
+correlation, introduced by Sandu Popescu and Daniel Rohrlich as part of the
+understanding of quantum non-locality. The model checker PRISM can be used to
+simulate non-local boxes, but manually creating these models is not the best
+approach.
 
+The goal of this project was to define a language, named Q'Grady, for describing
+the set-up of non-local boxes, distributed objects with some correlation, and a
+compiler to convert the language into PRISM models for experiments.
+
+The language would be able to allow for set-ups of arbitrary size and ranges of
+values, with its syntax and semantics. The compiler would take Q'Grady files and
+analyse the set-up to determine its validity before converting the set-up into a
+working PRISM model.
+
+Once completed, experimentation using PRISM was to be undertaken afterwards.
 % section project_objectives (end)
 \section{Project Outcomes} % (fold)
 \label{sec:project_outcomes}
+The Q'Grady language and compiler are capable of handling different set-ups of
+non-local boxes, whether they have 2 or 4 inputs or whether each input is a
+binary or ternary digit. The compiler is also to identify set-ups that cannot be
+correctly modelled, with mostly meaningful error messages to assist the user.
 
+The development of the system took much longer than originally anticipated, with
+a lot of time being spent on trying to make the system work on this arbitrary
+set-ups. This meant that there was not enough time to perform any interesting
+experiments using PRISM. In addition, the focus on the development saw the
+more formalised semantics be neglected in favour of the compiler.
 % section project_outcomes (end)
 \section{Report Structure} % (fold)
 \label{sec:report_structure}
