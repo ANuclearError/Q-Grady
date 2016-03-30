@@ -25,7 +25,6 @@ A Q'Grady box is a 5-tuple \(\{\delta, i, o, i_r, o_r\}\) where:
 \(\delta\) = a \({i_r}^{i} x {o_r}^{o}\) matrix containing some probability 
 distribution that is non-signalling.
 
-
 The box is a conditional probability distribution that satisfies non-signalling.
 Each row is a list of the probabilities of each outcome based on the given
 input. For Listing \ref{lst:pr_qgrady_example}, line 5 would represent 
@@ -33,10 +32,10 @@ input. For Listing \ref{lst:pr_qgrady_example}, line 5 would represent
 be met:
 \begin{itemize}
     \item The number of rows in the matrix must equal \({i_r}^{i}\) where
-    \(range\) is the range of values an input can be, and \(size\) is the number
+    \(o_r\) is the range of values an input can be, and \(i\) is the number
     of inputs.
-    \item Each row's length must equal \(range ^{size}\) where \(range\) is
-    the range of values an output can be, and \(size\) is the number of outputs.
+    \item Each row's length must equal \({o_r}^{o}\) where \(o_r\) is
+    the range of values an output can be, and \(i\) is the number of outputs.
     \item Each probability in the matrix be between 0 and 1.
     \item Each row of probabilities must sum to 1.
     \item There must be no duplicate variables or use of PRISM keywords in
