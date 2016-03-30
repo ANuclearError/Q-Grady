@@ -9,7 +9,6 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.SyncFailedException;
 
 /**
  * The entry point of the compiler. It handles the program arguments, to
