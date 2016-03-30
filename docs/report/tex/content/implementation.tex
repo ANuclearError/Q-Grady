@@ -414,22 +414,23 @@ variables that had to be examined.
 ]{files/nonsignalling2.txt}
 
 The final non-signalling check saw it split into two methods for ease of use.
-The top algorithm would go through all the inputs and outputs that remain
-constant through the non-signalling check (this would be b and y in Equation
-\ref{eq:non-signal_1}), while the second method handles the summation and
-changing of the output, based on the given index being looked at.
+The top method goes through all possible inputs and outputs for however many
+inputs there are. This does make the algorithm less efficient, but more
+accurate. The variable \texttt{i} represents which index is being looked at
+in this case, for if \texttt{i} is equal to 0, then it would be \(x\) \& \(a\)
+being changed in the second method if this was PR (see \ref{eq:non-signal_1}).
 
-The second algorithm inserts a new value into both of the given arrays, which
-are the ones updated as shown in the equation. The final check on the sums
-array ensures that all the summations are equal. This means that the cases where
-the input has a wide range does not have a large impact on performance as
-previous attempts at non-signalling did.
+The second algorithm goes through all possible values for the input and output
+of \texttt{index}. It then sums up its results and alerts for signalling if 
+it is found.
 
-The check has use the same index for inputs and outputs, meaning that set-ups
+The check uses the same index for inputs and outputs, meaning that set-ups
 where the number of inputs and outputs differ may result in potential
 complications. There was unfortunately not enough time to investigate this
 further. The non-signalling equations paired an input with an output, so it was
-seen as an unavoidable situation to deal with.
+seen as an unavoidable situation to deal with. Since the semantics analyser
+forbids having set-ups where the number of does not equal the number of outputs,
+this is avoided.
 
 Aside from this potential issue, I do believe that this was the best way to
 approach the non-signalling check that I could accomplish in the time of this

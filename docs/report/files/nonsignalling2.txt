@@ -1,15 +1,20 @@
 public static void nonSignalling(Box box) throws SignallingException {
+    System.out.println();
     int inputRange = box.getInputRange();
     int outputRange = box.getOutputRange();
     int inputSize = box.getNoOfInputs();
     int outputSize = box.getNoOfOutputs();
-    int inMax = (int) Math.pow(inputRange, inputSize - 1);
-    int outMax = (int) Math.pow(outputRange, outputSize - 1);
-    for(int i = 0; i < inMax; i++) {
-        for(int j = 0; j < outMax; j++) {
-            int[] in = Box.intToArray(i, inputSize - 1, inputRange);
-            int[] out = Box.intToArray(j, outputSize - 1, outputRange);
-            nonSignalling(box, in, out, i);
+    int inMax = (int) Math.pow(inputRange, inputSize);
+    int outMax = (int) Math.pow(outputRange, outputSize);
+
+    for (int i = 0; i < inputSize; i++) {
+        for (int j = 0; j < inMax; j++) {
+            for (int k = 0; k < outMax; k++) {
+                int[] in = Box.intToArray(j, inputSize, inputRange);
+                int[] out = Box.intToArray(k, outputSize, outputRange);
+                System.out.println(i + "\t" + Arrays.toString(in) + "\t" + Arrays.toString(out));
+                nonSignalling(box, in, out, i);
+            }
         }
     }
 }
@@ -17,17 +22,17 @@ public static void nonSignalling(Box box) throws SignallingException {
 private static void nonSignalling(Box box, int[] in, int[] out, int index)
         throws SignallingException {
     double[] sums = new double[box.getInputRange()];
-    int[] input = addBitToArray(in, index);
-    int[] output = addBitToArray(out, index);
     for (int i = 0; i < box.getInputRange(); i++) {
-        input[index] = i;
+        in[index] = i;
         for (int j = 0; j < box.getOutputRange(); j++) {
-            output[index] = j;
-            sums[i] += box.prob(input, output);
+            out[index] = j;
+            sums[i] += box.prob(in, out);
         }
     }
-    for (int k = 1; k < sums.length; k++) {
-        if(sums[0] != sums[k])
-            throw new SignallingException("Signalling found");
+    for (int i = 0; i < sums.length; i++) {
+        for (int j = (i + 1); j < sums.length; j++) {
+            if(sums[i] != sums[j])
+                throw new SignallingException("Signalling found");
+        }
     }
 }
