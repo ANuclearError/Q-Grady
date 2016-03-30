@@ -241,32 +241,47 @@ This box has the output be ternary digits rather than binary like in the PR box.
 \end{table}
 % subsection ternary_qgrady (end)
 
-\subsection{threeinputs.qgrady} % (fold)
+\subsection{tripartite.qgrady} % (fold)
 \label{sub:threeinputs_qgrady}
-This box has three inputs that can influence the box, with two outputs. This
-means the normalised probabilities still works, with the non-signalling check
-seemingly held since all rows are the same.
+This box has three binary inputs and outputs. Non-signalling is expected to
+be upheld, and the compiler should produce an accurate model.
 \begin{table}[H]
   \centering
   \begin{tabular}{c | c | c | c}
     Input & Output & \(P(a, b | x, y)\) & PRISM Prob \\
     \hline
-    0, 0, 0 & 0, 1 & 0.8 & 0.1 \\
-    0, 0, 0 & 1, 0 & 0.2 & 0.125 \\
-    0, 0, 1 & 0, 1 & 0.8 & 0.1 \\
-    0, 0, 1 & 1, 0 & 0.2 & 0.125 \\
-    0, 1, 0 & 0, 1 & 0.8 & 0.1 \\  
-    0, 1, 0 & 1, 0 & 0.2 & 0.125 \\
-    0, 1, 1 & 0, 1 & 0.8 & 0.1 \\  
-    0, 1, 1 & 1, 0 & 0.2 & 0.125 \\
-    1, 0, 0 & 0, 1 & 0.8 & 0.1 \\
-    1, 0, 0 & 1, 0 & 0.2 & 0.125 \\
-    1, 0, 1 & 0, 1 & 0.8 & 0.1 \\
-    1, 0, 1 & 1, 0 & 0.2 & 0.125 \\
-    1, 1, 0 & 0, 1 & 0.8 & 0.1 \\  
-    1, 1, 0 & 1, 0 & 0.2 & 0.125 \\
-    1, 1, 1 & 0, 1 & 0.8 & 0.1 \\  
-    1, 1, 1 & 1, 0 & 0.2 & 0.125 \\
+    0, 0, 0 & 0, 0, 0 & 0.25 & 0.03125 \\
+    0, 0, 0 & 0, 1, 1 & 0.25 & 0.03125 \\
+    0, 0, 0 & 1, 0, 1 & 0.25 & 0.03125 \\
+    0, 0, 0 & 1, 1, 0 & 0.25 & 0.03125 \\
+    0, 0, 1 & 0, 0, 0 & 0.25 & 0.03125 \\
+    0, 0, 1 & 0, 1, 1 & 0.25 & 0.03125 \\
+    0, 0, 1 & 1, 0, 1 & 0.25 & 0.03125 \\
+    0, 0, 1 & 1, 1, 0 & 0.25 & 0.03125 \\
+    0, 1, 0 & 0, 0, 0 & 0.25 & 0.03125 \\
+    0, 1, 0 & 0, 1, 1 & 0.25 & 0.03125 \\
+    0, 1, 0 & 1, 0, 1 & 0.25 & 0.03125 \\
+    0, 1, 0 & 1, 1, 0 & 0.25 & 0.03125 \\
+    0, 1, 1 & 0, 0, 0 & 0.25 & 0.03125 \\
+    0, 1, 1 & 0, 1, 1 & 0.25 & 0.03125 \\
+    0, 1, 1 & 1, 0, 1 & 0.25 & 0.03125 \\
+    0, 1, 1 & 1, 1, 0 & 0.25 & 0.03125 \\
+    1, 0, 0 & 0, 0, 0 & 0.25 & 0.03125 \\
+    1, 0, 0 & 0, 1, 1 & 0.25 & 0.03125 \\
+    1, 0, 0 & 1, 0, 1 & 0.25 & 0.03125 \\
+    1, 0, 0 & 1, 1, 0 & 0.25 & 0.03125 \\
+    1, 0, 1 & 0, 0, 0 & 0.25 & 0.03125 \\
+    1, 0, 1 & 0, 1, 1 & 0.25 & 0.03125 \\
+    1, 0, 1 & 1, 0, 1 & 0.25 & 0.03125 \\
+    1, 0, 1 & 1, 1, 0 & 0.25 & 0.03125 \\
+    1, 1, 0 & 0, 0, 0 & 0.25 & 0.03125 \\
+    1, 1, 0 & 0, 1, 1 & 0.25 & 0.03125 \\
+    1, 1, 0 & 1, 0, 1 & 0.25 & 0.03125 \\
+    1, 1, 0 & 1, 1, 0 & 0.25 & 0.03125 \\
+    1, 1, 1 & 0, 0, 1 & 0.25 & 0.03125 \\
+    1, 1, 1 & 0, 1, 0 & 0.25 & 0.03125 \\
+    1, 1, 1 & 1, 0, 0 & 0.25 & 0.03125 \\
+    1, 1, 1 & 1, 1, 1 & 0.25 & 0.03125 \\
   \end{tabular}
   \caption{Probability Distribution}
   \label{tab:threeinputs_qgrady}
@@ -282,7 +297,7 @@ seemingly held since all rows are the same.
     \hline
     pr.qgrady & Yes & Yes & 26.6 \\
     ternary.qgrady & Yes & Yes & 29.8 \\
-    threeinputs.qgrady & Yes & Yes 30\\
+    tripartite.qgrady & Yes & Yes 30\\
   \end{tabular}
   \caption{Results}
   \label{tab:prism_results}

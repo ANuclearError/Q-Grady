@@ -584,6 +584,49 @@ The normalised probability commands of the model were split into four methods:
 \text{inputGuards} \& \texttt{outputGuards} would use the indices list and value
 to determine the values for all inputs and outputs, before creating a list of
 the conditions that would create the whole guard.
+
+\lstinputlisting[
+    linerange = {1-26},
+    style = snippet,
+    language = Java,
+    caption={\texttt{FileGenerator.java normalised} method},
+    label={lst:normalised_method}
+]{files/filegen.java}
+
+The \texttt{normalised} method starts by calculating how many different inputs
+and outputs must be dealt with, taking into account the normalised indices.
+It then iterates through all possible inputs and outputs it derives to then
+get the guards required for this outcome.
+
+It then converts the input and output into arrays for use as in the
+\texttt{command} method, which then goes onto completing the PRISM statement
+being written. The whole system requires multiple inner loops, and integer to
+array conversions that can seem very confusing at first glance admittedly.
+That was the primary problem with this task; dealing with all the possible
+combinations that get exponentially larger as you create boxes with more inputs
+and outputs with a wider range.
+
+\texttt{inputGuards} goes through \texttt{indices} and assigns each index a
+value based on the conversion of the given \texttt{val} to an array of the same
+size.
+
+\texttt{outputGuards} must determine which outputs have values and which do not.
+The given \texttt{val} is converted into an array. Values not in the
+\texttt{indices} array are given an element of this new array whereas those
+in \texttt{indices} are given -1 for the guard instead.
+
+\lstinputlisting[
+    linerange = {60-85},
+    style = snippet,
+    language = Java,
+    caption={\texttt{FileGenerator.java commands} method},
+    label={lst:command}
+]{files/filegen.java}
+
+Listing \ref{lst:command} shows how the actions of a command generated.
+\texttt{in} and \texttt{out} are given conversion that inserts the
+\texttt{indices} values into the arrays. It then goes through all of the
+focused output's values to get the normalised probability for all cases.
 % subsubsection normalised_probability (end)
 
 % subsection filegenerator (end)

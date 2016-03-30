@@ -6,106 +6,10 @@
 
 \section{Results} % (fold)
 \label{sec:results}
-All the tests done as part of the system were successful, although it must be
-noted that not all use cases desired for the system were accomplished.
-
-In terms of the semantic analysis. The results of Tables \ref{tab:box_summary}
-and \ref{tab:semantics_summary} show that the JUnit tests are successful in
-preventing forbidden boxes from being generated.
-
-The PRISM files tested were shown to produce PRISM models that matched the
-original distribution in the PRISM software. 
-
-Simulating paths of these models also shows that in the case of there being more
-inputs than outputs, a loop would be entered in the simulated paths with the
-input constantly performing its synchronized action despite the box not paying
-attention to it. If there was an output in the box still to be decided, this
-loop would be avoided.
-
-The following tables from Appendix
-\ref{cha:detailed_test_strategy_and_test_cases} outline the results of testing
-done with the system.
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{l | p{6cm} | l}
-    Test & Expected & Result \\    
-    \hline
-    convertListTest & List is successfully converted with values intact
-    & as expected \\
-    testInputs \& testOutputs & no exceptions are thrown & as expected \\
-    probTest & the returned value matches expected value & as expected \\
-    probTestTwo & returned results match expected values & as expected \\
-    probTestThree & returned results match expected values
-    & as expected \\
-    \end{tabular}
-    \caption{Results}
-  \label{tab:box_result}
-\end{table}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{l | p{6cm} | l}
-    Test & Expected & Result \\    
-    \hline
-    validateVariablesTest & Expected exceptions are caught successfully 
-    & as expected \\
-    validateUnequalVariablesTest & Expected exception is caught 
-    & as expected \\
-    validateRowAmountsTest & Expected exception is caught & as expected \\
-    validateHigherValuesTest & Expected exception is caught & as expected \\
-    validateLowerValuesTest & Expected exception is caught & as expected \\
-    validateGreaterRowLengthTest & Expected exception is caught & as expected \\
-    validateSmallerRowLengthTest & Expected exception is caught & as expected \\
-    validateGreaterRowSumsTest & Expected exception is caught & as expected \\
-    validateSmallerRowSumTest & Expected exception is caught & as expected \\
-    validateNonsignalling & No exception is thrown to denote box is fine & as expected \\
-    validateSignalling & Exception caught as expected signalling & as expected \\
-    allIsWellTest & No exceptions are thrown & as expected \\
-    \end{tabular}
-    \caption{Results}
-  \label{tab:semantics_result}
-\end{table}
-
-\begin{table}[H]
-  \centering
-  \begin{tabular}{c | c | c | c}
-    File & Compiles & Matches Prob & Time (ms)\\
-    \hline
-    pr.qgrady & Yes & Yes & 26.6 \\
-    ternary.qgrady & Yes & Yes & 29.8 \\
-    threeinputs.qgrady & Yes & Yes 30\\
-  \end{tabular}
-  \caption{Results}
-  \label{tab:prism_result}
-\end{table}
-
-Regrettably, due to a lack of time to do so, I was not able to perform any
-interesting experiments with the produced modules. This had to be postponed
-due to time constraints in the actual development of the system.
 % section results (end)
 
 \section{Evaluation} % (fold)
 \label{sec:evaluation}
-Ultimately, the file generation of boxes beyond two inputs and outputs is
-flawed. This is likely caused by not having a way to normalise the probabilities
-that do not fall under `only one output is left to normalise'. In terms of
-future changes to the system, this would be the priority. Attempts were made to 
-rectify this situation, but it was not possible to do so. This does limit the
-usefulness of the system sadly, and would take some time to fix.
-
-I do have some ideas on how to fix this, first by changing the normalised
-probability method to take an array of indices to deal with rather than just
-the single index. However, the file generation would need to be severely altered
-to deal with that, which is not ideal.
-
-However, other set-ups with two inputs and outputs will still work as intended,
-even if they go beyond the binary digits as their range. I do believe the
-non-signalling property is correctly designed for handling larger set-ups too.
-There were no situations that set-ups with more than two inputs and outputs were
-unexpectedly flagged for signalling, although I do wish that I was able to
-better present the source of the signalling, rather than simply showing the
-user that signalling was found.
 % section evaluation (end)
 % chapter results_and_evaluation (end)
 
