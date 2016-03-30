@@ -181,7 +181,44 @@ the box passes all tests.
 
 % subsection summary (end)
 % section junit_test_cases (end)
-% subsubsection summary (end)
+
+\section{Bad Input Files} % (fold)
+\label{sec:bad_input_files}
+A list of badly made Q'Grady files were made with glaring mistakes in them.
+These tests are to ensure that all errors and exceptions from CUP and JFlex are
+handled by the compiler.
+
+The list of files and their errors are:
+\begin{itemize}
+    \item braces - Uses `{' and `}' rather than `[' and `]'.
+    \item left_backet - `[' missing.
+    \item missing_arrow - `->' missing.
+    \item missing_output - `output' missing on line 2.
+    \item missing_range - `range' missing on line 1.
+    \item missing_semicolon - Probability distribution missing `;'.
+    \item missing_semicolon2 - Output range missing `;'.
+    \item missing_vars - Output variables missing.
+    \item right_bracket - `]' missing.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c | c | c}
+    File & Fails & Given Reason \\
+    \hline
+    braces & Yes & Illegal character `\{'. \\
+    left_backet & Yes & \\
+    missing_arrow & Yes & \\
+    missing_output & Yes & \\
+    missing_range & Yes & \\
+    missing_semicolon & Yes & \\
+    missing_semicolon2 & Yes & \\
+    missing_vars & Yes & \\
+    right_bracket & Yes & \\
+    \hline
+    \end{tabular}
+\end{table}
+% section bad_input_files (end)
 
 \section{PRISM Test Cases} % (fold)
 \label{sec:prism_test_cases}
