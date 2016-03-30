@@ -6,19 +6,117 @@
 
 \section{Results} % (fold)
 \label{sec:results}
-\subsection{Syntax Checking} % (fold)
-\label{sub:syntax_checking}
+Appendix \ref{cha:detailed_test_strategy_and_test_cases} provides a look at the
+tests used to derive these results.
 
-% subsection syntax_checking (end)
+\subsection{Box Class} % (fold)
+\label{sub:box_class_res}
+While the tests on the \texttt{Box} class were basic, they covered all the cases
+that they had to for this test. Due to the way the system works, instances of
+trying to get probabilities of negative numbers or with incorrect array sizes
+means that the system is broken elsewhere. This meant that I was perhaps looser
+on the testing than might be encouraged, but testing in other areas should mean
+that this potential pitfall is avoided.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l | p{6cm} | l}
+    Test & Expected & Result \\    
+    \hline
+    convertListTest & List is successfully converted with values intact
+    & as expected \\
+    testInputs \& testOutputs & no exceptions are thrown & as expected \\
+    probTest & the returned value matches expected value & as expected \\
+    probTestTwo & returned results match expected values & as expected \\
+    probTestThree & returned results match expected values
+    & as expected \\
+    \end{tabular}
+    \caption{Box class results.}
+  \label{tab:box_result}
+\end{table}
+% subsection box_class_res (end)
+
+\subsection{Syntax Checking} % (fold)
+\label{sub:syntax_checking_res}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l | l | l}
+    File & Fails & Given Reason \\
+    \hline
+    braces & Yes & Illegal character `\{'. \\
+    left\_bracket & Yes & `Error in line 5, column 5' \\
+    missing\_arrow & Yes & Illegal character `-' \\
+    missing\_output & Yes & `Error in line 2, column 1' \\
+    missing\_range & Yes & `Error in line 1, column 7' \\
+    missing\_semicolon & Yes & `Error in line 7, column 5' \\
+    missing\_semicolon\_2 & Yes & `Error in line 4, column 1' \\
+    missing\_vars & Yes & `Error in line 4, column 10' \\
+    right\_bracket & Yes & `Error' \\
+    \hline
+    \end{tabular}
+    \caption{Syntax checking results.}
+    \label{tab:syntax_result}
+\end{table}
+
+All files failed as were expected. Later stages of the test handle files that
+pass. In the cases where JFlex encountered the bug (braces, and missing\_arrow),
+the illegal character was outlined, but not the location of it.
+
+Conversely, while CUP errors would indicate where the problem was, it would not
+provide any actual information about the error.
+% subsection syntax_checking_res (end)
 
 \subsection{Semantics Analysis} % (fold)
 \label{sub:semantics_analysis}
+The semantic analysis shows that files that do not match the expectations of the
+semantic analyser will fail as intended. The system is able to ensure that
+the distribution given matches what is defined by the ranges and number of
+inputs and outputs in the system.
 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l | p{6cm} | l}
+    Test & Expected & Result \\    
+    \hline
+    validateVariablesTest & Expected exceptions are caught successfully 
+    & as expected \\
+    validateUnequalVariablesTest & Expected exception is caught 
+    & as expected \\
+    validateRowAmountsTest & Expected exception is caught & as expected \\
+    validateHigherValuesTest & Expected exception is caught & as expected \\
+    validateLowerValuesTest & Expected exception is caught & as expected \\
+    validateGreaterRowLengthTest & Expected exception is caught & as expected \\
+    validateSmallerRowLengthTest & Expected exception is caught & as expected \\
+    validateGreaterRowSumsTest & Expected exception is caught & as expected \\
+    validateSmallerRowSumTest & Expected exception is caught & as expected \\
+    validateNonsignalling & No exception is thrown to denote box is fine & as expected \\
+    validateSignalling & Exception caught as expected signalling & as expected \\
+    allIsWellTest & No exceptions are thrown & as expected \\
+    \end{tabular}
+    \caption{Results}
+  \label{tab:semantics_result}
+\end{table}
 % subsection semantics_analysis (end)
 
 \subsection{File Generation} % (fold)
 \label{sub:file_generation}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{l | l | l | r}
+    File & Compiles & Matches Prob & Time (ms)\\
+    \hline
+    pr.qgrady & Yes & Yes & 26.6 \\
+    ternary.qgrady & Yes & Yes & 29.8 \\
+    tripartite.qgrady & Yes & Yes & 30\\
+    quadpartit.qgrady & Yes & Yes &
+  \end{tabular}
+  \caption{PRISM File Analysis Results.}
+  \label{tab:prism_result}
+\end{table}
 
+Regrettably, due to a lack of time to do so, I was not able to perform any
+interesting experiments with the produced modules. This had to be postponed
+due to time constraints in the actual development of the system.
 % subsection file_generation (end)
 % section results (end)
 

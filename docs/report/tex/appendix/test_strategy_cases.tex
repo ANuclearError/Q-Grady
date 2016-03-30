@@ -190,15 +190,15 @@ handled by the compiler.
 
 The list of files and their errors are:
 \begin{itemize}
-    \item braces - Uses `{' and `}' rather than `[' and `]'.
-    \item left_backet - `[' missing.
-    \item missing_arrow - `->' missing.
-    \item missing_output - `output' missing on line 2.
-    \item missing_range - `range' missing on line 1.
-    \item missing_semicolon - Probability distribution missing `;'.
-    \item missing_semicolon2 - Output range missing `;'.
-    \item missing_vars - Output variables missing.
-    \item right_bracket - `]' missing.
+    \item braces - Uses `\{' and `\}' rather than `[' and `]'.
+    \item left\_bracket - `[' missing.
+    \item missing\_arrow - `->' missing.
+    \item missing\_output - `output' missing on line 2.
+    \item missing\_range - `range' missing on line 1.
+    \item missing\_semicolon - Probability distribution missing `;'.
+    \item missing\_semicolon\_2 - Output range missing `;'.
+    \item missing\_vars - Output variables missing.
+    \item right\_bracket - `]' missing.
 \end{itemize}
 
 \begin{table}[H]
@@ -207,14 +207,14 @@ The list of files and their errors are:
     File & Fails & Given Reason \\
     \hline
     braces & Yes & Illegal character `\{'. \\
-    left_backet & Yes & \\
-    missing_arrow & Yes & \\
-    missing_output & Yes & \\
-    missing_range & Yes & \\
-    missing_semicolon & Yes & \\
-    missing_semicolon2 & Yes & \\
-    missing_vars & Yes & \\
-    right_bracket & Yes & \\
+    left\_bracket & Yes & `Error in line 5, column 5' \\
+    missing\_arrow & Yes & Illegal character `-' \\
+    missing\_output & Yes & `Error in line 2, column 1' \\
+    missing\_range & Yes & `Error in line 1, column 7' \\
+    missing\_semicolon & Yes & `Error in line 7, column 5' \\
+    missing\_semicolon\_2 & Yes & `Error in line 4, column 1' \\
+    missing\_vars & Yes & `Error in line 4, column 10' \\
+    right\_bracket & Yes & `Error' \\
     \hline
     \end{tabular}
 \end{table}

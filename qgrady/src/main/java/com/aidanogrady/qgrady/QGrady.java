@@ -9,8 +9,6 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * The entry point of the compiler. It handles the program arguments, to
@@ -134,6 +132,9 @@ public class QGrady {
         } catch (SignallingException | InvalidValueException |
                 InvalidRowException | InvalidVariableException e) {
             System.out.println(e.getMessage());
+        } catch (Error e) {
+            String msg = e.getMessage().replace('<', '\'').replace('>', '\'');
+            System.out.println("Cannot continue: " + msg);
         } catch (FileNotFoundException e) {
             System.out.println("Cannot continue, file missing.");
         } catch (Exception e) {
