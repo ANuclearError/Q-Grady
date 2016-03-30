@@ -43,8 +43,8 @@ public class QGrady {
     private Options createOptions() {
         Options options = new Options();
         options.addOption(Option.builder("f").longOpt("file").hasArg(true)
-                .argName("file").required(true).desc("takes input from <file>")
-                .build());
+                .argName("file").desc("takes input from <file>")
+                .required(true).build());
         options.addOption(Option.builder("o").longOpt("output").hasArg(true)
                 .argName("file").desc("places output to <file>")
                 .build());
@@ -84,7 +84,8 @@ public class QGrady {
                     System.out.println("Exiting system. Goodbye!");
             }
         } catch(ParseException e) {
-            System.err.println("Parsing failed. Reason: " + e.getMessage());
+            System.out.println("qgrady: no input file");
+            help();
         } catch (FileNotFoundException | InvalidFileTypeException e) {
             System.err.println(e.getMessage());
         }

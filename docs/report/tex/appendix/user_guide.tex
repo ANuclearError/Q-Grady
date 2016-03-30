@@ -3,6 +3,10 @@
 
 \chapter{User Guide} % (fold)
 \label{cha:user_guide}
+This user guide will provide information on how to create Q'Grady files to
+describe non-local boxes and then compile them into PRISM models. This user
+guide assumes familiarity with the use of PRISM.
+
 \section{System Requirements} % (fold)
 \label{sec:system_requirements}
 In order to run the Q'Grady compiler and use the produced models, the following
@@ -14,33 +18,189 @@ software is required:
 \end{itemize}
 % section system_requirements (end)
 
-\section{Installation} % (fold)
-\label{sec:installation}
-\subsection{Using JAR FIle} % (fold)
-\label{sub:using_jar_file}
-Extract \texttt{qqgrady.jar} from the downloaded \texttt{.zip} file and run the
-JAR like any normal CLI software.
-% subsection using_jar_file (end)
-
-\subsection{Compiling from Source} % (fold)
-\label{sub:compiling_from_source}
-
-% subsection compiling_from_source (end)
-% section installation (end)
-
 \section{Writing a Q'Grady File} % (fold)
 \label{sec:writing_a_q_grady_file}
+Let's start with a simple box with the following properties:
+\begin{itemize}
+    \item Two inputs: \(x, y \in {0, 1}\).
+    \item Two inputs: \(a, b \in {0, 1}\).
+    \item The PR probability distribution:
+    \(
+        P(a, b | x, y) = 
+        \begin{cases}
+            \frac{1}{2} & \quad a \text{ XOR } B = x \text{ AND } y \\
+            0 & \quad \text{otherwise} \\
+        \end{cases}
+    \)
+\end{itemize}
 
+The finished file will look like this:
+
+\begin{lstlisting}
+    input range = 2;
+    output range = 2;
+
+    x, y -> a, b [
+        0.5, 0.0, 0.0, 0.5;
+        0.5, 0.0, 0.0, 0.5;
+        0.5, 0.0, 0.0, 0.5;
+        0.0, 0.5, 0.5, 0.0;
+    ]
+\end{lstlisting}
+
+\subsection{Configuring Ranges} % (fold)
+\label{sub:configuring_ranges}
+Open up your preferred text editor, and let's begin. 
+
+Every Q'Grady file starts with the same way, where the range of the inputs
+and outputs are specified. There is currently no ability to specify specific
+ranges per variable. Note that the given range is the number of unique values
+the variables can be, not the maximum value. Think of it as a number base, since
+we want binary numbers, we are using base 2.
+
+\begin{lstlisting}
+    input range = 2;
+    output range = 2;
+\end{lstlisting}
+% subsection configuring_ranges (end)
+
+\subsection{Configuring Variables} % (fold)
+\label{sub:configuring_variables}
+Again, very straight forward no matter how many inputs or outputs you have.
+The variables are made up of two lists, the input and output, separated by the
+`->' arrow. Each lists' members are separated by a comma.
+
+\begin{lstlisting}
+    x, y -> a, b
+\end{lstlisting}
+
+With the current Q'Grady version, please ensure that the input and output are
+the same length. The system is not guaranteed to work if this is not the case.
+% subsection configuring_variables (end)
+
+\subsection{Probability Distribution} % (fold)
+\label{sub:probability_distribution}
+This is where the meat of the Q'Grady file is. When dealing with larger boxes,
+you must take great care in ensuring the accuracy of the distribution, otherwise
+you will not get the results you were looking for.
+
+In this case, we have two binary inputs and outputs. This means our distribution
+is a 4x4 matrix, totalling to 16 elements.
+
+\begin{lstlisting}
+    [
+        0.5, 0.0, 0.0, 0.5;
+        0.5, 0.0, 0.0, 0.5;
+        0.5, 0.0, 0.0, 0.5;
+        0.0, 0.5, 0.5, 0.0;
+    ]    
+\end{lstlisting}
+
+Note that Q'Grady does not particularly care about white-space, meaning that so
+long as the first character after the variables is the left square bracket, the
+compiler will not care about any gap.
+
+At this stage, please ensure to make any undesired outcomes of this set-up `0.0'
+and \emph{not} `0'. The compiler treats these types of numbers very differently,
+and only expects the former here. In addition, ensure that all rows add up to 1.
+Assuming you've not accidentally created a signalling box, then the file is
+ready for compilation. Save the file under any name you want with the extension
+`\texttt{.qgrady}' and now we can move onto compiling.
+
+% subsection probability_distribution (end)
 % section writing_a_q_grady_file (end)
 \section{Compiling the Box} % (fold)
 \label{sec:compiling_the_box}
+\subsection{Usage} % (fold)
+\label{sub:usage}
+\begin{lstlisting}
+    usage: qgrady -f <file> [-o <file>] [-h] [-v]
+     -f,--file <file>     takes input from <file>
+     -o,--output <file>   places output to <file>
+     -h,--help            prints this message
+     -v,--version         displays compiler information version    
+\end{lstlisting}
+% subsection usage (end)
 
+\subsection{Running the Compiler} % (fold)
+\label{sub:running_the_compiler}
+Assuming the source file and compiler are in the same location, you can execute
+the compilation process as follows:
+\begin{lstlisting}
+    java -jar q.grady.jar -f filename.qgrady
+\end{lstlisting}
+
+Where `filename' is whatever you saved the file as. If you want to give the
+PRISM model a specific destination, you can use the `-o' or `--output' flag as
+follows:
+
+\begin{lstlisting}
+    java -jar q.grady.jar -f filename.qgrady -o dest.prism
+\end{lstlisting}
+
+Again changing the file's name as appropriate. The help and version flags, as
+their name implies, will simply display the relevant information and then cease.
+These flags override the compilation process.
+
+You will see the console printing a series of checks before starting the file
+writing. These are the semantics checks imposed to ensure that only valid
+boxes are being fed into the compiler. If all goes well, you should see the
+following output:
+
+\begin{lstlisting}
+    Checking variables... OK!
+    Checking values... OK!
+    Checking number of rows... OK!
+    Checking row lengths... OK!
+    Checking row sums... OK!
+    Checking for non-signalling... OK!
+    Writing box to pr.prism... OK!
+\end{lstlisting}
+% subsection running_the_compiler (end)
+
+The PRISM model should now be available at it's specified location. If no
+specific destination was chosen, it will simply appear in the same directory as
+the source file.
 % section compiling_the_box (end)
 
 \section{Using PRISM} % (fold)
 \label{sec:using_prism}
+Now that we have the model, we can now use it in PRISM. At this stage, the PRISM
+manual\footnote{\url{http://www.prismmodelchecker.org/manual/}} would be of use
+if you are unfamiliar with PRISM. This user guide will only go over using PRISM
+for ensuring the result is to your expectation.
 
+Open the file in PRISM, and enter `Model -> Compute -> Steady State
+Probabilities' in the menu bar, or press \texttt{f4} instead. The `Log' tab
+should display information about the computation it has just performed. The
+results should look like this:
+
+\begin{lstlisting}
+    26:(0,0,true,0,0)=0.125
+    28:(0,0,true,1,1)=0.125
+    39:(0,1,true,0,0)=0.125
+    41:(0,1,true,1,1)=0.125
+    57:(1,0,true,0,0)=0.125
+    59:(1,0,true,1,1)=0.125
+    70:(1,1,true,0,1)=0.125
+    72:(1,1,true,1,0)=0.125
+\end{lstlisting}
+
+The first numbers indicate the state the model is in, with the variables'
+values listed in the parenthesis, with the value of \texttt{ready} separating
+the inputs from the outputs. As you can see from the results, the 8 states
+listed in the results match the same 8 input and output pairs that had a 0.5
+probability, which is quartered to 0.125 since there are 4 possible inputs in
+total.
+
+Now you are free you make more complex models and study them further using
+PRISM.
 % section using_prism (end)
+
+\section{Troubleshooting} % (fold)
+\label{sec:troubleshooting}
+
+% section troubleshooting (end)
 % chapter user_guide (end)
 
 \newpage
