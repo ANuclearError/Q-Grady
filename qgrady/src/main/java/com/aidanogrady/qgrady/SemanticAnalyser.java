@@ -107,7 +107,7 @@ public class SemanticAnalyser {
             for (int j = 0; j < box[i].length; j++) {
                 if (box[i][j] > 1.0 || box[i][j] < 0.0) {
                     String mgs = "Error in row " + i + ", column " + j;
-                    mgs += "Expected: between 0 and 1. Got: " + box[i][j];
+                    mgs += ": expected between 0 and 1, got " + box[i][j];
                     throw new InvalidValueException(mgs);
                 }
             }

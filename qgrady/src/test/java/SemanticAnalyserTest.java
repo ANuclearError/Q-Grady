@@ -137,7 +137,7 @@ public class SemanticAnalyserTest {
         try {
             SemanticAnalyser.validateValues(highVal);
         } catch (InvalidValueException e) {
-            assertEquals(e.getMessage(), "Expected: between 0 and 1. Got: 1.5");
+            assertEquals(e.getMessage(), "Error in row 2, column 3: expected between 0 and 1, got 1.5");
         }
     }
 
@@ -146,7 +146,7 @@ public class SemanticAnalyserTest {
         try {
             SemanticAnalyser.validateValues(lowVal);
         } catch (InvalidValueException e) {
-            assertEquals(e.getMessage(), "Expected: between 0 and 1. Got: -1.0");
+            assertEquals(e.getMessage(), "Error in row 2, column 3: expected between 0 and 1, got -1.0");
         }
     }
 

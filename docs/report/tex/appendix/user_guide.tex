@@ -36,7 +36,7 @@ Let's start with a simple box with the following properties:
 
 The finished file will look like this:
 
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     input range = 2;
     output range = 2;
 
@@ -58,7 +58,7 @@ ranges per variable. Note that the given range is the number of unique values
 the variables can be, not the maximum value. Think of it as a number base, since
 we want binary numbers, we are using base 2.
 
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     input range = 2;
     output range = 2;
 \end{lstlisting}
@@ -70,7 +70,7 @@ Again, very straight forward no matter how many inputs or outputs you have.
 The variables are made up of two lists, the input and output, separated by the
 `->' arrow. Each lists' members are separated by a comma.
 
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     x, y -> a, b
 \end{lstlisting}
 
@@ -87,7 +87,7 @@ you will not get the results you were looking for.
 In this case, we have two binary inputs and outputs. This means our distribution
 is a 4x4 matrix, totalling to 16 elements.
 
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     [
         0.5, 0.0, 0.0, 0.5;
         0.5, 0.0, 0.0, 0.5;
@@ -113,7 +113,7 @@ ready for compilation. Save the file under any name you want with the extension
 \label{sec:compiling_the_box}
 \subsection{Usage} % (fold)
 \label{sub:usage}
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     usage: qgrady -f <file> [-o <file>] [-h] [-v]
      -f,--file <file>     takes input from <file>
      -o,--output <file>   places output to <file>
@@ -126,7 +126,7 @@ ready for compilation. Save the file under any name you want with the extension
 \label{sub:running_the_compiler}
 Assuming the source file and compiler are in the same location, you can execute
 the compilation process as follows:
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     java -jar q.grady.jar -f filename.qgrady
 \end{lstlisting}
 
@@ -134,7 +134,7 @@ Where `filename' is whatever you saved the file as. If you want to give the
 PRISM model a specific destination, you can use the `-o' or `--output' flag as
 follows:
 
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     java -jar q.grady.jar -f filename.qgrady -o dest.prism
 \end{lstlisting}
 
@@ -147,7 +147,7 @@ writing. These are the semantics checks imposed to ensure that only valid
 boxes are being fed into the compiler. If all goes well, you should see the
 following output:
 
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     Checking variables... OK!
     Checking values... OK!
     Checking number of rows... OK!
@@ -175,7 +175,7 @@ Probabilities' in the menu bar, or press \texttt{f4} instead. The `Log' tab
 should display information about the computation it has just performed. The
 results should look like this:
 
-\begin{lstlisting}
+\begin{lstlisting}[frame = single]
     26:(0,0,true,0,0)=0.125
     28:(0,0,true,1,1)=0.125
     39:(0,1,true,0,0)=0.125
