@@ -5,12 +5,75 @@
 \label{cha:summary_and_conclusions}
 \section{Summary} % (fold)
 \label{sec:summary}
+To summarise, the development of Q'Grady saw the creation of a language that can
+define the set-up of a singular non-local box. The compiler is capable of
+parsing boxes of any size and range, with its semantic analysis being able to
+determine signalling on these boxes as well as the addition constraints that
+need to be adhered to. Tests showed that the PRISM models created by the
+compiler were matching expectations as well, although I would suspect that there
+are a couple of instabilities hidden at this moment in time.
 
+Time constraints prevented the possibility of using the produced models for
+further investigation, although I believe that my work will help those who wish
+to do so.
 % section summary (end)
+
+\subsection{Future Considerations} % (fold)
+\label{sub:future_considerations}
+The following outline some improvements or additional features that could
+be explored in the future.
+
+\subsubsection{Multiple Boxes Interaction} % (fold)
+\label{ssub:multiple_boxes_interaction}
+Currently, the Q'Grady language only allows for creating the set-up of one box
+per file. Minor changes to the CUP file could make the the parser return a list
+of \texttt{Box} objects rather than just the one, with the semantics analysis
+including allowing outputs of one box to be inputs of another (provided there is
+no cycle).
+% subsubsection multiple_boxes_interaction (end)
+
+\subsubsection{Semantics Overhaul} % (fold)
+\label{ssub:semantics_overhaul}
+The formal semantics are not currently up to a standard I consider satisfactory,
+due to me not giving them a high priority over the development. Future work with
+the language would require a more talented person than I am to produce well
+meaning denotational semantics, that I feel is lacking currently.
+% subsubsection semantics_overhaul (end)
+
+\subsubsection{Syntax Error Handling} % (fold)
+\label{ssub:syntax_error_handling}
+The error handling of the CUP and JFlex files could be improved up, showing
+suggestions for fixing the set-up.
+% subsubsection syntax_error_handling (end)
+
+\subsubsection{Mapping Inputs to Outputs} % (fold)
+\label{ssub:mapping_inputs_to_outputs}
+Currently, Q'Grady assumes a 1 to 1 mapping from inputs to outputs, similar to
+the hypothetical Alice and Bob experiments outlined in Section
+\ref{sec:related_nlbs}. The language could be extended to also allow for
+describing set-ups similar to as if Alice and Bob had two inputs for a single
+output. The non-signalling check would need to be changed to facilitate this.
+% subsubsection mapping_inputs_to_outputs (end)
+
+% subsection future_considerations (end)
 
 \section{Conclusions} % (fold)
 \label{sec:conclusions}
+Overall, I am moderately pleased with the destination of this project. While it
+is disappointing that no experimentation using the models could be done as part
+of the project, I am extremely relieved that the system is able to function with
+complex set-ups now.
 
+Since this was the first time I've dealt with working on a sole individual
+project of a much larger scale than previous years, I am not surprised that the
+project did suffer from less than stellar management on my part. The formal
+semantics are certainly not to the same level that I had initially wanted, which
+is disappointing.
+
+Nevertheless, I am pleased that I was able to create the product that I set out
+to do, even if I did not accomplish all the goals. I would consider this a
+moderate or minor success overall, and the project proved to be as challenging
+and interesting as I expected.
 % section conclusions (end)
 % chapter summary_and_conclusions (end)
 
