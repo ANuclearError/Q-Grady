@@ -2,14 +2,15 @@
 \begin{document}
 \chapter{Introduction} % (fold)
 \label{cha:introduction}
-\section{Project Objectives} % (fold)
-\label{sec:project_objectives}
 Non-local boxes are theoretical objects where multiple parties share some
 correlation, introduced by Sandu Popescu and Daniel Rohrlich as part of the
-understanding of quantum non-locality. The model checker PRISM can be used to
-simulate non-local boxes, but manually creating these models is not the best
-approach.
+understanding of quantum non-locality. They can be represented as a probability
+distribution with a set of inputs and outputs.
 
+The model checker PRISM can be used to simulate non-local boxes, but manually creating these models is not the best approach.
+
+\section{Project Objectives} % (fold)
+\label{sec:project_objectives}
 The goal of this project was to define a language, named Q'Grady, for describing
 the set-up of non-local boxes, distributed objects with some correlation, and a
 compiler to convert the language into PRISM models for experiments.
@@ -34,10 +35,22 @@ set-ups. This meant that there was not enough time to perform any interesting
 experiments using PRISM. In addition, the focus on the development saw the
 more formalised semantics be neglected in favour of the compiler.
 % section project_outcomes (end)
+
 \section{Report Structure} % (fold)
 \label{sec:report_structure}
-
 % section report_structure (end)
+The report starts with background knowledge on the theory behind non-local boxes
+and PRISM, with the aim to provide the prerequisite knowledge required for the
+project using some examples. This is then followed by the specification and
+requirements of the project, going into further details about the goals.
+
+The report then moves onto the design and implementation of the language and
+compiler, highlighting the steps made in the creation of the system, and the
+challenges faced during the development.
+
+Testing and results then follow, with an evaluation on the system. This is then
+completed with a conclusion summarising the report, as well as outlining any
+possible future milestones for the system.
 % chapter introduction (end)
 \newpage
 \end{document}
