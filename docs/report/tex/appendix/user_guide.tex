@@ -200,13 +200,29 @@ PRISM.
 \section{Troubleshooting} % (fold)
 \label{sec:troubleshooting}
 \begin{itemize}
-    \item The compiler is saying `Signalling found.'
+    \item The compiler is displaying `Signalling found.'
     \begin{itemize}
         \item Check your input file and ensure that there are no obvious areas
         in the matrix that suggest signalling. Unfortunately, the compiler
         cannot give you specific detail.
     \end{itemize}
-    
+    \item The compiler is displaying an error on row \(x\) and/or column \(y\).
+    \begin{itemize}
+        \item The semantic analysis has found that your probabilities don't
+        match the expected size. Be careful when handling this, especially with
+        larger ranges or number of inputs.
+    \end{itemize}
+    \item How does the compiler handle probabilities like 0.333...
+    \begin{itemize}
+        \item As a general rule, if you're including recurring decimals like
+        0.333..., 5 decimal places is likely to be enough. PRISM seems to treat
+        0.33333 as 0.333 at that point, it will sum up to 1 without issue.
+    \end{itemize}
+    \item The compiler isn't accepting my file.
+    \begin{itemize}
+        \item Please ensure that the file extension is correct, Q'Grady expects
+        \texttt{.qgrady} files.
+    \end{itemize}
 \end{itemize}
 % section troubleshooting (end)
 % chapter user_guide (end)

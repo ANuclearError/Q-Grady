@@ -78,10 +78,10 @@ public class QGrady {
                 File source = validateInput(input);
                 File dest = validateOutput(output, input);
                 Box box = parse(source);
-//                if(box != null)
-//                    codeGeneration(box, dest);
-//                else
-//                    System.out.println("Exiting system. Goodbye!");
+                if(box != null)
+                    codeGeneration(box, dest);
+                else
+                    System.out.println("Exiting system. Goodbye!");
             }
         } catch(ParseException e) {
             System.out.println("qgrady: no input file");

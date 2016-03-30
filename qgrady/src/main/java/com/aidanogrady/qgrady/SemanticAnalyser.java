@@ -103,10 +103,11 @@ public class SemanticAnalyser {
     public static void validateValues(double[][] box) throws
             InvalidValueException
     {
-        for (double[] row : box) {
-            for (double value : row) {
-                if (value > 1.0 || value < 0.0) {
-                    String mgs = "Expected: between 0 and 1. Got: " + value;
+        for (int i = 0; i < box.length; i++) {
+            for (int j = 0; j < box[i].length; j++) {
+                if (box[i][j] > 1.0 || box[i][j] < 0.0) {
+                    String mgs = "Error in row " + i + ", column " + j;
+                    mgs += "Expected: between 0 and 1. Got: " + box[i][j];
                     throw new InvalidValueException(mgs);
                 }
             }
@@ -211,7 +212,6 @@ public class SemanticAnalyser {
                 for (int k = 0; k < outMax; k++) {
                     int[] in = Box.intToArray(j, inputSize, inputRange);
                     int[] out = Box.intToArray(k, outputSize, outputRange);
-                    System.out.println(i + "\t" + Arrays.toString(in) + "\t" + Arrays.toString(out));
                     nonSignalling(box, in, out, i);
                 }
             }
