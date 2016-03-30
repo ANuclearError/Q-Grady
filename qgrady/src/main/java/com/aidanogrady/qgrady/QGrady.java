@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.SyncFailedException;
 
 /**
  * The entry point of the compiler. It handles the program arguments, to
@@ -250,7 +251,10 @@ public class QGrady {
      * @param args - program args.
      */
     public static void main(String[] args) throws ParseException {
+        long start = System.currentTimeMillis();
         QGrady qGrady = new QGrady();
         qGrady.start(args);
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
     }
 }

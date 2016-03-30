@@ -43,15 +43,15 @@ that this potential pitfall is avoided.
     \begin{tabular}{l | l | l}
     File & Fails & Given Reason \\
     \hline
-    braces & Yes & Illegal character `\{'. \\
-    left\_bracket & Yes & `Error in line 5, column 5' \\
-    missing\_arrow & Yes & Illegal character `-' \\
-    missing\_output & Yes & `Error in line 2, column 1' \\
-    missing\_range & Yes & `Error in line 1, column 7' \\
-    missing\_semicolon & Yes & `Error in line 7, column 5' \\
-    missing\_semicolon\_2 & Yes & `Error in line 4, column 1' \\
-    missing\_vars & Yes & `Error in line 4, column 10' \\
-    right\_bracket & Yes & `Error' \\
+    \texttt{braces.qgrady} & Yes & Illegal character `\{'. \\
+    \texttt{left\_bracket.qgrady} & Yes & `Error in line 5, column 5' \\
+    \texttt{missing\_arrow.qgrady} & Yes & Illegal character `-' \\
+    \texttt{missing\_output.qgrady} & Yes & `Error in line 2, column 1' \\
+    \texttt{missing\_range.qgrady} & Yes & `Error in line 1, column 7' \\
+    \texttt{missing\_semicolon.qgrady} & Yes & `Error in line 7, column 5' \\
+    \texttt{missing\_semicolon\_2.qgrady} & Yes & `Error in line 4, column 1' \\
+    \texttt{missing\_vars.qgrady} & Yes & `Error in line 4, column 10' \\
+    \texttt{right\_bracket.qgrady} & Yes & `Error' \\
     \hline
     \end{tabular}
     \caption{Syntax checking results.}
@@ -59,7 +59,8 @@ that this potential pitfall is avoided.
 \end{table}
 
 All files failed as were expected. Later stages of the test handle files that
-pass. In the cases where JFlex encountered the bug (braces, and missing\_arrow),
+pass. In the cases where JFlex encountered the bug (\texttt{braces.qgrady}, and
+\texttt{missing\_arrow}),
 the illegal character was outlined, but not the location of it.
 
 Conversely, while CUP errors would indicate where the problem was, it would not
@@ -100,15 +101,22 @@ inputs and outputs in the system.
 
 \subsection{File Generation} % (fold)
 \label{sub:file_generation}
+From the results of the file generation. The compiler is capable of producing
+boxes with at least 4 inputs and outputs, and there is little reason to doubt
+why 5 inputs and outputs would make it fail. It is interest to see how much the
+average compile time of the system increases with more inputs. When comparing
+\texttt{pr.qgrady} to \texttt{ternary.qgrady}, the increase range on the input
+does not have the same type of impact in comparison.
+
 \begin{table}[H]
   \centering
   \begin{tabular}{l | l | l | r}
     File & Compiles & Matches Prob & Time (ms)\\
     \hline
-    pr.qgrady & Yes & Yes & 26.6 \\
-    ternary.qgrady & Yes & Yes & 29.8 \\
-    tripartite.qgrady & Yes & Yes & 30\\
-    quadpartit.qgrady & Yes & Yes &
+    pr.qgrady & Yes & Yes & 27.2 \\
+    ternary.qgrady & Yes & Yes & 29.2 \\
+    tripartite.qgrady & Yes & Yes & 47.4 \\
+    quadpartit.qgrady & Yes & Yes 99 &
   \end{tabular}
   \caption{PRISM File Analysis Results.}
   \label{tab:prism_result}
