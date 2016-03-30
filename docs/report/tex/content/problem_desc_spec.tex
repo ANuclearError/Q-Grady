@@ -9,10 +9,14 @@
 
 \section{Problem Description} % (fold)
 \label{sec:problem_description}
-Non-local boxes, as described in Chapter 2, can be modelled using PRISM, 
-allowing for simulations and experiments to be done using the models. However,
-the language is more low-level and rudimentary than would be ideal. For someone
-interested in studying non-local boxes, the PRISM language may be a hindrance.
+Non-local boxes, as described in Chapter \ref{cha:related_work}, can be modelled
+using PRISM, allowing for simulations and experiments to be done using the
+models. 
+
+However, the language is more low-level and rudimentary than would be ideal.
+For someone interested in studying non-local boxes, the PRISM language may be a
+hindrance, especially when set-ups with 4 inputs and outputs reaches 200 lines
+even when just dealing with binary digits.
 
 The purpose of this project is to create a language for defining the set-ups of
 non-local boxes, and to implement a compiler to convert files of this new
@@ -77,8 +81,8 @@ added to both concurrently.
 The development of the compiler again saw original intention for a linear,
 incremental cycle. I planned to start with the syntax, then semantics and
 finally generation. Again, this changed to a more concurrent approach based on
-language features. I do this in hindsight, started from this angle would have
-been best for development.
+language features. In hindsight, starting from this angle may have been a
+better idea.
 
 Git was used as version control, with a private repository stored on GitHub for
 issue tracking.
