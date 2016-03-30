@@ -14,9 +14,6 @@ caption={Q'Grady BNF}, captionpos=b, label=qgrady_bnf]
 \label{sec:q_grady_semantics}
 A Q'Grady box is a 5-tuple \(\{\delta, i, o, i_r, o_r\}\) where:
 
-\(\delta\) = a \({i_r}^{i} x {o_r}^{o}\) matrix containing some probability 
-distribution that is non-signalling. 
-
 \(i = \{0, 1, ... n\}\)
 
 \(o = \{0, 1, ... n\}\)
@@ -25,13 +22,17 @@ distribution that is non-signalling.
 
 \(o_r \in \mathbb{I}\)
 
+\(\delta\) = a \({i_r}^{i} x {o_r}^{o}\) matrix containing some probability 
+distribution that is non-signalling.
+
+
 The box is a conditional probability distribution that satisfies non-signalling.
 Each row is a list of the probabilities of each outcome based on the given
 input. For Listing \ref{lst:pr_qgrady_example}, line 5 would represent 
 \(P(ab | 00)\). In order for the box to make sense, the following criteria must
 be met:
 \begin{itemize}
-    \item The number of rows in the matrix must equal \(range ^ {size}\) where
+    \item The number of rows in the matrix must equal \({i_r}^{i}\) where
     \(range\) is the range of values an input can be, and \(size\) is the number
     of inputs.
     \item Each row's length must equal \(range ^{size}\) where \(range\) is
