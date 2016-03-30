@@ -1,10 +1,12 @@
 package com.aidanogrady.qgrady.exceptions;
 
 /**
- * TODO: Add content
+ * Exception for when variables are introduced to the system that cannot be
+ * added. This can be the case when there are repeated variables or PRISM
+ * keywords being used as variables.
  *
  * @author Aidan O'Grady
- * @since 1.0
+ * @since 0.7
  */
 public class InvalidVariableException extends Exception {
     public InvalidVariableException(String msg) {

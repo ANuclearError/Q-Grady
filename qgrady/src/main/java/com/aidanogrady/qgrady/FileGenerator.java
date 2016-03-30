@@ -211,24 +211,41 @@ public class FileGenerator {
         }
     }
 
+    /**
+     * Handles the generation of the normalised probabilities that occur related
+     * to the given indices being normalised and the value of the input in this
+     * case.
+     *
+     * @param indices  The indices of the output being normalised.
+     * @param val  The value of indices[0]'s input.
+     */
     private void normalised(List<Integer> indices, int val) {
         String sync = inputs.get(indices.get(0)) + val;
+
+        // How many different inputs can there be?
         int iMax = (int) Math.pow(
                 box.getInputRange(),
                 box.getNoOfInputs() - indices.size()
         );
+
+        // How many different outputs can there be?
         int oMax = (int) Math.pow(
                 box.getOutputRange(),
                 box.getNoOfOutputs() - indices.size()
         );
+
+        // Handle all cases
         for (int i = 0; i < iMax; i++) {
             for (int j = 0; j < oMax; j++) {
+
+                // Guard
                 List<String> guards = new ArrayList<>();
                 guards.addAll(inputGuards(indices, i));
                 guards.add(PrismMacros.isEqual(ready, true));
                 guards.addAll(outputGuards(indices, j));
                 String guard = PrismMacros.listToString(guards, '&');
 
+                // Array conversions for probabilities
                 int size = box.getNoOfInputs() - indices.size();
                 int[] in = Box.intToArray(i, size, box.getInputRange());
                 size = box.getNoOfOutputs() - indices.size();
@@ -278,10 +295,14 @@ public class FileGenerator {
         int size = box.getNoOfOutputs() - indices.size();
         int[] bits = Box.intToArray(val, size, box.getOutputRange());
         int step = 0;
+
+        // Ensure that all possible guards are accounted for.
         for (int i = 0; i < box.getNoOfOutputs(); i++) {
             if(indices.contains(i))
+                // Unknown variables.
                 guards.add(PrismMacros.isEqual(outputs.get(i), -1));
             else {
+                // Known variables.
                 guards.add(PrismMacros.isEqual(outputs.get(i), bits[step]));
                 step++;
             }
@@ -289,7 +310,18 @@ public class FileGenerator {
         return guards;
     }
 
-    private List<String> commands(List<Integer> indices, int[] in, int[] out, int val) {
+    /**
+     * Returns a list of PRISM actions that can occur with the given
+     * criteria and the normalised probabilities calculated.
+     *
+     * @param indices The indices being normalised.
+     * @param in  The input being generated.
+     * @param out  The output being generated.
+     * @param val  The value of the input that just triggered.
+     * @return  commands
+     */
+    private List<String> commands(List<Integer> indices, int[] in, int[] out,
+                                  int val) {
         int index = indices.get(0);
 
         int[] indArray = new int[indices.size()];
@@ -316,11 +348,20 @@ public class FileGenerator {
         return commands;
     }
 
+    /**
+     * Returns an array conversion, combining the given array and given
+     * indices based on the given size.
+     *
+     * @param indices  the indices being normalised at this stage.
+     * @param array  the array being fed into box.
+     * @param size  the size of the new array.
+     * @return  array
+     */
     private int[] getArray(List<Integer> indices, int[] array, int size) {
         int[] input = new int[size];
         int step = 0;
         for (int i = 0; i < size; i++) {
-            if (!indices.contains(i)) {
+            if (!indices.contains(i)) { // 0 otherwise
                 input[i] = array[step];
                 step++;
             }
@@ -328,8 +369,15 @@ public class FileGenerator {
         return input;
     }
 
+    /**
+     * Returns all the possible lists that the given number of inputs can
+     * be normalised over.
+     * @param range  the number of inputs of the set-up.
+     * @return  lists
+     */
    private List<List<Integer>> getAllLists(int range) {
        List<List<Integer>> lists = new ArrayList<>();
+       // Empty list and [0, 1, ... range - 1[ aren't added.
        for (int i = 1; i < range; i++) {
            int max = (int) Math.pow(range, i);
            for (int j = 0; j < max; j++) {
@@ -338,6 +386,7 @@ public class FileGenerator {
                List<Integer> list = new ArrayList<>();
                for (int a : array)
                    list.add(a);
+
                // Must ensure that elements such as [0, 0] aren't added.
                boolean add = true;
                for (int k = 0; k < range; k++) {

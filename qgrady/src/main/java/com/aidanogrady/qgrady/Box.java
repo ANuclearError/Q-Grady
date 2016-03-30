@@ -221,6 +221,7 @@ public class Box {
     /**
      * Returns the normalized probability distribution based on the given
      * input and output.
+     *
      * @param input  the known input values
      * @param output  the known output to be normalised over.
      * @param indices  the indices to normalise.
@@ -230,10 +231,14 @@ public class Box {
         double sum = 0;
         int size = indices.length;
         int[] inputCopy = Arrays.copyOf(input, input.length);
+
         if (indices.length > 1) {
+            // Must iterate through all the inputs that must be considered.
             for (int i = 1; i < indices.length; i++) {
                 for (int j = 0; j < inputRange; j++) {
                     inputCopy[indices[i]] = j;
+
+                    // Go through all outputs that must be handled.
                     int max = (int) Math.pow(outputRange, size);
                     int[] outputCopy = Arrays.copyOf(output, output.length);
                     for (int k = 0; k < max; k++) {
@@ -245,8 +250,10 @@ public class Box {
                     }
                 }
             }
+            // I'll be honest, I stumbled upon this solution at random.
             return sum / Math.pow(outputRange, size - (outputs.size() - size));
          } else {
+            // Perform much simpler equation.
             int[] outputCopy = Arrays.copyOf(output, output.length);
             for (int index : indices) {
                 for (int i = 0; i < outputRange; i++) {
