@@ -132,12 +132,47 @@ due to time constraints in the actual development of the system.
 \label{sec:evaluation}
 \subsection{System Evaluation} % (fold)
 \label{sub:system_evaluation}
+Based on the testing I have done with the system, the Q'Grady language and
+compiler provide an acceptable platform for studying non-local boxes. While
+there are additional complexities that can be explored in the extension of the
+language, it is clear that the system is able to handle boxes of various types.
 
+In terms of features, perhaps the most glaring fault is in the error handling of
+the parsing stage, where the reasons of why the system failed to compile the
+input file are not clear to the user. In addition, the error handling of
+encountering signalling suffers similarly with a lack of information.
+
+While perhaps being a Pandora's box in terms of future maintainability, the file
+generation part of the software does handle the exponential lines of code it
+must generate as inputs and outputs increase in quantity. While the runtime is
+affected, the compilation is still comfortably within a reasonable time in the
+covered cases.
+
+The system is able to correctly produce simple boxes like the PR box, but is
+also able to handle boxes that go beyond the binary digits or have any number
+of inputs and outputs.
 % subsection system_evaluation (end)
 
 \subsection{Personal Evaluation} % (fold)
 \label{sub:personal_evaluation}
+The initial scope of this project was to create the Q'Grady language and its
+compiler, and then use it in experiments using PRISM software. This is perhaps
+the primary disappointment of the project. Due to struggles in the early stages
+of the project, and insufficient communication on my part, I did not have a
+working handmade PRISM model until the later stages of development. This meant
+that the file generation stage was re-written on numerous occasions before I
+started to consider more than two inputs and outputs, which was a dangerously
+late addition to the project.
 
+This was the first time I had worked on a singular project for an extended
+period of time. It is clear that I was not perhaps as prepared coming into the
+start of 2016 as would have been required for this project. Fortnightly meetings
+with my supervisor proved to perhaps be not as much communication as what was
+needed for the project.
+
+In addition, while I am well acquainted with Git, GitHub's issue tracking was
+used less frequently as the project went on. It is clear that for future
+projects, more structure and discipline is required of me.
 % subsection personal_evaluation (end)
 % section evaluation (end)
 % chapter results_and_evaluation (end)
